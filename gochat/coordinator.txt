@@ -1,1 +1,59 @@
-
+1141206/1	Obolo, Oluremi Olawale	oluremi.obolo@kcl.ac.uk	Current	Computing And Security	
+1220318/1	Azizi, Ozhan	ozhan.azizi@kcl.ac.uk	Current	Advanced Software Engineering	
+1229815/1	Zain, Sara	sara.zain@kcl.ac.uk	Current	Computing And Security	
+1319061/1	Naumov, Valentin	valentin.naumov@kcl.ac.uk	Current	Computing And Security	
+1319741/2	Van Der Valk, Jasper Adriaan	jasper.van_der_valk@kcl.ac.uk	Current	Intelligent Systems	
+1322382/3	Vasile, Tudor Dan	tudor.vasile@kcl.ac.uk	Current	Computing And Security	
+1331498/1	Stampelos, Stamatios	stamatios.stampelos@kcl.ac.uk	Current	Computing And Security	
+1516452/1	Shi, Guobin	guobin.shi@kcl.ac.uk	Current	Robotics	
+1567297/2	Chen, Jing	jing.2.chen@kcl.ac.uk	Current	Computing And Security	
+1570348/2	Park, Woo Min	woo_min.park@kcl.ac.uk	Current	Intelligent Systems	
+1574560/1	Xu, Heyang	heyang.xu@kcl.ac.uk	Current	Computing And Security	
+1582866/1	Meng, Weiyao	weiyao.meng@kcl.ac.uk	Current	Advanced Software Engineering	
+1583114/1	Wang, Junchao	junchao.wang@kcl.ac.uk	Current	Computing And Security	
+1604674/2	Li, Yiqi	yiqi.li@kcl.ac.uk	Current	Computing And Internet Systems	
+1606143/1	Chen, Jianan	jianan.chen@kcl.ac.uk	Current	Web Intelligence	
+1611163/1	Gong, Yixiang	yixiang.gong@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1611211/1	Chen, Huiping	huiping.chen@kcl.ac.uk	Current	Computing And Internet Systems	
+1612087/1	Rachman, Nurindah Tiffan	nurindah_tiffani.rachman@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1615092/1	Fan, Zhiyi	zhiyi.fan@kcl.ac.uk	Current	Computing And Internet Systems	
+1616302/1	He, Kaimin	kaimin.he@kcl.ac.uk	Current	Computing And Internet Systems	
+1617865/1	Wang, Shuhan	shuhan.wang@kcl.ac.uk	Current	Computing And Internet Systems	
+1620565/1	Lin, I-Hsuan	i-hsuan.lin@kcl.ac.uk	Current	Robotics	
+1621358/1	Sheng, Jie	jie.sheng@kcl.ac.uk	Current	Robotics	
+1621759/1	Orlando, Alexandru Mihail	alexandru.orlando@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1632992/2	Tamura, Kensuke	kensuke.tamura@kcl.ac.uk	Current	Computing And Security	
+1636466/2	Wang, Xiaosen	xiaosen.wang@kcl.ac.uk	Current	Web Intelligence	
+1636734/1	Mohan, Sagar	sagar.mohan@kcl.ac.uk	Current	Intelligent Systems	
+1646061/1	Bhatt, Shweta	shweta.bhatt@kcl.ac.uk	Current	Intelligent Systems	
+1646278/1	Di, Cheng	cheng.di@kcl.ac.uk	Current	Web Intelligence	
+1650521/1	Patel, Vijendra	vijendra.patel@kcl.ac.uk	Current	Computing And Security	
+1651775/1	Cabuli, Nicolas Jacob	nicolas.cabuli@kcl.ac.uk	Current	Intelligent Systems	
+1655556/1	Chen, Wenwen	wenwen.chen@kcl.ac.uk	Current	Computing And Security	
+1656921/1	Smith, Marc Anthony	marc.smith@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1657226/1	Kapilavayi, Suhrita	suhrita.kapilavayi@kcl.ac.uk	Current	Computing And Security	
+1657587/1	Alobaid, Khalid Abdulrah	khalid_abdulrahman_m.alobaid@kcl.ac.uk	Current	Advanced Software Engineering	
+1659191/1	Avula, Tharuni Priya	tharuni.avula@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1661609/1	Ranjan, Yatharth	yatharth.ranjan@kcl.ac.uk	Current	Intelligent Systems	
+1663618/2	Kousidis, Spyridon	spyridon.kousidis@kcl.ac.uk	Current	Computing And Security	
+1663661/1	Tyagi, Vashu	vashu.tyagi@kcl.ac.uk	Current	Computing And Internet Systems	
+1663907/1	Akyol, Aydin	aydin.akyol@kcl.ac.uk	Current	Advanced Software Engineering	
+1664195/1	Vasilev, Lyubomir	lyubomir.vasilev@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1665082/1	Qasim, Fareed Hisham	fareed.qasim@kcl.ac.uk	Current	Computing And Security	
+1665714/1	Serikbekova, Aigerim	aigerim.serikbekova@kcl.ac.uk	Current	Computing And Security	
+1666514/1	Santiago Leonardo, Arrubla Bernal	arrubla.santiago_leonardo@kcl.ac.uk	Current	Intelligent Systems	
+1669396/1	Muawwanah, Anisaul	anisaul.muawwanah@kcl.ac.uk	Current	Computing And Security	
+1670137/1	Bharti, Priyanka	priyanka.bharti@kcl.ac.uk	Current	Intelligent Systems	
+1670938/1	Alaskar-Zada, Anar	anar.alaskar-zada@kcl.ac.uk	Current	Computing And Security	
+1671159/1	Zugravu, Tudor	tudor.zugravu@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1673477/1	Akhmediyev, Darkhan	darkhan.akhmediyev@kcl.ac.uk	Current	Computing And Security	
+1673513/1	Abdiyeva, Mariya	mariya.abdiyeva@kcl.ac.uk	Current	Computing And Internet Systems	
+1673691/1	Zhu, Xiaolin	xiaolin.zhu@kcl.ac.uk	Current	Web Intelligence	
+1674957/1	Chen, Yuke	yuke.chen@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1675380/1	Villa Acuña, Fernando Ramiro	fernando.villa_acuna@kcl.ac.uk	Current	Computing And Internet Systems	
+1676112/1	Razzaq, Fiza	fiza.razzaq@kcl.ac.uk	Current	Computing And Security	
+1676490/1	Bayat, Masih	masih.bayat@kcl.ac.uk	Current	Advanced Software Engineering	
+1677428/1	Mosca, Francesca	francesca.mosca@kcl.ac.uk	Current	Intelligent Systems	
+1677449/1	Hashani, Gentrit	gentrit.hashani@kcl.ac.uk	Current	Computing And Security	
+1678493/1	Ardeshiri, Arsalan	arsalan.ardeshiri@kcl.ac.uk	Current	Advanced Software Engineering With Management	
+1678724/1	Jabir, Khalil	khalil.jabir@kcl.ac.uk	Current	Advanced Software Engineering	
