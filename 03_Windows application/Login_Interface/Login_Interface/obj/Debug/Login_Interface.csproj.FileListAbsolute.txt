@@ -1,0 +1,10 @@
+c:\users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\bin\Debug\Login_Interface.exe.config
+c:\users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\bin\Debug\Login_Interface.exe
+c:\users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\bin\Debug\Login_Interface.pdb
+c:\users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\obj\Debug\Login_Interface.csprojResolveAssemblyReference.cache
+c:\users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\obj\Debug\Login_Interface.Properties.Resources.resources
+c:\users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\obj\Debug\Login_Interface.csproj.GenerateResource.Cache
+c:\users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\obj\Debug\Login_Interface.exe
+c:\users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\obj\Debug\Login_Interface.pdb
+C:\Users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\obj\Debug\Login_Interface.Login.resources
+C:\Users\anisaul\documents\visual studio 2017\Projects\Login_Interface\Login_Interface\obj\Debug\Login_Interface.Main.resources
