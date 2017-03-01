@@ -43,6 +43,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.chatbox1 = new chat_list.chatbox(loginForm);
             this.container = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -52,8 +53,6 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.chat = new System.Windows.Forms.Panel();
             this.header1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -149,7 +148,6 @@
             // header2
             // 
             this.header2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(164)))), ((int)(((byte)(147)))));
-            this.header2.Controls.Add(this.panel6);
             this.header2.Controls.Add(this.panel1);
             this.header2.Controls.Add(this.button1);
             this.header2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -213,8 +211,8 @@
             // 
             // container
             // 
-            this.container.Controls.Add(this.chat);
             this.container.Controls.Add(this.panel3);
+            this.container.Controls.Add(this.chatbox1);
             this.container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.container.Location = new System.Drawing.Point(0, 112);
             this.container.Name = "container";
@@ -299,21 +297,6 @@
             this.imageList1.Images.SetKeyName(1, "purpleChat.png");
             this.imageList1.Images.SetKeyName(2, "userIcon.png");
             // 
-            // panel6
-            // 
-            this.panel6.Location = new System.Drawing.Point(388, 52);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(753, 643);
-            this.panel6.TabIndex = 3;
-            // 
-            // chat
-            // 
-            this.chat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chat.Location = new System.Drawing.Point(386, 0);
-            this.chat.Name = "chat";
-            this.chat.Size = new System.Drawing.Size(717, 637);
-            this.chat.TabIndex = 3;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -348,6 +331,13 @@
             this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
+            this.chatbox1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.chatbox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatbox1.Location = new System.Drawing.Point(386, 0);
+            this.chatbox1.Name = "chatbox1";
+            this.chatbox1.Size = new System.Drawing.Size(717, 707);
+            this.chatbox1.TabIndex = 0;
+
         }
 
         #endregion
@@ -375,8 +365,6 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label username;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Panel chat;
     }
 }
 

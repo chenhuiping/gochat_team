@@ -19,6 +19,19 @@ namespace chat_list
         {
             this.loginForm = loginForm;
             InitializeComponent();
+
+            this.chatbox1 = new chat_list.chatbox(loginForm);
+            this.chat.Controls.Add(this.chatbox1);
+
+            //this.chatbox1 = new chat_list.chatbox(loginForm);
+            this.chatbox1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.chatbox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatbox1.Location = new System.Drawing.Point(386, 0);
+            this.chatbox1.Name = "chatbox1";
+            this.chatbox1.Size = new System.Drawing.Size(717, 707);
+            this.chatbox1.TabIndex = 0;
+
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -41,7 +54,13 @@ namespace chat_list
         {
             chatbox1.Dispose();
             this.chatbox1 = new chat_list.chatbox(this.loginForm);
-            this.container.Controls.Add(this.chatbox1);                     
+            this.chat.Controls.Add(this.chatbox1);
+            this.chatbox1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.chatbox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chatbox1.Location = new System.Drawing.Point(386, 0);
+            this.chatbox1.Name = "chatbox1";
+            this.chatbox1.Size = new System.Drawing.Size(717, 600);
+            this.chatbox1.TabIndex = 0;
         }
 
         //to move windows
@@ -95,7 +114,9 @@ namespace chat_list
             this.Dispose();
         }
 
+        private void container_Paint(object sender, PaintEventArgs e)
+        {
 
-        
+        }
     }
 }
