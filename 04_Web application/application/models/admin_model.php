@@ -7,7 +7,7 @@ class Admin_model extends CI_Model {
         $this->load->database();
     }
 
-    //    登录
+    //    login
     public function login_do($loginInfo)
     {
         $query = $this->db->get_where('user',$loginInfo);
@@ -28,9 +28,17 @@ class Admin_model extends CI_Model {
         return $query->row_array();
     }
 
+    // recent chat friends
+    public function getRList($UserId)
+    {
+        $sql="select DISTINCT message.from from message where message.from!=".$UserId."  ORDER BY message.time desc";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
     public function getChatId($info1,$info2)
     {
-        $sql = "SELECT ChatId FROM chat WHERE member=".$info1." OR member =".$info2;
+        $sql = "SELECT ChatId FROM chat WHERE member='".$info1."' OR member ='".$info2."'";
         $query = $this->db->query($sql);
 //        var_dump($query);die;
         return $query->row_array();
