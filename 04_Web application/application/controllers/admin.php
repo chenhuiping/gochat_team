@@ -21,6 +21,17 @@ class Admin extends CI_Controller {
         $data['userInfo'] = $this->admin_model->getUserInfo($UserId);
         $data['friend'] = $this->admin_model->getFriend($UserId);
         $str = $data['friend']['FriendId'];
+        $data['UserName'] = $data['userInfo']['UserName'];
+        $data['rList']= $this->admin_model->getRList($UserId);
+        $i=0;
+        foreach ($data['rList'] as $rList)
+        {
+
+            $data['recent'][$i] = $this->admin_model->getUserInfo($rList['from']);
+
+            $i++;
+        }
+//        var_dump($data['recent']);die;
         $str1 = explode(",",$str);
         $i=0;
         foreach ($str1 as $friendList)
@@ -30,7 +41,7 @@ class Admin extends CI_Controller {
 
             $i++;
         }
-      
+
 //        var_dump($data['friendInfo']);die;
 //        var_dump($str1);die;
         $this->load->view('index',$data);
@@ -106,15 +117,20 @@ class Admin extends CI_Controller {
         $arr2 = array($friendId,$userId);
         $info1= implode(",",$arr1);
         $info2= implode(",",$arr2);
-//        var_dump($info2);die;
-
+//        $member1="$info1";
+//        $member2="$info2";
+//        var_dump($member1);die;
+        $data['userId'] = $userId;
         $data['ChatId'] = $this->admin_model->getChatId($info1,$info2);
-        var_dump($data['ChatId']['ChatId']);die;
-//        $data['message'] = $this->admin_model->getMessage($data['ChatId']);
-//        var_dump($data['message']);die;
-//
-//        $json = json_encode($data);
-//        print_r($json);
+        if($data['ChatId']!="")
+        {
+            $data['message'] = $this->admin_model->getMessage($data['ChatId']['ChatId']);
+        }
+//        var_dump($data['ChatId']['ChatId']);die;
+
+
+        $json = json_encode($data);
+        print_r($json);
     }
 
     public function test()
