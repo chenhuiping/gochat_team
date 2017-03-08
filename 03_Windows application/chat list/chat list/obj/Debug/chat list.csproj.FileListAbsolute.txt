@@ -9,3 +9,31 @@ c:\users\wen\documents\visual studio 2017\Projects\chat list\chat list\obj\Debug
 c:\users\wen\documents\visual studio 2017\Projects\chat list\chat list\obj\Debug\chat list.pdb
 c:\users\wen\documents\visual studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.chatbox.resources
 c:\users\wen\documents\visual studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.chatmesg.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\bin\Debug\chat list.exe.config
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\bin\Debug\chat list.exe
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\bin\Debug\chat list.pdb
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat list.csprojResolveAssemblyReference.cache
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.chatbox.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.chatmesg.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.Form1.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.Properties.Resources.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat list.csproj.GenerateResource.Cache
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat list.exe
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat list.pdb
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.Login.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.friend_item.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\chat list\chat list\obj\Debug\chat_list.friend_list.resources
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\bin\Debug\chat list.exe.config
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\bin\Debug\chat list.exe
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\bin\Debug\chat list.pdb
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat_list.chatbox.resources
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat_list.chatmesg.resources
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat_list.Form1.resources
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat_list.friend_item.resources
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat_list.friend_list.resources
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat_list.Login.resources
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat_list.Properties.Resources.resources
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat list.csproj.GenerateResource.Cache
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat list.exe
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat list.pdb
+C:\Users\Wen\Documents\Visual Studio 2017\Projects\New folder (2)\chat list\chat list\obj\Debug\chat list.csprojResolveAssemblyReference.cache

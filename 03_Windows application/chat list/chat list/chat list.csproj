@@ -63,6 +63,25 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="friend_item.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="friend_item.Designer.cs">
+      <DependentUpon>friend_item.cs</DependentUpon>
+    </Compile>
+    <Compile Include="friend_list.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="friend_list.Designer.cs">
+      <DependentUpon>friend_list.cs</DependentUpon>
+    </Compile>
+    <Compile Include="handleClient.cs" />
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="chatbox.resx">
@@ -73,6 +92,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="friend_item.resx">
+      <DependentUpon>friend_item.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="friend_list.resx">
+      <DependentUpon>friend_list.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
