@@ -38,6 +38,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.bubble1 = new chat_list.chatmesg();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.flowLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -50,9 +51,9 @@
             this.flowLayoutPanel1.Controls.Add(this.panel2);
             this.flowLayoutPanel1.Controls.Add(this.pictureBox2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 543);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 537);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(753, 100);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(717, 100);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // panel3
@@ -69,7 +70,7 @@
             this.panel2.Controls.Add(this.textBox1);
             this.panel2.Location = new System.Drawing.Point(3, 9);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(664, 61);
+            this.panel2.Size = new System.Drawing.Size(603, 61);
             this.panel2.TabIndex = 0;
             // 
             // textBox1
@@ -80,13 +81,13 @@
             this.textBox1.Location = new System.Drawing.Point(-3, -3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(674, 59);
+            this.textBox1.Size = new System.Drawing.Size(607, 59);
             this.textBox1.TabIndex = 0;
             // 
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(673, 9);
+            this.pictureBox2.Location = new System.Drawing.Point(612, 9);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(69, 61);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -98,15 +99,16 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(74, 4);
             // 
             // panel1
             // 
+            this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.bubble1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(753, 543);
+            this.panel1.Size = new System.Drawing.Size(717, 537);
             this.panel1.TabIndex = 3;
             // 
             // bubble1
@@ -114,9 +116,14 @@
             this.bubble1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(164)))), ((int)(((byte)(147)))));
             this.bubble1.Location = new System.Drawing.Point(25, 15);
             this.bubble1.Name = "bubble1";
-            this.bubble1.Size = new System.Drawing.Size(624, 68);
+            this.bubble1.Size = new System.Drawing.Size(582, 68);
             this.bubble1.TabIndex = 0;
             this.bubble1.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // chatbox
             // 
@@ -126,7 +133,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "chatbox";
-            this.Size = new System.Drawing.Size(753, 643);
+            this.Size = new System.Drawing.Size(717, 637);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -144,7 +151,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.Panel panel1;
         private chatmesg bubble1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
