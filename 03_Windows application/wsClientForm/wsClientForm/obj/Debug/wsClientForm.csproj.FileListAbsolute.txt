@@ -1,0 +1,9 @@
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\bin\Debug\wsClientForm.exe.config
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\bin\Debug\wsClientForm.exe
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\bin\Debug\wsClientForm.pdb
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\obj\Debug\wsClientForm.csprojResolveAssemblyReference.cache
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\obj\Debug\wsClientForm.Form1.resources
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\obj\Debug\wsClientForm.Properties.Resources.resources
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\obj\Debug\wsClientForm.csproj.GenerateResource.Cache
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\obj\Debug\wsClientForm.exe
+\\mac\home\documents\visual studio 2017\Projects\wsClientForm\wsClientForm\obj\Debug\wsClientForm.pdb
