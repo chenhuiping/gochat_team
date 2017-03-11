@@ -60,6 +60,29 @@ body {
     bottom: 2%;
     right: 5%;
 }
+.main .displayInB{
+    display: table-cell;
+}
+.main .cont{
+    display: table-cell;
+    vertical-align: top;
+    padding-left: 20px;
+}
+
+.main .cont .ptitle{
+    vertical-align: bottom;
+    padding-right: 63px;
+    font-size:14px;
+    margin-top: 5px;
+}
+
+.main .cont .dherf{
+    vertical-align: bottom;
+    font-size:15px;
+    text-decoration: none;
+    color: #04c104;
+    margin-right: 53px;
+}
 
 .m-card {
   padding: 12px;
@@ -157,6 +180,19 @@ body {
   background-color: #fafafa;
   border-radius: 4px;
 }
+
+
+.m-message .sendFile {
+    background-color: #fff;
+    width: 220px;
+    height: 83px;
+    float: left;
+    border-radius: 5px;
+    border:1px solid #3caf36;
+    display: block;
+    padding:10px;
+}
+
 .m-message :before {
    content: " ";
    position: absolute;
@@ -166,6 +202,11 @@ body {
    border-right-color: #fafafa;
  }
 
+.m-message .sendFileleft {
+    float: left;
+
+}
+
 
 .m-message .self {
   text-align: right;
@@ -174,9 +215,18 @@ body {
   float: right;
   margin: 0 0 0 10px;
 }
+
 .m-message .self .text {
   background-color: #b2e281;
 }
+
+
+.m-message .self .sendFile {
+    float: right;
+
+}
+
+
 
 .m-message .self :before {
    right: inherit;
@@ -184,6 +234,7 @@ body {
    border-right-color: transparent;
    border-left-color: #b2e281;
  }
+
 
 
 
