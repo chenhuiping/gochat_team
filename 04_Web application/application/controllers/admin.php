@@ -17,33 +17,72 @@ class Admin extends CI_Controller {
     /*页面 主页*/
     public function index()
     {
-        $UserId =1;
+        //CHECK SESSION
+        $this->login_check();
+
+        $UserId=$_SESSION['jm_admin_id'];
+
+        //*************USERINFO******************
+        //get USERINFO by userId for profile and username
         $data['userInfo'] = $this->admin_model->getUserInfo($UserId);
+        $data['UserName'] = $data['userInfo']['UserName'];
+
+        //*************FIRENDLIST******************
+        //get friendlist
         $data['friend'] = $this->admin_model->getFriend($UserId);
         $str = $data['friend']['FriendId'];
-        $data['UserName'] = $data['userInfo']['UserName'];
-        $data['rList']= $this->admin_model->getRList($UserId);
-        $i=0;
-        foreach ($data['rList'] as $rList)
-        {
-
-            $data['recent'][$i] = $this->admin_model->getUserInfo($rList['from']);
-
-            $i++;
-        }
-//        var_dump($data['recent']);die;
+            //split friendlist and get friendinfo
         $str1 = explode(",",$str);
         $i=0;
         foreach ($str1 as $friendList)
         {
-
             $data['friendInfo'][$i] = $this->admin_model->getUserInfo($friendList);
-
             $i++;
         }
 
-//        var_dump($data['friendInfo']);die;
-//        var_dump($str1);die;
+        //*************NONE-GROUPCHAT******************
+        //GET CHATID NONE-GROUP
+        $data['chat_nogroup'] = $this->admin_model->getChatId_nogroup();
+        //select userId by chatId from message table
+        $i=0;
+        foreach ($data['chat_nogroup'] as $nogroup){
+            $data['RUList'][$i]= $this->admin_model->getUList($nogroup['ChatId'],$UserId);
+            $i++;
+
+        }
+        //SELECT USERINFO
+        $j=0;
+        foreach ($data['RUList'] as $ru){
+            $data['recent'][$j]= $this->admin_model->getUserInfo($ru['from']);
+            $j++;
+        }
+//        var_dump($data['recent']);die;
+
+        //*************GROUPCHAT******************
+        //GET CHATID GROUP
+        $data['chat_group'] = $this->admin_model->getChatId_group();
+
+        //SELECT USERID BY CHATID FROM MESSAGE TABLE
+        $i=0;
+        foreach ($data['chat_group'] as $group){
+            $data['groupList'][$i]= $this->admin_model->getGroupId($group['ChatId'],$UserId);
+            $i++;
+        }
+        //SELECT USERINFO
+        $j=0;
+
+        foreach ($data['groupList'] as $gr){
+            $m=0;
+            foreach($gr as $g)
+            {
+//                $g[$m];
+                $data['groupUser'][$j][$m]=$this->admin_model->getGroupUser($g['from']);
+                $m++;
+            }
+            $j++;
+        }
+//        var_dump(sizeof($data['groupUser']));die;
+
         $this->load->view('index',$data);
     }
 
@@ -58,9 +97,8 @@ class Admin extends CI_Controller {
     {
         $session_admin = $this->session->userdata('jm_admin');
         if(!$session_admin){
-            redirect('admin/login');
+            redirect('/admin/logintest');
         }
-
     }
 
     /*功能 登录*/
@@ -93,6 +131,7 @@ class Admin extends CI_Controller {
         $json = json_encode($data);
         print_r($json);
     }
+
     public function logout()
     {
         $this->session->sess_destroy();
@@ -113,6 +152,9 @@ class Admin extends CI_Controller {
     {
         $userId=  $this->input->post('userId');
         $friendId = $this->input->post('friendId');
+//        $userId=1;
+//        $friendId=3;
+
         $arr1 = array($userId,$friendId);
         $arr2 = array($friendId,$userId);
         $info1= implode(",",$arr1);
@@ -126,7 +168,16 @@ class Admin extends CI_Controller {
         {
             $data['message'] = $this->admin_model->getMessage($data['ChatId']['ChatId']);
         }
-//        var_dump($data['ChatId']['ChatId']);die;
+        $i=0;
+        foreach($data['message'] as $message)
+        {
+            $data['message'][$i]['profile']=$this->admin_model->getProfile($message['from']);
+//            var_dump($message['profile']);
+            $i++;
+        }
+
+
+//        var_dump($data['message']);die;
 
 
         $json = json_encode($data);
@@ -214,6 +265,12 @@ class Admin extends CI_Controller {
 
 //            $this->load->view('upload_success', $data);
         }
+    }
+
+    //logintest
+    public function logintest()
+    {
+        $this->load->view('logintest');
     }
 
 

@@ -113,14 +113,20 @@
         </div>
         <div class="m-list dispalyNone" id="groupList">
             <ul>
-                <li>
-                    <img class="avatar" width="30" height="30" alt="示例介绍" src="assets/dist/images/2.png">
-                    <p class="name">3</p>
-                </li>
-                <li>
-                    <img class="avatar" width="30" height="30" alt="示例介绍" src="assets/dist/images/3.jpg">
-                    <p class="name">4</p>
-                </li>
+                <?php foreach($groupUser as $group)
+                {?>
+                    <li>
+                        <img class="avatar" width="30" height="30" alt="示例介绍" src="assets/dist/images/group2.png">
+                        <p class="name">
+                        <?php
+                        foreach($group as $g)
+                        {
+                            echo $g['UserName'].",";
+                        } ?>
+                        </p>
+                    </li>
+               <?php }?>
+
             </ul>
         </div>
 
@@ -245,13 +251,14 @@
                     str="";
                     for(var i=0;i < a.length;i++)
                     {
-                        var time,content,from,type;
+                        var time,content,from,type,profile;
 //                            alert(a[i]['time']);
 
                         time = a[i]['time'];
                         content = a[i]['content'];
                         from = a[i]['from'];
                         type = a[i]['type'];
+                        profile = a[i]['profile']['profile'];
 
 
 
@@ -268,12 +275,12 @@
                         if(from==userId)
                         {
                             str = str+"<div class='main self'>";
-                            str = str+"<img class='avatar' width='30' height='30' src='assets/dist/images/1.jpg'>";
+                            str = str+"<img class='avatar' width='30' height='30' src='"+profile+"'>";
                         }
                         else
                         {
                             str = str+"<div class='main'>";
-                            str = str+"<img class='avatar' width='30' height='30' src='assets/dist/images/2.png'>";
+                            str = str+"<img class='avatar' width='30' height='30' src='"+profile+"'>";
                         }
 
                         if(type==0)
