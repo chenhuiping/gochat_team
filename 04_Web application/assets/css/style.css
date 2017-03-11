@@ -60,6 +60,7 @@ body {
     bottom: 2%;
     right: 5%;
 }
+/*peggy*/
 .main .displayInB{
     display: table-cell;
 }
@@ -83,6 +84,8 @@ body {
     color: #04c104;
     margin-right: 53px;
 }
+/*peggy*/
+
 
 .m-card {
   padding: 12px;
@@ -181,7 +184,7 @@ body {
   border-radius: 4px;
 }
 
-
+/*peggy*/
 .m-message .sendFile {
     background-color: #fff;
     width: 220px;
@@ -192,6 +195,7 @@ body {
     display: block;
     padding:10px;
 }
+/*peggy*/
 
 .m-message :before {
    content: " ";
@@ -201,11 +205,12 @@ body {
    border: 6px solid transparent;
    border-right-color: #fafafa;
  }
-
+/*peggy*/
 .m-message .sendFileleft {
     float: left;
 
 }
+/*peggy*/
 
 
 .m-message .self {
@@ -220,11 +225,11 @@ body {
   background-color: #b2e281;
 }
 
-
+/*peggy*/
 .m-message .self .sendFile {
     float: right;
-
 }
+/*peggy*/
 
 
 
@@ -253,4 +258,6 @@ body {
   font-family: "Micrsofot Yahei";
   resize: none;
 }
+
+
 
