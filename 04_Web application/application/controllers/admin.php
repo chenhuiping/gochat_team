@@ -21,6 +21,7 @@ class Admin extends CI_Controller {
         $this->login_check();
 
         $UserId=$_SESSION['jm_admin_id'];
+        $data['userId']=$UserId;
 
         //*************USERINFO******************
         //get USERINFO by userId for profile and username
@@ -68,20 +69,22 @@ class Admin extends CI_Controller {
             $data['groupList'][$i]= $this->admin_model->getGroupId($group['ChatId'],$UserId);
             $i++;
         }
+        //        var_dump($data['groupList']);die;
         //SELECT USERINFO
+
         $j=0;
 
         foreach ($data['groupList'] as $gr){
             $m=0;
             foreach($gr as $g)
             {
-//                $g[$m];
-                $data['groupUser'][$j][$m]=$this->admin_model->getGroupUser($g['from']);
+                $data['groupUser'][$j]['ChatId']=$g['ChatId'];
+                $data['groupUser'][$j]['User'][$m]=$this->admin_model->getGroupUser($g['from']);
                 $m++;
             }
             $j++;
         }
-//        var_dump(sizeof($data['groupUser']));die;
+//        var_dump($data['groupUser']);die;
 
         $this->load->view('index',$data);
     }
@@ -159,9 +162,7 @@ class Admin extends CI_Controller {
         $arr2 = array($friendId,$userId);
         $info1= implode(",",$arr1);
         $info2= implode(",",$arr2);
-//        $member1="$info1";
-//        $member2="$info2";
-//        var_dump($member1);die;
+
         $data['userId'] = $userId;
         $data['ChatId'] = $this->admin_model->getChatId($info1,$info2);
         if($data['ChatId']!="")
@@ -175,14 +176,39 @@ class Admin extends CI_Controller {
 //            var_dump($message['profile']);
             $i++;
         }
-
-
 //        var_dump($data['message']);die;
-
 
         $json = json_encode($data);
         print_r($json);
     }
+
+
+    //getGroupMessage
+    public function getGroupMessage()
+    {
+        $userId=  $this->input->post('userId');
+        $chatId = $this->input->post('ChatId');
+//        $userId=1;
+//        $chatId=3;
+
+        $data['userId'] = $userId;
+
+
+        $data['groupMessage'] = $this->admin_model->getMessage($chatId);
+//        var_dump($data['groupMessage']);die;
+        $i=0;
+        foreach($data['groupMessage'] as $message)
+        {
+            $data['groupMessage'][$i]['profile']=$this->admin_model->getProfile($message['from']);
+//            var_dump($message['profile']);
+            $i++;
+        }
+//        var_dump($data['groupMessage']);die;
+
+        $json = json_encode($data);
+        print_r($json);
+    }
+
 
     public function test()
     {
@@ -271,6 +297,60 @@ class Admin extends CI_Controller {
     public function logintest()
     {
         $this->load->view('logintest');
+    }
+
+    //    添加好友
+    public function addfriend_do()
+    {
+        $UserName = $this->input->post('searchusername');
+//        $UserName = "viki";
+//        $username="admin";
+//        $password ="admin";
+
+
+        $data['addFriend'] = $this->admin_model->addfriend_do($UserName);
+//        var_dump($data['addFriend']);die;
+        $json = json_encode($data);
+        print_r($json);
+    }
+
+    // ADD FRIEND
+
+    public function addFriendNow()
+    {
+        $UserId = $this->input->post('UserId');
+        $friendId = $this->input->post('friendId');
+
+//        $UserId=1;
+//        $friendId=4;
+        $friend= $this->admin_model->getFriend($UserId);
+
+        $str = $friend['FriendId'];
+
+        //split friendlist and get friendinfo
+        $str1 = explode(",",$str);
+//        var_dump($str1);die;
+        $i=0;
+        foreach ($str1 as $friendList)
+        {
+            if($friendId ==$friendList) {
+                $data['status'] = false;
+                $i++;
+            }
+        }
+//        var_dump()
+        if($i==0)
+        {
+            $str .=",".$friendId;
+//            var_dump($str);die;
+            $this->admin_model->insertFriend($UserId,$str);
+            $data['status']=true;
+        }
+
+
+
+        $json = json_encode($data);
+        print_r($json);
     }
 
 

@@ -11,7 +11,7 @@ class Server extends CI_Controller
 
     }
 
-    public function test()
+    public function test($in)
     {
 //        set_time_limit(0);
         echo "<h2>TCP/IP Connection</h2>\n";
@@ -38,9 +38,9 @@ class Server extends CI_Controller
         } else {
             echo "OK.\n";
         }
-        $in = "p";
-        $in .= "peggy";
-        $in .= "$";
+//        $in = "p";
+//        $in .= "peggy";
+//        $in .= "$";
         $out = "";
 
         echo "Sending HTTP HEAD request...";

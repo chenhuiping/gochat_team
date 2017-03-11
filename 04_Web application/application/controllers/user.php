@@ -26,7 +26,13 @@ class User extends CI_Controller {
 
 //        $username="admin";
 //        $password ="admin";
-
+//        $str="";
+//        $str .="W%user%select%";
+//        $str .=$password;
+//        $str .="%";
+//        $str .=$username;
+//        $str .="%";
+//        echo $str;
         $loginInfo = array(
 
             'PIN'=> $password,

@@ -39,7 +39,7 @@ class Admin_model extends CI_Model {
     // CHATTING FRIEND ID GROUP
     public function getGroupId($ChatId,$UserId)
     {
-        $sql="select DISTINCT message.from from message where message.from!=".$UserId." and message.ChatId=".$ChatId." ORDER BY message.time desc";
+        $sql="select DISTINCT message.from,message.ChatId from message where message.from!=".$UserId." and message.ChatId=".$ChatId." ORDER BY message.time desc";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
@@ -92,6 +92,23 @@ class Admin_model extends CI_Model {
         $sql = "SELECT profile FROM user WHERE UserId=".$UserId;
         $query = $this->db->query($sql);
         return $query->row_array();
+    }
+
+    //添加好友
+    public function addfriend_do($UserName)
+    {
+        $sql = "SELECT * FROM user WHERE UserName='".$UserName."'";
+        $query = $this->db->query($sql);
+        return $query->row_array();
+    }
+
+    //INSERT FRIEDN
+    public function insertFriend($UserId,$str)
+    {
+        $sql = "UPDATE friend set FriendId='".$str."' where UserId=".$UserId;
+        $query = $this->db->query($sql);
+//        var_dump($query);die;
+        return $this->db->affected_rows();
     }
 
 }

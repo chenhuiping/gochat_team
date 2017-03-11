@@ -1,76 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>WebSocket Echo Client</title>
-    <meta charset="UTF-8" />
-    <script>
-        "use strict";
-        // Initialize everything when the window finishes loading
-        window.addEventListener("load", function(event) {
-            var status = document.getElementById("status");
-            var url = document.getElementById("url");
-            var open = document.getElementById("open");
-            var close = document.getElementById("close");
-            var send = document.getElementById("send");
-            var text = document.getElementById("text");
-            var message = document.getElementById("message");
-            var socket;
+    <meta charset="utf-8">
+    <title>WebSockets - Simple chat</title>
 
-            status.textContent = "Not Connected";
-            url.value = "ws://localhost:8080";
-            close.disabled = true;
-            send.disabled = true;
-
-            // Create a new connection when the Connect button is clicked
-            open.addEventListener("click", function(event) {
-                open.disabled = true;
-                socket = new WebSocket(url.value, "echo-protocol");
-
-                socket.addEventListener("open", function(event) {
-                    close.disabled = false;
-                    send.disabled = false;
-                    status.textContent = "Connected";
-                });
-
-                // Display messages received from the server
-                socket.addEventListener("message", function(event) {
-                    message.textContent = "Server Says: " + event.data;
-                });
-
-                // Display any errors that occur
-                socket.addEventListener("error", function(event) {
-                    message.textContent = "Error: " + event;
-                });
-
-                socket.addEventListener("close", function(event) {
-                    open.disabled = false;
-                    status.textContent = "Not Connected";
-                });
-            });
-
-            // Close the connection when the Disconnect button is clicked
-            close.addEventListener("click", function(event) {
-                close.disabled = true;
-                send.disabled = true;
-                message.textContent = "";
-                socket.close();
-            });
-
-            // Send text to the server when the Send button is clicked
-            send.addEventListener("click", function(event) {
-                socket.send(text.value);
-                text.value = "";
-            });
-        });
-    </script>
+    <style>
+        * { font-family:tahoma; font-size:12px; padding:0px; margin:0px; }
+        p { line-height:18px; }
+        div { width:500px; margin-left:auto; margin-right:auto;}
+        #content { padding:5px; background:#ddd; border-radius:5px; overflow-y: scroll;
+            border:1px solid #CCC; margin-top:10px; height: 160px; }
+        #input { border-radius:2px; border:1px solid #ccc;
+            margin-top:10px; padding:5px; width:400px;  }
+        #status { width:88px; display:block; float:left; margin-top:15px; }
+    </style>
 </head>
 <body>
-Status: <span id="status"></span><br />
-URL: <input id="url" /><br />
-<input id="open" type="button" value="Connect" />&nbsp;
-<input id="close" type="button" value="Disconnect" /><br />
-<input id="send" type="button" value="Send" />&nbsp;
-<input id="text" /><br />
-<span id="message"></span>
+<div id="content"></div>
+<div>
+    <span id="status">Connecting...</span>
+    <input type="text" id="input" disabled="disabled" />
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="./frontend.js"></script>
 </body>
 </html>
