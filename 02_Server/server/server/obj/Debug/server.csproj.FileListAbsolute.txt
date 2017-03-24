@@ -1,9 +1,0 @@
-\\mac\home\documents\visual studio 2017\Projects\server\server\bin\Debug\server.exe.config
-\\mac\home\documents\visual studio 2017\Projects\server\server\bin\Debug\server.exe
-\\mac\home\documents\visual studio 2017\Projects\server\server\bin\Debug\server.pdb
-\\mac\home\documents\visual studio 2017\Projects\server\server\obj\Debug\server.csprojResolveAssemblyReference.cache
-\\mac\home\documents\visual studio 2017\Projects\server\server\obj\Debug\server.Form1.resources
-\\mac\home\documents\visual studio 2017\Projects\server\server\obj\Debug\server.Properties.Resources.resources
-\\mac\home\documents\visual studio 2017\Projects\server\server\obj\Debug\server.csproj.GenerateResource.Cache
-\\mac\home\documents\visual studio 2017\Projects\server\server\obj\Debug\server.exe
-\\mac\home\documents\visual studio 2017\Projects\server\server\obj\Debug\server.pdb

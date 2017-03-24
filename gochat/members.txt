@@ -1,6 +1,0 @@
-1570348/2	Park, Woo Min	woo_min.park@kcl.ac.uk	Current	Intelligent Systems	
-1669396/1	Muawwanah, Anisaul	anisaul.muawwanah@kcl.ac.uk	Current	Computing And Security	
-1655556/1	Chen, Wenwen	wenwen.chen@kcl.ac.uk	Current	Computing And Security	
-1567297/2	Chen, Jing	jing.2.chen@kcl.ac.uk	Current	Computing And Security	
-1604674/2	Li, Yiqi	yiqi.li@kcl.ac.uk	Current	Computing And Internet Systems	
-1611211/1	Chen, Huiping	huiping.chen@kcl.ac.uk	Current	Computing And Internet Systems	

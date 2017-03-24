@@ -1,9 +1,0 @@
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\bin\Debug\Servert.exe.config
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\bin\Debug\Servert.exe
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\bin\Debug\Servert.pdb
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\obj\Debug\Servert.csprojResolveAssemblyReference.cache
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\obj\Debug\Servert.Form1.resources
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\obj\Debug\Servert.Properties.Resources.resources
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\obj\Debug\Servert.csproj.GenerateResource.Cache
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\obj\Debug\Servert.exe
-c:\users\wen\documents\visual studio 2017\Projects\Servert\Servert\obj\Debug\Servert.pdb

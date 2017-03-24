@@ -1,9 +1,0 @@
-\\mac\home\documents\visual studio 2017\Projects\client_test\client_test\obj\Debug\client_test.Form1.resources
-\\mac\home\documents\visual studio 2017\Projects\client_test\client_test\obj\Debug\client_test.Properties.Resources.resources
-\\mac\home\documents\visual studio 2017\Projects\client_test\client_test\obj\Debug\client_test.csproj.GenerateResource.Cache
-\\mac\home\documents\visual studio 2017\Projects\client_test\client_test\bin\Debug\client_test.exe.config
-\\mac\home\documents\visual studio 2017\Projects\client_test\client_test\bin\Debug\client_test.exe
-\\mac\home\documents\visual studio 2017\Projects\client_test\client_test\bin\Debug\client_test.pdb
-\\mac\home\documents\visual studio 2017\Projects\client_test\client_test\obj\Debug\client_test.exe
-\\mac\home\documents\visual studio 2017\Projects\client_test\client_test\obj\Debug\client_test.pdb
-\\Mac\Home\Documents\Visual Studio 2017\Projects\client_test\client_test\obj\Debug\client_test.csprojResolveAssemblyReference.cache

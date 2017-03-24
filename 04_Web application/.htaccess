@@ -1,8 +1,0 @@
-﻿<IfModule mod_rewrite.c>
- RewriteEngine on    
-		RewriteCond %{REQUEST_FILENAME} !-d
-		RewriteCond %{REQUEST_FILENAME} !-f
-		#RewriteCond $1 !^(index/.php|assets|uploads|images|js|img|css|robots/.txt)    #在这里写要排除的资源等
-		RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
-   
-</IfModule>

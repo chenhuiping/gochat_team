@@ -1,9 +1,0 @@
-c:\users\wen\documents\visual studio 2017\Projects\client\client\obj\Debug\client.csprojResolveAssemblyReference.cache
-c:\users\wen\documents\visual studio 2017\Projects\client\client\obj\Debug\client.Form1.resources
-c:\users\wen\documents\visual studio 2017\Projects\client\client\obj\Debug\client.Properties.Resources.resources
-c:\users\wen\documents\visual studio 2017\Projects\client\client\obj\Debug\client.csproj.GenerateResource.Cache
-c:\users\wen\documents\visual studio 2017\Projects\client\client\bin\Debug\client.exe.config
-c:\users\wen\documents\visual studio 2017\Projects\client\client\bin\Debug\client.exe
-c:\users\wen\documents\visual studio 2017\Projects\client\client\bin\Debug\client.pdb
-c:\users\wen\documents\visual studio 2017\Projects\client\client\obj\Debug\client.exe
-c:\users\wen\documents\visual studio 2017\Projects\client\client\obj\Debug\client.pdb
