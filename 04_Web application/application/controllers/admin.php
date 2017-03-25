@@ -15,12 +15,12 @@ class Admin extends CI_Controller {
     }
 
     /*页面 主页*/
-    public function index()
+    public function index($UserId)
     {
         //CHECK SESSION
-        $this->login_check();
 
-        $UserId=$_SESSION['jm_admin_id'];
+//        $UserId=$this->input->post('UserId');
+//        $UserId=2;
         $data['userId']=$UserId;
 
         //*************USERINFO******************
@@ -31,30 +31,47 @@ class Admin extends CI_Controller {
         //*************FIRENDLIST******************
         //get friendlist
         $data['friend'] = $this->admin_model->getFriend($UserId);
-        $str = $data['friend']['FriendId'];
-            //split friendlist and get friendinfo
-        $str1 = explode(",",$str);
-        $i=0;
-        foreach ($str1 as $friendList)
+        if($data['friend']=="NULL")
         {
-            $data['friendInfo'][$i] = $this->admin_model->getUserInfo($friendList);
-            $i++;
+            $data['friendInfo']="NULL";
+        }
+        else{
+            $str = $data['friend']['FriendId'];
+            //split friendlist and get friendinfo
+            $str1 = explode(",",$str);
+            $i=0;
+            foreach ($str1 as $friendList)
+            {
+                $arr1 = array($UserId,$friendList);
+                $arr2 = array($friendList,$UserId);
+                $info1= implode(",",$arr1);
+                $info2= implode(",",$arr2);
+                $data['ChatId'] = $this->admin_model->getChatId($info1,$info2);
+//                    var_dump($data['ChatId']);
+                $data['friendInfo'][$i] = $this->admin_model->getUserInfo($friendList);
+                $data['friendInfo'][$i]['ChatId']=$data['ChatId']['ChatId'];
+                $i++;
+
+            }
         }
 
+//        var_dump( $data['friendInfo']);die;
         //*************NONE-GROUPCHAT******************
         //GET CHATID NONE-GROUP
         $data['chat_nogroup'] = $this->admin_model->getChatId_nogroup();
         //select userId by chatId from message table
+//        var_dump($data['chat_nogroup']);die;
         $i=0;
         foreach ($data['chat_nogroup'] as $nogroup){
             $data['RUList'][$i]= $this->admin_model->getUList($nogroup['ChatId'],$UserId);
             $i++;
-
         }
+//        var_dump($data['RUList']);die;
         //SELECT USERINFO
         $j=0;
         foreach ($data['RUList'] as $ru){
             $data['recent'][$j]= $this->admin_model->getUserInfo($ru['from']);
+            $data['recent'][$j]['ChatId']=$ru['ChatId'];
             $j++;
         }
 //        var_dump($data['recent']);die;
