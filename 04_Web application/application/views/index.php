@@ -1,11 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <base href="<?= base_url()?>" />
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
     <title>gochat</title>
-    <style>
+    <base href="<?= base_url()?>" />
+    <meta http-equiv="Content-Type" content="text/html; charsetutf-8" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/index.js"></script>
+    <title>gochat</title>    <style>
+
         *, *:before, *:after {
             box-sizing: border-box;
         }
@@ -204,7 +206,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            padding-top: 97px;
+            padding-top: 20px;
 
 
         }
@@ -398,11 +400,13 @@
     <div class="sidebar">
         <div class="m-card">
             <header>
+                <input id="getUserId" value="<?=$userId?>" class="displayNone"/>
+                <input id="getUserName" value="<?=$UserName?>" class="displayNone"/>
                 <img class="avatar" width="40" height="40" alt="Coffce" src="<?=$userInfo['profile']?>">
                 <p class="name"><?=$userInfo['UserName']?></p>
 <!--                功能列表按钮-->
-                <div class="functionOpt" id="functionOpt">
-                    <a class="add" href="">
+                <div class="functionOpt " id="functionOpt">
+                    <a class="add" href="admin/index/<?=$UserName?>/<?=$userId?>/#">
                         <img class="functionDisplay" src="assets/dist/images/functions.png" width="20px" height="20px">
                     </a >
                 </div>
@@ -414,17 +418,17 @@
         </div>
         <div class="tab">
             <div class="tab_chat" >
-                <a class="chat" href="#chatList" >
+                <a class="chat" href="admin/index/<?=$UserName?>/<?=$userId?>/#chatList" >
                     <img class="avatar imageSize" id="chatNow" onclick="changeChat()" src="assets/dist/images/chat1.png">
                 </a>
             </div>
             <div class="tab_groupchat">
-                <a class="chat" href="#groupList">
+                <a class="chat" href="admin/index/<?=$UserName?>/<?=$userId?>/#groupList">
                     <img class="avatar imageSize" id="groupChat" onclick="changeGroup()" src="assets/dist/images/groupchat1.png">
                 </a>
             </div>
             <div class="tab_friend">
-                <a class="chat" href="#friendList">
+                <a class="chat" href="admin/index/<?=$UserName?>/<?=$userId?>/#friendList">
                     <img class="avatar imageSize" id="friend" onclick="changeFriend()"  src="assets/dist/images/businesscard1.png">
                 </a>
             </div>
@@ -432,7 +436,7 @@
         <div class="m-list" id="chatList">
             <ul id="recentList" >
                 <?php foreach($recent as $rl){?>
-                    <li onclick="getMessage(<?=$rl['UserId']?>)">
+                    <li onclick="getMessage(<?=$rl['UserId']?>)" id="<?=$rl['ChatId']?>">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="<?=$rl['profile']?>">
                         <p class="name"><?=$rl['UserName']?></p>
                     </li>
@@ -444,9 +448,9 @@
             <ul>
                 <?php foreach($groupUser as $group)
                 {?>
-                    <li onclick="getGroupMessage(<?=$group['ChatId']?>)">
+                    <li onclick="getGroupMessage(<?=$group['ChatId']?>)" id="<?=$group['ChatId']?>">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="assets/dist/images/group2.png">
-                        <p class="name">
+                        <p style="word-wrap:break-word; word-break:break-all;width: 120px;overflow: hidden; " class="name">
                         <?php
                         foreach($group['User'] as $g)
                         {
@@ -461,32 +465,34 @@
 
         <div class="m-list displayNone" id="friendList">
             <ul>
-                <?php foreach ($friendInfo as $fri)
+                <?php if(!$friendInfo!="NULL"){
+
+                foreach ($friendInfo as $fri)
                 {?>
-                <li onclick="getMessage(<?=$fri['UserId']?>)">
+                <li onclick="getMessage(<?=$fri['UserId']?>)" id="<?=$fri['ChatId']?>">
                     <img class="avatar" width="30" height="30" alt="示例介绍" src="<?=$fri['profile']?>">
                     <p class="name"><?=$fri['UserName']?></p>
                 </li>
-               <?php }?>
+               <?php }}?>
 
             </ul>
         </div>
         <!--        功能列表界面-->
-        <div class="functionList" id="aaaaaa">
+        <div class="functionList closeFunction " id="functionList">
             <ul class="dropdown_menu">
                 <li id="addfriends" style="border-bottom: 1px solid #f1f1f1 ;">
-                    <a href="#" >
+                    <a href="admin/index/<?=$UserName?>/<?=$userId?>/#" >
                         <p>Add Friend</p >
                     </a >
                 </li>
                 <li id="create_groupchat" style="border-bottom: 1px solid #f1f1f1 ;">
-                    <a href="#">
+                    <a href="admin/index/<?=$UserName?>/<?=$userId?>/#">
                         <p>Create Group Chat</p >
                     </a >
                 </li>
                 <li>
-                    <a href="#">
-                        <p>Log Out</p >
+                    <a href="admin/index/<?=$UserName?>/<?=$userId?>/#">
+                        <p id="logout">Log Out</p >
                     </a >
                 </li>
             </ul>
@@ -500,7 +506,7 @@
             </div>
             <div class="searchBg">
                 <input  class="searchUser" placeholder="search friends..." id="searchusername">
-                <button type="button" onclick="searchFriend()" style="height: 24px;position: relative;background-color: #3caf36;border:0;border-radius:4px;margin-left:14px;color: white;">Search</button>
+                <button type="button" id="SFButton" style="height: 24px;position: relative;background-color: #3caf36;border:0;border-radius:4px;margin-left:14px;color: white;">Search</button>
             </div>
             <div class="resultDisplay" id="addNow">
 
@@ -535,7 +541,7 @@
 <!--                </li>-->
             </ul>
         </div>
-        <div class="m-text">
+        <div class="m-text displayNone" id="m_text">
             <div style="height: 33px;padding: 5px 17px;">
                 <?php echo form_open_multipart('upload/do_upload/'.$UserName);?>
 
@@ -548,7 +554,7 @@
             </div>
             <textarea placeholder="" id="leftText"></textarea>
         </div>
-        <button id="leftSendBtn">send</button>
+        <input  type="button" id="leftSendBtn" value="send"/>
     </div>
 </div>
 <!--发起聊天-->
@@ -574,99 +580,28 @@
                 </div>
                 <div class="chooser">
                     <div class="contactList">
-                        <div class="contact_item">
-                            <div class="opt" >
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
+                        <?php if($friendInfo!="NULL"){
+
+                            foreach ($friendInfo as $fri)
+                            {?>
+                                <div class="contact_item">
+                                    <div class="opt" >
+                                        <input type="checkbox" name="contact" value="<?=$fri['UserId']?>" class="isCheck_user">
+                                    </div>
+                                    <div class="avatar">
+                                        <img class="img_lazy" src="<?=$fri['profile']?>">
+                                    </div>
+                                    <div class="info" style="overflow: hidden; height: 20px">
+                                        <h4 class="nickname"><?=$fri['UserName']?></h4>
+                                    </div>
+                                </div>
+                            <?php }}?>
+
                     </div>
                 </div>
             </div>
             <div class="dialog_ft">
-                <a class="button_default" href=" ">Confirm</a >
+                <a class="button_default" href="admin/index/<?=$UserName?>/<?=$userId?>/#" id="createGroupChat">Confirm</a >
             </div>
             <div class="ngdialog-close">
                 <img src="assets/dist/images/close.png">
@@ -684,13 +619,15 @@
 
         //显示功能列表
         $("#functionOpt").click(function(){
-            $("#aaaaaa").toggleClass('closeFunction');
+            $("#functionList").toggleClass('closeFunction');
 
         });
 
         $('li').click(function(){
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
+            $('#m_text').removeClass('displayNone');
+
         });
 
 
@@ -713,14 +650,14 @@
         //关闭添加好友界面
 
             $(".searchBar_close").click(function(){
-                $('.searchBar').addClass('closeAddFr')
-            })
+                $('.searchBar').addClass('closeAddFr');
+            });
 
         //显示发起聊天界面
 
             $(".ngdialog-close").click(function(){
-                $('.ngdialog').addClass('ngdialog_close')
-            })
+                $('.ngdialog').addClass('ngdialog_close');
+            });
 
     });
     function changeChat()
@@ -808,12 +745,13 @@
             }
         })
     }
-
     //GET CHATING MESSAGE
     function getMessage(friendId)
     {
         var getMessageURL = "/gochat/admin/getMessage";
         var userId = <?=$userId?>;
+        var UserName = "<?=$UserName?>";
+
         var friendId = friendId;
 //            alert(friendId);
 
@@ -823,7 +761,8 @@
             dataType: "json",
             data: {
                 userId : userId,
-                friendId : friendId
+                friendId : friendId,
+                UserName :UserName
             },
             success: function (data) {
                 if(data.message){
@@ -833,7 +772,7 @@
 //                        b=15:00-16:00;
 //                        alert(b);
                     str="";
-                    for(var i=0;i < a.length;i++)
+                    for(var i=0;i <a.length;i++)
                     {
                         var time,content,from,type,profile;
 //                            alert(a[i]['time']);
@@ -847,14 +786,14 @@
 
 
                         str = str+"<li>";
-                        if(i==0)
-                        {
+//                        if(i==0)
+//                        {
                             str = str+"<p class='time'><span>"+time+"</span></p>";
-                        }
-                        else if(i!=0 && time-5>a[i-1]['time'])
-                        {
-                            str = str+"<p class='time'><span>"+time+"</span></p>";
-                        }
+//                        }
+//                        else if(i!=0 && time-5>a[i-1]['time'])
+//                        {
+//                            str = str+"<p class='time'><span>"+time+"</span></p>";
+//                        }
 
                         if(from==userId)
                         {
@@ -873,14 +812,12 @@
                             str = str+"<img class='avatar' width='100' height='100' src='"+content+"'></div></li>";
                         if(type==2 )
                         {
-
                             content=content.split("/");
                             content=content[content.length-1];
                             str = str+"<div class='sendFile'><div class='displayInB'>";
                             str = str+"<img src='assets/dist/images/ufile1.png' height='60px'/></div>";
                             str = str+"<div class='cont'><p class='ptitle'>"+content+"</p>";
                             str = str+"<a href='uploads/test.docx' class='dherf'>Download</a></div></div></div></li>";
-
                         }
                     }
                     $("#leftContent").html(str);
@@ -899,14 +836,16 @@
     {
         var getMessageURL = "/gochat/admin/getGroupMessage";
         var userId = <?=$userId?>;
-//            alert(friendId);
+        var UserName = <?=$UserName?>;
+            alert(userId);
         $.ajax({
             type: "post",
             url: getMessageURL,
             dataType: "json",
             data: {
                 userId : userId,
-                ChatId : ChatId
+                ChatId : ChatId,
+                UserName:UserName
             },
             success: function (data) {
                 if(data.groupMessage){
