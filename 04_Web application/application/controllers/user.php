@@ -190,15 +190,18 @@ class User extends CI_Controller {
 
         $userList=  $this->input->post('user');
         $UserName=  $this->input->post('UserName');
+        $data['UserName']=$UserName;
         $UserName = "user_".$UserName;
-        var_dump($UserName);
+//        var_dump($UserName);
 //        $UserId="admin";
 
         for( $i=0;$i<count($userList);$i++)
         {
             $data['status']=$this->user_model->insertUser($UserName,$userList[$i]);
         }
-        var_dump($data['status']);
+        $data['UserId']=$userList[0]['UserId'];
+
+//        var_dump($data['status']);
         $json = json_encode($data);
         print_r($json);
     }
@@ -208,7 +211,7 @@ class User extends CI_Controller {
     {
         $UserName=  $this->input->post('UserName');
         $UserName = "friend_".$UserName;
-        var_dump($UserName);
+//        var_dump($UserName);
 
         $friend=  $this->input->post('friend');
 
@@ -225,7 +228,7 @@ class User extends CI_Controller {
     {
         $UserName=  $this->input->post('UserName');
         $UserName = "chat_".$UserName;
-        var_dump($UserName);
+//        var_dump($UserName);
 //        var_dump(1);die;
         $chat =  $this->input->post('chat');
 //       var_dump($chat);die;
@@ -244,7 +247,7 @@ class User extends CI_Controller {
     {
         $UserName=  $this->input->post('UserName');
         $UserName = "message_".$UserName;
-        var_dump($UserName);
+//        var_dump($UserName);
         $message =  $this->input->post('message');
             for( $i=0;$i<count($message);$i++)
             {
@@ -256,13 +259,62 @@ class User extends CI_Controller {
 
     }
 
+    //INSERT INTO UFRIEND TABLE
+    public function insertUFriend()
+    {
+        $UserName=  $this->input->post('UserName');
+        $UserName = "friend_".$UserName;
+//        var_dump($UserName);
+
+        $friend=  $this->input->post('ufriend');
+//        var_dump($friend['UserId']);
+        $data['status'] = $this->user_model->insertUFriend($UserName,$friend['UserId'],$friend['FriendId']);
+//        var_dump($data['status']);
+
+        $json = json_encode($data);
+        print_r($json);
+    }
+
+    //INSERT INTO USER TABLE FOR NEW FRIEND
+    public function insertUUser()
+    {
+        $UserName=  $this->input->post('UserName');
+        $UserName = "user_".$UserName;
+//        var_dump($UserName);
+
+        $friend=  $this->input->post('friend');
+
+        $data['status'] = $this->user_model->insertUUser($UserName,$friend);
+
+        $json = json_encode($data);
+        print_r($json);
+    }
+
+    //INSERT CHAT TABLE FOR NEW GROUPCHAT
+    public function insertUChat()
+    {
+        $UserName=  $this->input->post('UserName');
+        $UserName = "chat_".$UserName;
+//        var_dump($UserName);
+
+        $uchat=  $this->input->post('uchat');
+
+        $data['status'] = $this->user_model->insertUChat($UserName,$uinsertUMessagechat);
+
+        $json = json_encode($data);
+        print_r($json);
+
+    }
+
     //INSERT MESSAGE TABLE ONE MESSAGE
     public function insertUMessage()
     {
-
+        $UserName =  $this->input->post('UserName');
         $message =  $this->input->post('message');
-
-        $data['status']=$this->user_model->insertMessage($message);
+        $UserName ="message_".$UserName;
+//        var_dump($UserName);
+//        var_dump($message);die;
+        $data['status']=$this->user_model->insertUMessage($UserName,$message);
 
         $json = json_encode($data);
         print_r($json);

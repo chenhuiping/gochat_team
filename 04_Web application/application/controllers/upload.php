@@ -14,6 +14,8 @@ class Upload extends CI_Controller {
         $this->load->view('upload_form', array('error' => ' ' ));
     }
 
+    //UPLOAD FILE
+
     public function do_upload($UserName)
     {
         $filePath='./uploads/'.$UserName."/";
