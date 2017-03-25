@@ -98,8 +98,14 @@ namespace chat_list
             //--------------------------------------------------------------------------------------------------------------
         }
 
-        
-                    
+        internal void searchUser(string str)
+        {
+            loginForm.searchFriend(str);
+        }
+
+
+
+
         //-------------------------------------------------------------------------------------------------------------------
         // close button
         private void pictureBox3_Click(object sender, EventArgs e)
@@ -125,7 +131,6 @@ namespace chat_list
             this.chatbox1.Size = new System.Drawing.Size(717, 600);
             this.chatbox1.TabIndex = 0;
         }
-
 
         //-----------------------------------------------------------------------------------------------------------------
         // display chat history
@@ -199,6 +204,11 @@ namespace chat_list
             }
         }
 
+        internal void sendUserInfo(Login.user temp)
+        {
+            SFriend.userdetail_fromLogin(temp);
+        }
+
         private void header1_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
@@ -215,8 +225,10 @@ namespace chat_list
         public delegate void set_addFriend(int friendID);
         private void addFriendButton_Click(object sender, EventArgs e)
         {
-            int friendID = 0;
-            this.Invoke(new set_addFriend(loginForm.addFriend), friendID);
+            //int friendID = 0;
+            //this.Invoke(new set_addFriend(loginForm.addFriend), friendID);
+            SFriend = new SearchFriend(this);
+            SFriend.Show();
         }
 
         //-------------------------------------------------------------------------------------------------------------------
@@ -237,6 +249,9 @@ namespace chat_list
 
         }
         private List<string> strfriendList;
+
+        public SearchFriend SFriend { get; private set; }
+
         // variable for passing receive data --> trial!
         //private string receiveMessage;
         public void add_strfriendList(string str)

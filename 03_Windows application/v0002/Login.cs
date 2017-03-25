@@ -41,6 +41,17 @@ namespace chat_list
             public string type { get; set; }
             public List<user> data { get; set; }
         }
+
+        internal void add_usertable_from_addFriend(user userData)
+        {
+            DB_UserTable.Add(userData);
+        }
+
+        public class addUserTable
+        {
+            public string type { get; set; }
+            public user data { get; set; }
+        }
         public class user
         {
             public int UserId { get; set; }
@@ -159,14 +170,14 @@ namespace chat_list
                     Debug.WriteLine("receive complete and creat Main form-------------");
                     DisplayGroupList(DB_ChatTable);
                     DisplayFriendList(DB_UserTable);
-                    DisplayFriendWithchat(DB_UserTable, DB_ChatTable);
+                    //DisplayFriendWithchat(DB_UserTable, DB_ChatTable);
                 }
             }
         }
         public async Task StartAsync()
         {
             cts = new CancellationTokenSource();
-            CancellationTokenSource cts_timer = new CancellationTokenSource(5000);
+            CancellationTokenSource cts_timer = new CancellationTokenSource(10000);
             socket = new ClientWebSocket();
 
             string wsUri = "ws://47.91.75.150:1337";
@@ -238,19 +249,37 @@ namespace chat_list
         }
         //---------------------------------------------------------------------------------------------------------------
         // deserialize data
+        public delegate void sendUserinfo(user temp);
 
         public void deserializeData(string rcvMsg)
         {
             if (rcvMsg.Contains("type\":\"user"))
             {
                 UserTable temp = JsonConvert.DeserializeObject<UserTable>(rcvMsg);
+                int count = 0;
                 foreach (user tempH in temp.data)
                 {
+
                     DB_UserTable.Add(tempH);
                 }
                 Debug.WriteLine("user");
                 Debug.WriteLine(DB_UserTable[0].UserName);
                 Rcheck_user = true;
+            }
+            else if(rcvMsg.Contains("type\":\"searchFriend"))
+            {
+                if(rcvMsg.ToString().Contains("This user is already your friend"))
+                {
+                    MainForm.SFriend.Close();
+                    Debug.WriteLine("This user is already your friend");
+                }
+                else
+                {
+                    addUserTable temp = JsonConvert.DeserializeObject<addUserTable>(rcvMsg);
+                    this.Invoke(new sendUserinfo(MainForm.sendUserInfo), temp.data);
+                }
+                
+                //DB_UserTable.Add(temp);
             }
             else if (rcvMsg.Contains("type\":\"chat"))
             {   
@@ -288,22 +317,33 @@ namespace chat_list
                     }
                     else
                     {
-                        rMessageTable temp = JsonConvert.DeserializeObject<rMessageTable>(rcvMsg);
-                        DB_MessageTable.Add(temp.data);
-                        if (temp.data.ChatId == MainForm.chatbox1.chatID)
-                        {
-                            if (temp.data.ChatId == DB_UserTable[0].UserId)
-                                this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content);
-                            else if (temp.data.ChatId != DB_UserTable[0].UserId)
-                                this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content);
-                        }
-                        Debug.WriteLine("message realtime deserialize complete");
+                        
                     }
                 }
                 catch(Exception e)
                 {
                     Debug.WriteLine("loading message fail"+e);
                 }
+            }
+            else if (rcvMsg.Contains("\"type\":\"umessage"))
+            {
+                rMessageTable temp = JsonConvert.DeserializeObject<rMessageTable>(rcvMsg);
+                DB_MessageTable.Add(temp.data);
+                /*if(DB_UserTable[0].UserId == temp.data.from)
+                {
+                    //this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content);
+                    this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content);
+
+
+                }
+                else*/ if (temp.data.ChatId == MainForm.chatbox1.chatID)
+                {
+                    if (temp.data.ChatId == DB_UserTable[0].UserId)
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content);
+                    else if (temp.data.ChatId != DB_UserTable[0].UserId)
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content);
+                }
+                Debug.WriteLine("message realtime deserialize complete");
             }
         }
         //------------------------------------------------------------------------------------------------------------------
@@ -446,7 +486,7 @@ namespace chat_list
         {
             foreach (user temp in uTable)
             {
-                this.Invoke(new set_grouplist(MainForm.group_list.addInMessage) ,temp.UserName, DateTime.Now.ToShortTimeString(), temp.UserId, 0, temp.profile);
+                this.Invoke(new set_grouplist(MainForm.friend_list1.addInMessage) ,temp.UserName, DateTime.Now.ToShortTimeString(), temp.UserId, 0, temp.profile);
             }
         }
 
@@ -743,20 +783,29 @@ namespace chat_list
             //send_data(message);
             
         }
+        public void searchFriend(string str)
+        {
+            string message = "search" + check + DB_UserTable[0].UserId + check + str;
+            send_data(message);
+
+        }
         //----------------------------------------------------------------------------------------------------------------
         // add new friend
         public delegate void addNewFriend(int ID);
         public void addFriend(int friendID)
         {
             int userID = DB_UserTable[0].UserId;
-            string message1 = "friend"+ check + userID.ToString() + check + userID.ToString() + "," + friendID.ToString();
-            string message2 = "friend"+ check + friendID.ToString() + check + userID.ToString() + "," + friendID.ToString();
-
-            MessageBox.Show(message1 + message2);
+            //string message1 = "friend"+ check + userID.ToString() + check + userID.ToString() + "," + friendID.ToString();
+            //string message2 = "friend"+ check + friendID.ToString() + check + userID.ToString() + "," + friendID.ToString();
+            string message = "friend" + check + userID.ToString() + check + friendID.ToString();
+            send_data(message);
+            message = "friend" + check + friendID.ToString() + check + userID.ToString();
+            send_data(message);
+            //MessageBox.Show(message1 + message2);
 
             //send_data(message1);
             //send_data(message2);
-            
+
             // don't forget to save into newFriendTable
         }
         //----------------------------------------------------------------------------- -----------------------------------
