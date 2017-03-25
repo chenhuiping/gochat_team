@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace chat_list
         {
             this.loginForm = loginForm;
             InitializeComponent();
+            this.Width = 257;
+            Debug.WriteLine("form width: " + this.Width);
             //--------------------------------------------------------------------------------------------------------------
             // chat history initialization (in tabPageChat)
             // initialize chat list user control
@@ -77,13 +80,7 @@ namespace chat_list
             this.friend_list2.Size = new System.Drawing.Size(372, 645);
             this.friend_list2.TabIndex = 1; //0
 
-            //initialize panel 8
-            this.panel8.Controls.Add(this.friend_list2);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(0, 0);
-            this.panel8.Name = "panel7";
-            this.panel8.Size = new System.Drawing.Size(372, 645);
-            this.panel8.TabIndex = 0; //1
+          
             //--------------------------------------------------------------------------------------------------------------
             // chatbox initialization
 
@@ -107,9 +104,11 @@ namespace chat_list
         // close button
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            loginForm.close_all();
+            this.Width = 257;
 
-            Environment.Exit(0);
+            //loginForm.ResetConnection();
+
+            //Application.Exit();
         }
 
         //------------------------------------------------------------------------------------------------------------------
@@ -137,6 +136,7 @@ namespace chat_list
             // clear and display the chatbox            
             chatbox1.Dispose();
             this.chatbox1 = new chat_list.chatbox(this.loginForm, ID);
+            
             this.chat.Controls.Add(this.chatbox1);
             this.chatbox1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.chatbox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -144,8 +144,11 @@ namespace chat_list
             this.chatbox1.Name = "chatbox1";
             this.chatbox1.Size = new System.Drawing.Size(717, 600);
             this.chatbox1.TabIndex = 0;
-
+            this.chatbox1.chatbox_visible(false);
+            this.Width = 257;
             this.Invoke(new set_chathistory(loginForm.DisplayChatHistory), ID);
+            this.chatbox1.chatbox_visible(true);
+            this.Width = 728;
 
         }
         //------------------------------------------------------------------------------------------------------------------
@@ -159,7 +162,8 @@ namespace chat_list
         // move windows
         private bool mouseDown;
         private Point lastLocation;
-        
+        public bool add_grouplist;
+
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             mouseDown = true;
@@ -220,17 +224,25 @@ namespace chat_list
         public delegate void set_addGroup(string member);
         private void addGroupButton_Click(object sender, EventArgs e)
         {
-            string member = "";
-            this.Invoke(new set_addGroup(loginForm.addGroup), member);
+            add_grouplist = true;
+            strfriendList = new List<string>();
+
+            //string member = "";
+            //this.Invoke(new set_addGroup(loginForm.addGroup), member);
         }
         //-------------------------------------------------------------------------------------------------------------------
 
-        // not used
+        public void add_list_from_friendlist(string str)
+        {
 
-
+        }
+        private List<string> strfriendList;
         // variable for passing receive data --> trial!
         //private string receiveMessage;
-
+        public void add_strfriendList(string str)
+        {
+            strfriendList.Add(str);
+        }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -263,6 +275,12 @@ namespace chat_list
             //friend_list1.addInMessage("new user", "00;00", 0, 0);
         }
 
-        
+        private void pictureBox5_Click_1(object sender, EventArgs e)
+        {
+            add_grouplist = false;
+            //send data of the friend list
+            friend_list1.set_default_color();
+            strfriendList = null;
+        }
     }
 }

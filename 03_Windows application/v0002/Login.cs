@@ -25,34 +25,41 @@ namespace chat_list
         string check = "$";
         //for calling chat form - defining chat room
         private Form1 MainForm;
-
         //defining chatbox
         private chatbox newChat;
-
         // for calling sign up page
         private sign_up SignUpForm;
-
         public Login()
         {
             InitializeComponent();
             username = usernameTextBox.Text;
         }
-
         //---------------------------------------------------------------------------------------------------------
         // class and variable to deserialize data
-
         public class UserTable
         {
             public string type { get; set; }
-            public user data { get; set; }
+            public List<user> data { get; set; }
         }
-
         public class user
         {
             public int UserId { get; set; }
             public string PIN { get; set; }
             public string UserName { get; set; }
             public string profile { get; set; }
+            public string ip { get; set; }
+        }
+        public class FriendTable
+        {
+            public string type { get; set; }
+            //public friend[] data { get; set; }
+            public friend data { get; set; }
+
+        }
+        public class friend
+        {
+            public int UserId { get; set; }
+            public string FriendId { get; set; }
         }
 
         public class ChatTable
@@ -62,29 +69,11 @@ namespace chat_list
             public List<chat> data { get; set; }
            
         }
-
         public class chat
         {
             public int ChatId { get; set; }
             public string member { get; set; }
             public int type { get; set; }
-        }
-
-        public class FriendTable
-        {
-            public string type { get; set; }
-            //public friend[] data { get; set; }
-            public List<friend> data { get; set; }
-            
-        }
-
-        public class friend
-        {
-            public int UserId { get; set; }
-            public string PIN { get; set; }
-            public string UserName { get; set; }
-            public string profile { get; set; }
-            public string Ip { get; set; }
         }
 
         public class MessageTable
@@ -94,7 +83,6 @@ namespace chat_list
             public List<message> data { get; set; }
             
         }
-
         public class rMessageTable
         {
             public string type { get; set; }
@@ -102,9 +90,9 @@ namespace chat_list
             public message data { get; set; }
 
         }
-
         public class message
         {
+            public int Id { get; set; }
             public int ChatId { get; set; }
             public string time { get; set; }
             public string content { get; set; }
@@ -113,27 +101,13 @@ namespace chat_list
         }
 
         public string receiveMessage;
-
-
         //----------------------------------------------------------------------------------------------------------------
-        public UserTable DB_UserTable;
+        public List<user> DB_UserTable;
         private List<chat> DB_ChatTable;
-        private List<friend> DB_FrientTable;
+        //private List<friend> DB_FrientTable;
         private List<message> DB_MessageTable;
 
-        private void initTable()
-        {
-            DB_UserTable = new UserTable();
-            DB_ChatTable = new List<chat>();
-            DB_FrientTable = new List<friend>();
-            DB_MessageTable = new List<message>();
-            Rcheck_chat = false;
-            Rcheck_friend = false;
-            Rcheck_user = false;
-            Rcheck_message = false;
-            R_check_history = false;
-        }
-
+ 
         // for Websocket connection
 
         bool ws_socket_flag = true;
@@ -142,43 +116,73 @@ namespace chat_list
         public bool ws_flag = false;
         ClientWebSocket socket;
         CancellationTokenSource cts;
-
-        public async Task StartAsync()
+        private void set_loading()
         {
-            //textBox2.Text = "Name please: ";
-            string name = Console.ReadLine();
-            //-----------------------------------------------------------------------------------------------------------
-            //this.Invoke(new set_textbox(text2Set), "connecting");
-            //textBox2.Text = "Connecting....";
-            cts = new CancellationTokenSource();
-            socket = new ClientWebSocket();
-
-            //get ip and port from the ui
-            //string wsUri = string.Format(textBox4.Text.Trim());
-            //----------------------------------------------------------------------------------------------------------
-            string wsUri = "ws://47.91.75.150:1337";
-            initTable();
-            await socket.ConnectAsync(new Uri(wsUri), cts.Token);
-            //MessageBox.Show(socket.State.ToString());
-            Debug.WriteLine(socket.State.ToString()+"--------------------------------");
-            if (socket.State == WebSocketState.Open)
+            this.Invoke(new MethodInvoker(delegate
             {
-                this.Invoke(new MethodInvoker(delegate
-                {
-                    button1.Enabled = false;
-                    loadingImg.Visible = true;
-                }));
-
+                button1.Enabled = false;
+                loadingImg.Visible = true;
+            }));
+        }
+        private void init_connect()
+        {
+            if (socket.State == WebSocketState.Open)
+            { 
                 // send username and password to server for verification
                 string username = usernameTextBox.Text;
                 string password = passwordTextBox.Text;
                 send_data(username + "," + password);
                 ws_socket_flag = false;
-
-
             }
-            //this.Invoke(new set_textbox(text2Set), socket.State.ToString());
-            //
+        }
+        private void initTable()
+        {
+            DB_UserTable = new List<user>();
+            DB_ChatTable = new List<chat>();
+            DB_MessageTable = new List<message>();
+            Rcheck_chat = false;
+            Rcheck_user = false;
+            Rcheck_message = false;
+            R_check_history = false;
+        }
+        private void call_mainform()
+        {
+            if (!R_check_history)
+            {
+                if (Rcheck_chat && Rcheck_chat && Rcheck_message)
+                {
+                    Rcheck_chat = false;
+                    Rcheck_user = false;
+                    Rcheck_message = false;
+                    R_check_history = true;
+                    this.Invoke(new creatform(creatMain));
+                    Debug.WriteLine("receive complete and creat Main form-------------");
+                    DisplayGroupList(DB_ChatTable);
+                    DisplayFriendList(DB_UserTable);
+                    DisplayFriendWithchat(DB_UserTable, DB_ChatTable);
+                }
+            }
+        }
+        public async Task StartAsync()
+        {
+            cts = new CancellationTokenSource();
+            CancellationTokenSource cts_timer = new CancellationTokenSource(5000);
+            socket = new ClientWebSocket();
+
+            string wsUri = "ws://47.91.75.150:1337";
+            initTable();
+            try
+            {
+                set_loading();
+                await socket.ConnectAsync(new Uri(wsUri), cts_timer.Token);
+            }
+            catch (Exception e)
+            {
+                ResetConnection();
+                Debug.WriteLine("socket open error");
+            }
+            Debug.WriteLine(socket.State.ToString()+"--------------------------------");
+            init_connect();
             Task.Factory.StartNew(
             async () =>
             {
@@ -191,34 +195,10 @@ namespace chat_list
                     byte[] msgBytes = rcvBuffer.Skip(rcvBuffer.Offset).Take(rcvResult.Count).ToArray();
                     //-----------------------------
                     OnReceive(msgBytes);
-                    if (!R_check_history)
-                    {
-                        if (Rcheck_chat && Rcheck_friend && Rcheck_chat && Rcheck_message)
-                        {
-                            Rcheck_chat = false;
-                            Rcheck_friend = false;
-                            Rcheck_user = false;
-                            Rcheck_message = false;
-                            R_check_history = true;
-                            this.Invoke(new creatform(creatMain));
-                            Debug.WriteLine("receive complete and creat Main form-------------");
-                            DisplayGroupList(DB_ChatTable);
-                            DisplayFriendList(DB_FrientTable);
-                            DisplayFriendWithchat(DB_FrientTable, DB_ChatTable);
-                        }
-                    }
-                    
+                    call_mainform();
                 }
             }, cts.Token, TaskCreationOptions.LongRunning,
                 TaskScheduler.Default);
-            while (true)
-            {
-                if (ws_socket_flag)
-                {
-                    cts.Cancel();
-                    return;
-                }
-            }
         }
 
         //-------------------------------------------------------------------------------------------------
@@ -238,8 +218,6 @@ namespace chat_list
             {
                 buffer += rcvMsg;
             }
-
-            Debug.WriteLine(buffer);
             int r_count = 0;
             int l_count = 0;
             foreach (byte temp in buffer)
@@ -252,6 +230,7 @@ namespace chat_list
 
             if (l_count - r_count == 0)
             {
+                Debug.WriteLine(buffer);
                 deserializeData(buffer);
                 buffer = "";
             }
@@ -264,61 +243,47 @@ namespace chat_list
         {
             if (rcvMsg.Contains("type\":\"user"))
             {
+                UserTable temp = JsonConvert.DeserializeObject<UserTable>(rcvMsg);
+                foreach (user tempH in temp.data)
+                {
+                    DB_UserTable.Add(tempH);
+                }
                 Debug.WriteLine("user");
-
-                DB_UserTable = JsonConvert.DeserializeObject<UserTable>(rcvMsg);
-                
-                Debug.WriteLine(DB_UserTable.type);
-                Debug.WriteLine(DB_UserTable.data.UserName);
+                Debug.WriteLine(DB_UserTable[0].UserName);
                 Rcheck_user = true;
             }
             else if (rcvMsg.Contains("type\":\"chat"))
-            {
-                Debug.WriteLine("chat");
+            {   
                 ChatTable temp = JsonConvert.DeserializeObject<ChatTable>(rcvMsg);
                 foreach (chat tempH in temp.data)
                 {
                     DB_ChatTable.Add(tempH);
                 }
-
-                //DisplayGroupList(DB_ChatTable);
-                //DisplayFriendWithchat(DB_FrientTable, DB_ChatTable);
-                Debug.WriteLine("Chat number" + DB_ChatTable.Count());
+                Debug.WriteLine("chat deserialize complete");
                 Rcheck_chat = true;
-            }
+            }/*
             else if (rcvMsg.Contains("type\":\"friend"))
             {
-                Debug.WriteLine("friend");
-
                 FriendTable temp = JsonConvert.DeserializeObject<FriendTable>(rcvMsg);
-
-                /*foreach (friend tempH in temp.data)
-                {
-                    NewFriendTable.data.Add(tempH);
-                }*/
                 foreach (friend tempH in temp.data)
                 {
                     DB_FrientTable.Add(tempH);
-                }
-
-                //DisplayFriendList(DB_FrientTable);
-                //DisplayFriendWithchat(DB_FrientTable, DB_ChatTable);
-
-                Debug.WriteLine("friend number : " + DB_FrientTable.Count());
+                }                
+                Debug.WriteLine("friend deserialize complete");
                 Rcheck_friend = true;
-            }
+            }*/
             else if (rcvMsg.Contains("type\":\"message"))// || rcvMsg.Contains("type\":\"umessage"))
             {
                 try
                 {
                     if(rcvMsg.Contains("[") && rcvMsg.IndexOf("[") == 25)
                     {
-                        //Debug.WriteLine(rcvMsg.IndexOf("["));
                         MessageTable temp = JsonConvert.DeserializeObject<MessageTable>(rcvMsg);
                         foreach (message tempH in temp.data)
                         {
                             DB_MessageTable.Add(tempH);
                         }
+                        Debug.WriteLine("message history deserialize complete");
                         Rcheck_message = true;
                     }
                     else
@@ -327,26 +292,20 @@ namespace chat_list
                         DB_MessageTable.Add(temp.data);
                         if (temp.data.ChatId == MainForm.chatbox1.chatID)
                         {
-                            if (temp.data.ChatId == DB_UserTable.data.UserId)
+                            if (temp.data.ChatId == DB_UserTable[0].UserId)
                                 this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content);
-                            else if (temp.data.ChatId != DB_UserTable.data.UserId)
+                            else if (temp.data.ChatId != DB_UserTable[0].UserId)
                                 this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content);
                         }
+                        Debug.WriteLine("message realtime deserialize complete");
                     }
-                    
                 }
                 catch(Exception e)
                 {
                     Debug.WriteLine("loading message fail"+e);
                 }
-
-                Debug.WriteLine("message");
-                Debug.WriteLine("message number : " + DB_MessageTable.Count());
             }
         }
-        //--------------------------------------------------------------------------------------------------------------
-
-
         //------------------------------------------------------------------------------------------------------------------
         // convert text message into bytes before sending it to server
         public void send_data(string str)
@@ -369,12 +328,12 @@ namespace chat_list
             else
             {
                 MessageBox.Show("No connection to server");
-                ws_socket_flag = true;
+                ResetConnection();
             }
-            if (ws_socket_flag)
+            /*if (ws_socket_flag)
             {
                 cts.Cancel();
-            }
+            }*/
         }
         //-------------------------------------------------------------------------------------------------------------------
         // save message to NewMessageTable
@@ -417,31 +376,31 @@ namespace chat_list
         }
         public void ResetConnection()
         {
-            if(this.Visible == false && MainForm != null)
+            try
             {
-                MainForm.Close();
-                this.Show();
-                this.Invoke(new MethodInvoker(delegate
+                if (this.Visible == false && MainForm != null)
                 {
-                    button1.Enabled = true;
-                    loadingImg.Visible = false;
-                }));
-
-
-            }
-            if (socket.State == WebSocketState.Open)
-            {
-                this.Invoke(new MethodInvoker(delegate
+                    MainForm.Close();
+                    this.Show();
+                }
+                if (socket.State == WebSocketState.Open)
                 {
-                    button1.Enabled = true;
-                    loadingImg.Visible = false;
-                }));
+
+                }
                 initTable();
-                ws_socket_flag = true;
                 StartWSClient.Dispose();
-                socket = null;
                 cts.Cancel();
                 cts = null;
+                socket = null;
+                this.Invoke(new MethodInvoker(delegate
+                {
+                    button1.Enabled = true;
+                    loadingImg.Visible = false;
+                }));
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine("ResetConnection error: " + e);
             }
         }
         //--------------------------------------------------------------------------------------------------------------------
@@ -462,7 +421,6 @@ namespace chat_list
         {
             if (usernameTextBox.Text != "" && passwordTextBox.Text != "")
             {
-                
                 if (socket == null)
                 {
 
@@ -484,11 +442,11 @@ namespace chat_list
         // function to display friend list
 
         public delegate void set_friendlist(string message, string date, int friendID, int itemType, string path);
-        public void DisplayFriendList(List<friend> fTable)
+        public void DisplayFriendList(List<user> uTable)
         {
-            foreach (friend temp in fTable)
+            foreach (user temp in uTable)
             {
-                this.Invoke(new set_grouplist(MainForm.group_list.addInMessage), temp.UserName, DateTime.Now.ToShortTimeString(), temp.UserId, 0, temp.profile);
+                this.Invoke(new set_grouplist(MainForm.group_list.addInMessage) ,temp.UserName, DateTime.Now.ToShortTimeString(), temp.UserId, 0, temp.profile);
             }
         }
 
@@ -497,9 +455,9 @@ namespace chat_list
 
         public delegate void set_friendwithchat(string message, string date, int chatID, int itemType, string path); // to pass data to other form
 
-        private void DisplayFriendWithchat(List<friend> fTable, List<chat> cTable)
+        private void DisplayFriendWithchat(List<user> uTable, List<chat> cTable)
         {
-            string userID = DB_UserTable.data.UserId.ToString();
+            string userID = DB_UserTable[0].UserId.ToString();
             string friendID = "";
 
             // filter friend who has chat history
@@ -521,9 +479,9 @@ namespace chat_list
                     friendID = splitText[1];
                 }
 
-                var friends = from friend in fTable where friend.UserId.ToString() == friendID select friend;
+                var friends = from friend in uTable where friend.UserId.ToString() == friendID select friend;
 
-                foreach (friend friendH in friends)
+                foreach (user friendH in friends)
                 {
                     string friendName = friendH.UserName;
                     string picpath = friendH.profile;
@@ -552,7 +510,7 @@ namespace chat_list
 
         public void DisplayChatHistory(int ID)
         {
-            int userID = DB_UserTable.data.UserId;
+            int userID = DB_UserTable[0].UserId;
             
             var messages = from message in DB_MessageTable where message.ChatId == ID select message;
 
@@ -621,7 +579,6 @@ namespace chat_list
 
         public bool Rcheck_user { get; private set; }
         public bool Rcheck_chat { get; private set; }
-        public bool Rcheck_friend { get; private set; }
         public bool R_check_history { get; private set; }
 
 
@@ -671,7 +628,7 @@ namespace chat_list
         public delegate void set_createChatH(int friendID);
         public void createChatHistory(int friendID)
         {
-            int userID = DB_UserTable.data.UserId;
+            int userID = DB_UserTable[0].UserId;
 
             var temp1 = from chatH in DB_ChatTable where chatH.member == (userID.ToString() + "," + friendID.ToString()) select chatH;
             var temp2 = from chatH in DB_ChatTable where chatH.member == (friendID.ToString() + "," + userID.ToString()) select chatH;
@@ -699,32 +656,19 @@ namespace chat_list
             
             
         }
-        //----------------------------------------------------------------------------------------------------------------
-        // function to close websocket connection
-        public void close_all()
-        {
-            ws_socket_flag = true;
-            if (cts != null)
-            {
-                cts.Cancel();
-            }
-
-        }
 
         //----------------------------------------------------------------------------------------------------------------
         //close button function
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            close_all();
-            //LoadingTimer.Enabled = false;
-            Environment.Exit(0);
+            ResetConnection();
+            Application.Exit();
         }
 
         //----------------------------------------------------------------------------------------------------------------
         // make the windows move
         private bool mouseDown;
         private Point lastLocation;
-        private int CountTimer;
         private bool check_init_message;
         private bool Rcheck_message;
 
@@ -796,7 +740,7 @@ namespace chat_list
         {
             string message = "user" + check + username + check + password + check + profile;
             MessageBox.Show(message);
-            send_data(message);
+            //send_data(message);
             
         }
         //----------------------------------------------------------------------------------------------------------------
@@ -804,14 +748,14 @@ namespace chat_list
         public delegate void addNewFriend(int ID);
         public void addFriend(int friendID)
         {
-            int userID = DB_UserTable.data.UserId;
+            int userID = DB_UserTable[0].UserId;
             string message1 = "friend"+ check + userID.ToString() + check + userID.ToString() + "," + friendID.ToString();
             string message2 = "friend"+ check + friendID.ToString() + check + userID.ToString() + "," + friendID.ToString();
 
             MessageBox.Show(message1 + message2);
 
-            send_data(message1);
-            send_data(message2);
+            //send_data(message1);
+            //send_data(message2);
             
             // don't forget to save into newFriendTable
         }
@@ -819,22 +763,28 @@ namespace chat_list
         // add new group
         public void addGroup(string member)
         {
-            int userID = DB_UserTable.data.UserId;
+            int userID = DB_UserTable[0].UserId;
             string message = "chat:" + userID.ToString() + "," + member + ":1";
 
             MessageBox.Show(message);
 
-            send_data(message);
+            //send_data(message);
 
             // don't forget to save into newChatTable
         }
 
         private void Login_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
-            {
-                button1.PerformClick();
-            }
+            enterKey(e);
+        }
+        private void passwordTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            enterKey(e);
+        }
+
+        private void usernameTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            enterKey(e);
         }
 
         private void LoadingTimer_Tick(object sender, EventArgs e)
@@ -848,53 +798,22 @@ namespace chat_list
         private void Loading_DoWork(object sender, DoWorkEventArgs e)
         {
             DateTime basetime = DateTime.Now;
-            while(true)
+            
+        }
+
+        private void enterKey(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
             {
-                //Thread.Sleep(500);
-                TimeSpan span = DateTime.Now - basetime;
-                //Debug.WriteLine(span.TotalSeconds);
-                if (check_init_message)
+                if(socket!=null)
                 {
-                    //CountTimer++;
-                    //Debug.WriteLine(CountTimer);
-                    if (socket != null)
-                    {
-                        if (socket.State == WebSocketState.Open)
-                        {
-                            //Debug.WriteLine(DB_UserTable.data);
-                            //Debug.WriteLine(DB_MessageTable);
-                            if (DB_UserTable.data != null && DB_MessageTable != null)
-                            {
-                                this.Invoke(new creatform(creatMain));
-                                Debug.WriteLine("receive complete and creat Main form-------------");
-                                Debug.WriteLine("time span: "+(int)(DateTime.Now - basetime).TotalSeconds);
-                                check_init_message = false;
-                                CountTimer = 0;
-                                return;
-                            }
-                            //if (CountTimer > 10)
-                            if((int)(DateTime.Now-basetime).TotalSeconds > 10)
-                            {
-                                ResetConnection();
-                                CountTimer = 0;
-                                check_init_message = false;
-                                return;
-
-                            }
-                        }
-                        else if (socket.State == WebSocketState.Closed)
-                        {
-                            MessageBox.Show("Fail connection!");
-                            ResetConnection();
-                            CountTimer = 0;
-
-                            check_init_message = false;
-                            return;
-
-                        }
-                    }
+                    MessageBox.Show("socket alreay work");
                 }
+                else
+                    button1.PerformClick();
             }
         }
+
+        
     }
 }

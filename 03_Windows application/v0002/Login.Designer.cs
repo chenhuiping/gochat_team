@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
@@ -41,8 +40,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.LoadingTimer = new System.Windows.Forms.Timer(this.components);
-            this.Loading = new System.ComponentModel.BackgroundWorker();
             this.loadingImg = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -61,6 +58,7 @@
             this.usernameTextBox.TabIndex = 0;
             this.usernameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.usernameTextBox.Click += new System.EventHandler(this.usernameTextBox_Click);
+            this.usernameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.usernameTextBox_KeyDown);
             // 
             // passwordTextBox
             // 
@@ -75,6 +73,7 @@
             this.passwordTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.passwordTextBox.Click += new System.EventHandler(this.passwordTextBox_Click);
             this.passwordTextBox.TextChanged += new System.EventHandler(this.passwordTextBox_TextChanged);
+            this.passwordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.passwordTextBox_KeyDown);
             // 
             // button1
             // 
@@ -172,16 +171,6 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "Password";
             // 
-            // LoadingTimer
-            // 
-            this.LoadingTimer.Enabled = true;
-            this.LoadingTimer.Interval = 500;
-            this.LoadingTimer.Tick += new System.EventHandler(this.LoadingTimer_Tick);
-            // 
-            // Loading
-            // 
-            this.Loading.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Loading_DoWork);
-            // 
             // loadingImg
             // 
             this.loadingImg.BackColor = System.Drawing.Color.Transparent;
@@ -242,8 +231,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Timer LoadingTimer;
-        private System.ComponentModel.BackgroundWorker Loading;
         private System.Windows.Forms.PictureBox loadingImg;
     }
 }
