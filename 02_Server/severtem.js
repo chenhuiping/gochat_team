@@ -51,7 +51,7 @@ function InsertUser(username,pin,profile)
 //UPDATA FRIEND TABLE
 function updateFriend(UserId,FriendId)
 {
-    conn.query('UPDATE friend set FriendId="'+FriendId+'" where UserId='+UserId,
+    conn.query('UPDATE friend set FriendId = concat(FriendId,",'+FriendId+'") where UserId='+UserId,
         function(err, rows, fields) {
             if (err) throw err;
             return true;
@@ -168,10 +168,12 @@ wsServer.on('request', function(request) {
         if (message.type === 'utf8') { // accept only text
 
             message = htmlEntities(message.utf8Data);
-            //console.log(message);
+
             var strs = message.split(','); //字符分割
+            //console.log(strs);
             UserName = strs[0];
             password = strs[1];
+            //console.log(strs);
             if (strs.length===2) { // first message sent by user is their name
                 // remember user name and password
 
@@ -270,7 +272,7 @@ wsServer.on('request', function(request) {
                                                     if (err) throw err;
 
 
-                                                  var  messInfo = "[{ChatId: " + mess[0].ChatId + ", time:'" + mess[0].time + "', content: '" + mess[0].content + "',from:" + mess[0].from + ",type:" + mess[0].type + "}]";
+                                                  var  messInfo = "[{Id:"+mess[0].Id+",ChatId: " + mess[0].ChatId + ", time:'" + mess[0].time + "', content: '" + mess[0].content + "',from:" + mess[0].from + ",type:" + mess[0].type + "}]";
                                                   var  messageList = eval('(' + messInfo + ')');
                                                     for (var j = 1; j < mess.length; j++) {
                                                         var array =
@@ -293,35 +295,82 @@ wsServer.on('request', function(request) {
 
             } else { // log and broadcast the message
 
-
-
                 var strs = message.split('$'); //字符分割
 
+                //REGISTER
+                if(strs[0] == "search")
+                {
+                    conn.query('select * from user where UserName="'+strs[2]+'"',
+                        function(err, rows, fields) {
+                            if (err) throw err;
+
+                            if(rows.length==0)
+                            {
+                                obj="wrong : no user";
+                                var json = JSON.stringify({type: 'searchFriend', data: obj});
+                                clients[index].sendUTF(json);
+                            }
+                            else
+                            {
+                                conn.query('SELECT * from friend where FriendId like "%'+rows[0].UserId+'%" and UserId='+strs[1],
+                                    function(err, checkfriend, fields) {
+                                        if (err) throw err;
+                                        if(checkfriend.length>0)
+                                        {
+                                            obj="This user is already your friend";
+                                            var json = JSON.stringify({type: 'searchFriend', data: obj});
+                                            clients[index].sendUTF(json);
+                                        }
+                                        else {
+                                            var obj =
+                                            {
+                                                "UserId" : rows[0].UserId,
+                                                "PIN": rows[0].PIN,
+                                                "UserName": rows[0].UserName,
+                                                "profile": rows[0].profile,
+                                                "Ip": rows[0].Ip
+                                            };
+                                            var json = JSON.stringify({type: 'searchFriend', data: obj});
+                                            clients[index].sendUTF(json);
+                                        }
+                                    });
+
+                                //InsertUser(strs[2],strs[3],strs[4]);
+
+                            }
+
+
+                        });
+
+                }
+
+                //ADD FRIEND
                 if(strs[0] == "register")
                 {
-                    conn.query('select UserName from user where UserName="'+strs[2]+'"',
+                    conn.query('select * from user where UserName="'+strs[1]+'"',
                         function(err, rows, fields) {
                             if (err) throw err;
 
                             if(rows.length>0)
                             {
-                                obj="wrong";
+                                obj="please change another username";
                                 var json = JSON.stringify({type: 'register', data: obj});
                                 clients[index].sendUTF(json);
 
                             }
                             else
                             {
-                                InsertUser(strs[2],strs[3],strs[4]);
-                                obj="right";
+                                obj="succeed";
                                 var json = JSON.stringify({type: 'register', data: obj});
                                 clients[index].sendUTF(json);
                             }
                         });
 
                 }
+
+                //CHANGE FRIEND TABLE
                 if (strs[0] == "friend") {
-                    updateFriend(strs[1], strs[2]);
+                    updateFriend(strs[1],strs[2]);
 
                     // we want to keep history of all sent messages
                     var obj = {
@@ -330,22 +379,23 @@ wsServer.on('request', function(request) {
                     };
                     var json = JSON.stringify({type: 'ufriend', data: obj});
 
-                    conn.query('SELECT user.Ip from user where UserId ='+strs[2],
+                    conn.query('SELECT user.Ip from user where UserId in ('+strs[2]+','+strs[1]+')',
                         function (err, rows, fields) {
                             if (err) throw err;
-                            //console.log(rows[0].Ip);
-                            for (var i = 0; i < clients.length; i++) {
-                                //console.log(clients[i].remoteAddress);
-                                if (rows[0].Ip == clients[i].remoteAddress) {
-                                    //console.log("ufriend");
-                                    clients[i].sendUTF(json);
-                                    //console.log(clients[i].remoteAddress);
+
+                            for(var j=0;j<rows.length;j++)
+                            {
+                                for (var i = 0; i < clients.length; i++) {
+
+                                    if (rows[j].Ip == clients[i].remoteAddress) {
+                                        clients[i].sendUTF(json);
+                                    }
                                 }
-                                console.log(clients[i].remoteAddress);
                             }
                         });
                 }
 
+                //CHANGE CHAT TABLE
                 if (strs[0] == "chat") {
                     InsertChat(strs[1], strs[2]);
 
@@ -373,6 +423,7 @@ wsServer.on('request', function(request) {
                         });
                 }
 
+                //CHANGE MESSAGE TABLE
                 if (strs[0] == "message") {
 
                     InsertMessage(strs[1], strs[2], strs[3], strs[4], strs[5]);
