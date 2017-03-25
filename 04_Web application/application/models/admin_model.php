@@ -14,82 +14,82 @@ class Admin_model extends CI_Model {
         return $query->row_array();
     }
 
-    public function getUserInfo($UserId)
+    public function getUserInfo($UserName,$UserId)
     {
-        $sql = "SELECT * FROM user WHERE UserId=".$UserId;
+        $sql = "SELECT * FROM user_".$UserName." WHERE UserId=".$UserId;
         $query = $this->db->query($sql);
         return $query->row_array();
     }
 
-    public function getFriend($UserId)
+    public function getFriend($UserName,$UserId)
     {
-        $sql = "SELECT * FROM friend WHERE UserId=".$UserId;
+        $sql = "SELECT * FROM friend_".$UserName." WHERE UserId=".$UserId;
         $query = $this->db->query($sql);
         return $query->row_array();
     }
 
     // CHATTING FRIEND ID NON_GROUP
-    public function getUList($ChatId,$UserId)
+    public function getUList($UserName,$ChatId,$UserId)
     {
-        $sql="select DISTINCT message.from from message where message.from!=".$UserId." and message.ChatId=".$ChatId." ORDER BY message.time desc";
+        $sql="select DISTINCT message_".$UserName.".ChatId,message_".$UserName.".from from message_".$UserName." where message_".$UserName.".from!=".$UserId." and message_".$UserName.".ChatId=".$ChatId." ORDER BY message_".$UserName.".time desc";
         $query = $this->db->query($sql);
         return $query->row_array();
     }
 
     // CHATTING FRIEND ID GROUP
-    public function getGroupId($ChatId,$UserId)
+    public function getGroupId($UserName,$ChatId,$UserId)
     {
-        $sql="select DISTINCT message.from,message.ChatId from message where message.from!=".$UserId." and message.ChatId=".$ChatId." ORDER BY message.time desc";
+        $sql="select DISTINCT message_".$UserName.".from,message_".$UserName.".ChatId from message_".$UserName." where message_".$UserName.".from!=".$UserId." and message_".$UserName.".ChatId=".$ChatId." ORDER BY message_".$UserName.".time desc";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
 
 
-    public function getChatId($info1,$info2)
+    public function getChatId($UserName,$info1,$info2)
     {
-        $sql = "SELECT ChatId FROM chat WHERE member='".$info1."' OR member ='".$info2."'";
+        $sql = "SELECT ChatId FROM chat_".$UserName." WHERE member='".$info1."' OR member ='".$info2."'";
         $query = $this->db->query($sql);
 //        var_dump($query);die;
         return $query->row_array();
     }
 
 
-    public function getMessage($ChatId)
+    public function getMessage($UserName,$ChatId)
     {
-        $sql = "SELECT * FROM message WHERE ChatId=".$ChatId;
+        $sql = "SELECT * FROM message_".$UserName." WHERE ChatId=".$ChatId;
         $query = $this->db->query($sql);
         return $query->result_array();
     }
 
     //get chatid non-group
-    public function getChatId_nogroup()
+    public function getChatId_nogroup($UserName)
     {
-        $sql = "SELECT ChatId FROM chat WHERE type=0";
+        $sql = "SELECT ChatId FROM chat_".$UserName." WHERE type=0";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
 
     //GET CHATID GROUP
-    public function getChatId_group()
+    public function getChatId_group($UserName)
     {
-        $sql = "SELECT ChatId FROM chat WHERE type=1";
+        $sql = "SELECT ChatId,member FROM chat_".$UserName." WHERE type=1";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
 
 
     //GET GROUPCHAT USERINFO
-    public function getGroupUser($UserId)
+    public function getGroupUser($UserName,$UserId)
     {
-        $sql = "SELECT UserName FROM user WHERE UserId=".$UserId;
+        $sql = "SELECT UserName FROM user_".$UserName." WHERE UserId=".$UserId;
         $query = $this->db->query($sql);
         return $query->row_array();
     }
 
     //GET PROFILE IN CHATING BY USERID
-    public function getProfile($UserId)
+    public function getProfile($UserName,$UserId)
     {
-        $sql = "SELECT profile FROM user WHERE UserId=".$UserId;
+        $sql = "SELECT profile FROM user_".$UserName." WHERE UserId=".$UserId;
         $query = $this->db->query($sql);
         return $query->row_array();
     }
