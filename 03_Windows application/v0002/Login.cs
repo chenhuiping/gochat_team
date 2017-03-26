@@ -250,7 +250,6 @@ namespace chat_list
         //---------------------------------------------------------------------------------------------------------------
         // deserialize data
         public delegate void sendUserinfo(user temp);
-
         public void deserializeData(string rcvMsg)
         {
             if (rcvMsg.Contains("type\":\"user"))
@@ -259,11 +258,19 @@ namespace chat_list
                 int count = 0;
                 foreach (user tempH in temp.data)
                 {
+                    if(count == 0)
+                    {
+                        count++;
+                        userinfo = tempH;
+                    }
+                    else
+                    {
+                        DB_UserTable.Add(tempH);
 
-                    DB_UserTable.Add(tempH);
+                    }
                 }
                 Debug.WriteLine("user");
-                Debug.WriteLine(DB_UserTable[0].UserName);
+                Debug.WriteLine(userinfo.UserName);
                 Rcheck_user = true;
             }
             else if(rcvMsg.Contains("type\":\"searchFriend"))
@@ -329,7 +336,7 @@ namespace chat_list
             {
                 rMessageTable temp = JsonConvert.DeserializeObject<rMessageTable>(rcvMsg);
                 DB_MessageTable.Add(temp.data);
-                /*if(DB_UserTable[0].UserId == temp.data.from)
+                /*if(userinfo.UserId == temp.data.from)
                 {
                     //this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content);
                     this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content);
@@ -338,9 +345,9 @@ namespace chat_list
                 }
                 else*/ if (temp.data.ChatId == MainForm.chatbox1.chatID)
                 {
-                    if (temp.data.ChatId == DB_UserTable[0].UserId)
+                    if (temp.data.ChatId == userinfo.UserId)
                         this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content);
-                    else if (temp.data.ChatId != DB_UserTable[0].UserId)
+                    else if (temp.data.ChatId != userinfo.UserId)
                         this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content);
                 }
                 Debug.WriteLine("message realtime deserialize complete");
@@ -497,7 +504,7 @@ namespace chat_list
 
         private void DisplayFriendWithchat(List<user> uTable, List<chat> cTable)
         {
-            string userID = DB_UserTable[0].UserId.ToString();
+            string userID = userinfo.UserId.ToString();
             string friendID = "";
 
             // filter friend who has chat history
@@ -550,7 +557,7 @@ namespace chat_list
 
         public void DisplayChatHistory(int ID)
         {
-            int userID = DB_UserTable[0].UserId;
+            int userID = userinfo.UserId;
             
             var messages = from message in DB_MessageTable where message.ChatId == ID select message;
 
@@ -668,7 +675,7 @@ namespace chat_list
         public delegate void set_createChatH(int friendID);
         public void createChatHistory(int friendID)
         {
-            int userID = DB_UserTable[0].UserId;
+            int userID = userinfo.UserId;
 
             var temp1 = from chatH in DB_ChatTable where chatH.member == (userID.ToString() + "," + friendID.ToString()) select chatH;
             var temp2 = from chatH in DB_ChatTable where chatH.member == (friendID.ToString() + "," + userID.ToString()) select chatH;
@@ -711,6 +718,7 @@ namespace chat_list
         private Point lastLocation;
         private bool check_init_message;
         private bool Rcheck_message;
+        public user userinfo;
 
         private void Login_MouseDown(object sender, MouseEventArgs e)
         {
@@ -785,7 +793,7 @@ namespace chat_list
         }
         public void searchFriend(string str)
         {
-            string message = "search" + check + DB_UserTable[0].UserId + check + str;
+            string message = "search" + check + userinfo.UserId + check + str;
             send_data(message);
 
         }
@@ -794,7 +802,7 @@ namespace chat_list
         public delegate void addNewFriend(int ID);
         public void addFriend(int friendID)
         {
-            int userID = DB_UserTable[0].UserId;
+            int userID = userinfo.UserId;
             //string message1 = "friend"+ check + userID.ToString() + check + userID.ToString() + "," + friendID.ToString();
             //string message2 = "friend"+ check + friendID.ToString() + check + userID.ToString() + "," + friendID.ToString();
             string message = "friend" + check + userID.ToString() + check + friendID.ToString();
@@ -812,7 +820,7 @@ namespace chat_list
         // add new group
         public void addGroup(string member)
         {
-            int userID = DB_UserTable[0].UserId;
+            int userID = userinfo.UserId;
             string message = "chat:" + userID.ToString() + "," + member + ":1";
 
             MessageBox.Show(message);
