@@ -88,3 +88,20 @@ C:\Users\k1515\Desktop\chat list\chat list\obj\Debug\chat list.pdb
 \\Mac\Home\Desktop\gochat_team\03_Windows application\v0002\obj\Debug\chat list.csproj.GenerateResource.Cache
 \\Mac\Home\Desktop\gochat_team\03_Windows application\v0002\obj\Debug\chat list.exe
 \\Mac\Home\Desktop\gochat_team\03_Windows application\v0002\obj\Debug\chat list.pdb
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.chatbox.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.chatmesg.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.Form1.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.friend_item.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.friend_list.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.Login.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.Properties.Resources.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.SearchFriend.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.sign_up.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.UserDetail.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.csproj.GenerateResource.Cache
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\bin\Debug\chat list.exe.config
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\bin\Debug\chat list.exe
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\bin\Debug\chat list.pdb
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.exe
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.pdb
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.csprojResolveAssemblyReference.cache

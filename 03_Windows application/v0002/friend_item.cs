@@ -16,6 +16,8 @@ namespace chat_list
 
         private int userID;
         private int itemType;
+        private string UserName;
+
         public friend_item(Form1 MainForm)
         {
             
@@ -26,6 +28,7 @@ namespace chat_list
             InitializeComponent();
             this.MainForm = MainForm;
             this.userID = userID;
+            this.UserName = message;
             this.itemType = itemType;
             if (path != "")
                 this.pictureBox1.ImageLocation = "http://47.91.75.150/" + path;
@@ -68,7 +71,13 @@ namespace chat_list
         // what happens when we click friend_item
         public void friend_item_Click(object sender, EventArgs e)
         {
-            if (itemType == 0)
+            if (MainForm.add_grouplist)
+            {
+                this.BackColor = Color.Red;
+                MainForm.add_strfriendList(this.UserName);
+
+            }
+            else if (itemType == 0)
             {
                 // print chat history
                 this.Invoke(new set_chatbox(MainForm.ChatHistory), userID);
@@ -79,7 +88,14 @@ namespace chat_list
                 //MessageBox.Show("Create new chat history");
                 this.Invoke(new set_createChatH(MainForm.passRequestNewChat), userID);
             }
+
+            
                     
+        }
+
+        private void friend_item_KeyDown(object sender, KeyEventArgs e)
+        {
+            
         }
     }
     public enum msgtype1

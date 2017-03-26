@@ -23,6 +23,15 @@ namespace chat_list
             this.MainForm = MainForm;
             
             InitializeComponent();
+            // 
+            // userDetail2
+            // 
+            this.userDetail2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(164)))), ((int)(((byte)(147)))));
+            this.userDetail2.Location = new System.Drawing.Point(-1, -1);
+            this.userDetail2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.userDetail2.Name = "userDetail2";
+            this.userDetail2.Size = new System.Drawing.Size(493, 618);
+            this.userDetail2.TabIndex = 0;
         }
 
         // close button
@@ -43,6 +52,7 @@ namespace chat_list
             //userDetailsForm.label1.Text = textBox1.Text;
             //this.Close();
         }
+
         //----------------------------------------------------------------------------------------------------------------
         // add button
         private void userDetail1_Load(object sender, EventArgs e)
@@ -74,6 +84,12 @@ namespace chat_list
             mouseDown = false;
         }
 
-       
+        internal void userdetail_fromLogin(Login.user temp)
+        {
+            userDetail2.setUserData(temp);
+            //userDetail2.set_image("ws://47.91.75.150:1337/" + temp.profile);
+            //userDetail2.set_userID(temp.UserName);
+            
+        }
     }
 }
