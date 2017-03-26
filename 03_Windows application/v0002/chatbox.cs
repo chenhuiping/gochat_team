@@ -160,7 +160,7 @@ namespace chat_list
 
             if (textBox1.Text != null)
             {
-                this.loginForm.send_data("message" + check + this.chatID + check + DateTime.Now.ToShortTimeString() + check + textBox1.Text + check + loginForm.DB_UserTable[0].UserId + check + "0");
+                this.loginForm.send_data("message" + check + this.chatID + check + DateTime.Now.ToShortTimeString() + check + textBox1.Text + check + loginForm.userinfo.UserId + check + "0");
             }
             textBox1.Text = "";
 
