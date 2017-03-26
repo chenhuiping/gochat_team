@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using TCP_handle;
 using System.Net.NetworkInformation;
 using System.IO;
-
+using System.Diagnostics;
 
 namespace chat_list
 {
@@ -36,8 +36,25 @@ namespace chat_list
             
         }
 
+        public void chatbox_visible(bool enable)
+        {
+            if(enable)
+            {
+                panel5.Visible = true;
+            }
+            else
+            {
+                panel5.Visible = false;
+            }
+        }
+     
+
         public chatbox(Login loginForm, int chatID)
         {
+            this.SetStyle(ControlStyles.DoubleBuffer, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.UserPaint, true);
+
             bbl_old = new chatmesg();
             this.loginForm = loginForm;
             this.chatID = chatID;
@@ -136,27 +153,19 @@ namespace chat_list
         // button to send text message
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            
-            //send text message to server
-            //this.loginForm.send_data("{ \"type\":\"message\", \"data\":[{\"ChatId\":" + this.chatID + ",\"time\":\"" + DateTime.Now.ToShortTimeString() + "\", \"content\":\"" + textBox1.Text + "\",\"from\":" + loginForm.DB_UserTable.data.UserId + ",\"type\":0}]}");
-            this.loginForm.send_data("message" + check + this.chatID + check + DateTime.Now.ToShortTimeString() + check + textBox1.Text + check + loginForm.DB_UserTable.data.UserId + check + "0");
+            send_data();                      
+        }
+        private void send_data()
+        {
 
-            //this.loginForm.getSendMessage = textBox1.Text;
-            //this.loginForm.sendMessage();
-
-            //display the sent message in chatbox
             if (textBox1.Text != null)
             {
-
-            //addOutMessage(textBox1.Text);
+                this.loginForm.send_data("message" + check + this.chatID + check + DateTime.Now.ToShortTimeString() + check + textBox1.Text + check + loginForm.DB_UserTable[0].UserId + check + "0");
             }
-
-            //clear the text box
             textBox1.Text = "";
 
             //make sure the scroll works
             panel5.VerticalScroll.Value = panel5.VerticalScroll.Maximum;
-                       
         }
         //-------------------------------------------------------------------------------------------------------------------
     
@@ -181,6 +190,12 @@ namespace chat_list
             //loginForm.sendFile(fileName, shortFileName);
         }
 
-       
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                send_data();
+            }
+        }
     }
 }

@@ -19,8 +19,21 @@ namespace chat_list
 
         public string temp_recieve;
         public Form1 mainForm;
+
+        public void set_default_color()
+        {
+            /*foreach(friend_item temp in bbl_saved)
+            {
+                this.BackColor = Color.FromArgb(0, 164, 147);
+            }*/
+        }
+
         public friend_list(Form1 mainForm)
         {
+            this.SetStyle(ControlStyles.DoubleBuffer, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.UserPaint, true);
+
             this.mainForm = mainForm;
             InitializeComponent();
             this.fItem = new chat_list.friend_item(mainForm);
@@ -58,8 +71,7 @@ namespace chat_list
             panel1.Controls.Add(bbl);
             panel1.VerticalScroll.Value = panel1.VerticalScroll.Maximum;
 
-            bbl_old = bbl;// safe the last added object
-
+            bbl_old = bbl;// save the last added object
 
         }
 

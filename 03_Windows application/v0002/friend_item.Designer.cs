@@ -38,18 +38,20 @@
             // userName
             // 
             this.userName.AutoSize = true;
-            this.userName.Location = new System.Drawing.Point(17, 93);
+            this.userName.Location = new System.Drawing.Point(23, 116);
+            this.userName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.userName.Name = "userName";
-            this.userName.Size = new System.Drawing.Size(51, 20);
+            this.userName.Size = new System.Drawing.Size(70, 25);
             this.userName.TabIndex = 0;
             this.userName.Text = "label1";
             // 
             // userInformation
             // 
             this.userInformation.AutoSize = true;
-            this.userInformation.Location = new System.Drawing.Point(152, 42);
+            this.userInformation.Location = new System.Drawing.Point(203, 52);
+            this.userInformation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.userInformation.Name = "userInformation";
-            this.userInformation.Size = new System.Drawing.Size(51, 20);
+            this.userInformation.Size = new System.Drawing.Size(70, 25);
             this.userInformation.TabIndex = 1;
             this.userInformation.Text = "label2";
             // 
@@ -57,22 +59,25 @@
             // 
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(21, 14);
+            this.pictureBox1.Location = new System.Drawing.Point(28, 18);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(47, 65);
+            this.pictureBox1.Size = new System.Drawing.Size(63, 81);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
             // friend_item
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.userInformation);
             this.Controls.Add(this.userName);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "friend_item";
-            this.Size = new System.Drawing.Size(330, 124);
+            this.Size = new System.Drawing.Size(440, 155);
             this.Click += new System.EventHandler(this.friend_item_Click);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.friend_item_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
