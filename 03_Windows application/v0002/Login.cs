@@ -121,7 +121,6 @@ namespace chat_list
  
         // for Websocket connection
 
-        bool ws_socket_flag = true;
         public int port;
         public string ip;
         public bool ws_flag = false;
@@ -143,7 +142,6 @@ namespace chat_list
                 string username = usernameTextBox.Text;
                 string password = passwordTextBox.Text;
                 send_data(username + "," + password);
-                ws_socket_flag = false;
             }
         }
         private void initTable()
