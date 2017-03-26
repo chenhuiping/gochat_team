@@ -78,7 +78,7 @@
             this.header1.Controls.Add(this.pictureBox1);
             this.header1.Dock = System.Windows.Forms.DockStyle.Top;
             this.header1.Location = new System.Drawing.Point(0, 0);
-            this.header1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.header1.Margin = new System.Windows.Forms.Padding(4);
             this.header1.Name = "header1";
             this.header1.Size = new System.Drawing.Size(1471, 84);
             this.header1.TabIndex = 0;
@@ -119,7 +119,7 @@
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(1394, 16);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(47, 42);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -144,7 +144,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(16, 16);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(67, 59);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -157,7 +157,7 @@
             this.container.Controls.Add(this.panel3);
             this.container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.container.Location = new System.Drawing.Point(0, 84);
-            this.container.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.container.Margin = new System.Windows.Forms.Padding(4);
             this.container.Name = "container";
             this.container.Size = new System.Drawing.Size(1471, 956);
             this.container.TabIndex = 3;
@@ -167,7 +167,7 @@
             // 
             this.chat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chat.Location = new System.Drawing.Point(515, 0);
-            this.chat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chat.Margin = new System.Windows.Forms.Padding(4);
             this.chat.Name = "chat";
             this.chat.Size = new System.Drawing.Size(956, 956);
             this.chat.TabIndex = 3;
@@ -179,7 +179,7 @@
             this.panel3.Controls.Add(this.panel1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(515, 956);
             this.panel3.TabIndex = 2;
@@ -189,7 +189,7 @@
             this.panel6.Controls.Add(this.tabControl1);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 84);
-            this.panel6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel6.Margin = new System.Windows.Forms.Padding(4);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(515, 872);
             this.panel6.TabIndex = 1;
@@ -201,7 +201,7 @@
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImageList = this.imageList1;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(515, 872);
@@ -213,9 +213,9 @@
             this.tabPageChat.Controls.Add(this.panel4);
             this.tabPageChat.ImageIndex = 1;
             this.tabPageChat.Location = new System.Drawing.Point(8, 46);
-            this.tabPageChat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageChat.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageChat.Name = "tabPageChat";
-            this.tabPageChat.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageChat.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageChat.Size = new System.Drawing.Size(499, 818);
             this.tabPageChat.TabIndex = 0;
             this.tabPageChat.UseVisualStyleBackColor = true;
@@ -223,7 +223,7 @@
             // panel4
             // 
             this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(267, 125);
             this.panel4.TabIndex = 0;
@@ -234,9 +234,9 @@
             this.tabPageGroup.Controls.Add(this.panel7);
             this.tabPageGroup.ImageIndex = 0;
             this.tabPageGroup.Location = new System.Drawing.Point(8, 46);
-            this.tabPageGroup.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageGroup.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageGroup.Name = "tabPageGroup";
-            this.tabPageGroup.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageGroup.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageGroup.Size = new System.Drawing.Size(499, 818);
             this.tabPageGroup.TabIndex = 1;
             this.tabPageGroup.UseVisualStyleBackColor = true;
@@ -245,7 +245,7 @@
             // 
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(4, 4);
-            this.panel7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel7.Margin = new System.Windows.Forms.Padding(4);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(491, 810);
             this.panel7.TabIndex = 0;
@@ -262,12 +262,12 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(172)))), ((int)(((byte)(157)))));
             this.panel1.Controls.Add(this.addFriendButton);
-            this.panel1.Controls.Add(this.addGroupButton);
             this.panel1.Controls.Add(this.pictureBox2);
+            this.panel1.Controls.Add(this.addGroupButton);
             this.panel1.Controls.Add(this.pictureBox5);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(515, 84);
             this.panel1.TabIndex = 0;
@@ -276,7 +276,7 @@
             // 
             this.addFriendButton.Image = ((System.Drawing.Image)(resources.GetObject("addFriendButton.Image")));
             this.addFriendButton.Location = new System.Drawing.Point(68, 4);
-            this.addFriendButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addFriendButton.Margin = new System.Windows.Forms.Padding(4);
             this.addFriendButton.Name = "addFriendButton";
             this.addFriendButton.Size = new System.Drawing.Size(59, 66);
             this.addFriendButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -288,7 +288,7 @@
             // 
             this.addGroupButton.Image = ((System.Drawing.Image)(resources.GetObject("addGroupButton.Image")));
             this.addGroupButton.Location = new System.Drawing.Point(180, 4);
-            this.addGroupButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addGroupButton.Margin = new System.Windows.Forms.Padding(4);
             this.addGroupButton.Name = "addGroupButton";
             this.addGroupButton.Size = new System.Drawing.Size(59, 66);
             this.addGroupButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -299,19 +299,20 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(296, 4);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox2.Location = new System.Drawing.Point(414, 4);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(61, 66);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 4;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // pictureBox5
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(413, 4);
-            this.pictureBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox5.Location = new System.Drawing.Point(297, 4);
+            this.pictureBox5.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(64, 66);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -336,7 +337,7 @@
             this.Controls.Add(this.header1);
             this.ForeColor = System.Drawing.Color.Maroon;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";

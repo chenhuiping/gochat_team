@@ -96,6 +96,13 @@ namespace chat_list
             this.chatbox1.TabIndex = 0;
 
             //--------------------------------------------------------------------------------------------------------------
+
+            ToolTip tt1 = new ToolTip();
+            tt1.SetToolTip(addGroupButton, "Add Group");
+            ToolTip tt2 = new ToolTip();
+            tt2.SetToolTip(pictureBox2, "Sign Out");
+            ToolTip tt3 = new ToolTip();
+            tt3.SetToolTip(addFriendButton, "Add Friend");
         }
 
         internal void searchUser(string str)
@@ -296,6 +303,12 @@ namespace chat_list
             //send data of the friend list
             friend_list1.set_default_color();
             strfriendList = null;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            loginForm.signOut();
+            this.Dispose();
         }
     }
 }
