@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charsetutf-8" />
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
     <script src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.scrollTo.js"></script>
     <script src="assets/js/index.js"></script>
     <title>gochat</title>    <style>
 
@@ -436,7 +437,7 @@
         <div class="m-list" id="chatList">
             <ul id="recentList" >
                 <?php foreach($recent as $rl){?>
-                    <li onclick="getMessage(<?=$rl['UserId']?>)" id="<?=$rl['ChatId']?>">
+                    <li onclick="getMessage(<?=$rl['ChatId']?>)" id="<?=$rl['ChatId']?>" name="recent">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="<?=$rl['profile']?>">
                         <p class="name"><?=$rl['UserName']?></p>
                     </li>
@@ -448,7 +449,7 @@
             <ul>
                 <?php foreach($groupUser as $group)
                 {?>
-                    <li onclick="getGroupMessage(<?=$group['ChatId']?>)" id="<?=$group['ChatId']?>">
+                    <li onclick="getGroupMessage(<?=$group['ChatId']?>)" id="<?=$group['ChatId']?>" name="group">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="assets/dist/images/group2.png">
                         <p style="word-wrap:break-word; word-break:break-all;width: 120px;overflow: hidden; " class="name">
                         <?php
@@ -469,7 +470,7 @@
 
                 foreach ($friendInfo as $fri)
                 {?>
-                <li onclick="getMessage(<?=$fri['UserId']?>)" id="<?=$fri['ChatId']?>">
+                <li onclick="getMessage(<?=$fri['ChatId']?>)" id="<?=$fri['ChatId']?>" name="friend">
                     <img class="avatar" width="30" height="30" alt="示例介绍" src="<?=$fri['profile']?>">
                     <p class="name"><?=$fri['UserName']?></p>
                 </li>
@@ -665,15 +666,21 @@
         document.getElementById("chatNow").src="assets/dist/images/chat2.png";
         document.getElementById("groupChat").src="assets/dist/images/groupchat1.png";
         document.getElementById("friend").src="assets/dist/images/businesscard1.png";
+
+        $('#leftText').removeClass('displayNone');
         $('#chatList').removeClass('displayNone');
         $('#groupList').addClass('displayNone');
         $('#friendList').addClass('displayNone');
+        $('#groupList ul li').removeClass('active');
+        $('#friendList ul li').removeClass('active');
     }
     function changeGroup()
     {
         document.getElementById("chatNow").src="assets/dist/images/chat1.png";
         document.getElementById("groupChat").src="assets/dist/images/groupchat2.png";
         document.getElementById("friend").src="assets/dist/images/businesscard1.png";
+        $('#chatList ul li').removeClass('active');
+        $('#friendList ul li').removeClass('active');
         $('#chatList').addClass('displayNone');
         $('#groupList').removeClass('displayNone');
         $('#friendList').addClass('displayNone');
@@ -683,6 +690,8 @@
         document.getElementById("chatNow").src="assets/dist/images/chat1.png";
         document.getElementById("groupChat").src="assets/dist/images/groupchat1.png";
         document.getElementById("friend").src="assets/dist/images/businesscard2.png";
+        $('#groupList ul li').removeClass('active');
+        $('#chatList ul li').removeClass('active');
         $('#chatList').addClass('displayNone');
         $('#groupList').addClass('displayNone');
         $('#friendList').removeClass('displayNone');
@@ -746,45 +755,46 @@
         })
     }
     //GET CHATING MESSAGE
-    function getMessage(friendId)
+    function getMessage(chatId)
     {
         var getMessageURL = "/gochat/admin/getMessage";
         var userId = <?=$userId?>;
+//        alert(userId);
         var UserName = "<?=$UserName?>";
 
-        var friendId = friendId;
+//        var friendId = friendId;
 //            alert(friendId);
-
         $.ajax({
             type: "post",
             url: getMessageURL,
             dataType: "json",
             data: {
                 userId : userId,
-                friendId : friendId,
-                UserName :UserName
+//                friendId : friendId
+                UserName :UserName,
+                chatId :chatId
+
             },
             success: function (data) {
                 if(data.message){
 //                        alert(data.message);
                     var a=data.message;
                     var userId=data.userId;
-//                        b=15:00-16:00;
-//                        alert(b);
                     str="";
-                    for(var i=0;i <a.length;i++)
+                    for(var i=0;i<a.length;i++)
                     {
                         var time,content,from,type,profile;
 //                            alert(a[i]['time']);
-
+                        if()
                         time = a[i]['time'];
                         content = a[i]['content'];
                         from = a[i]['from'];
                         type = a[i]['type'];
                         profile = a[i]['profile']['profile'];
 
-
-
+                        var strtime=time.split(" ");
+//                        alert(strtime[0]);
+                        time=time.substring(11,16);
                         str = str+"<li>";
 //                        if(i==0)
 //                        {
@@ -820,7 +830,9 @@
                             str = str+"<a href='uploads/test.docx' class='dherf'>Download</a></div></div></div></li>";
                         }
                     }
+
                     $("#leftContent").html(str);
+//                    $("#leftContent").scrollTo('100%');
                 }
                 else{
                     str="";
@@ -828,16 +840,18 @@
                 }
             }
         })
-
     }
+
 
     //GET GROUPCHAT MESSAGE
     function getGroupMessage(ChatId)
     {
         var getMessageURL = "/gochat/admin/getGroupMessage";
         var userId = <?=$userId?>;
-        var UserName = <?=$UserName?>;
-            alert(userId);
+//        alert(userId);
+        var UserName ="<?=$UserName?>";
+//        alert(UserName);
+
         $.ajax({
             type: "post",
             url: getMessageURL,
@@ -845,7 +859,7 @@
             data: {
                 userId : userId,
                 ChatId : ChatId,
-                UserName:UserName
+                UserName: UserName
             },
             success: function (data) {
                 if(data.groupMessage){

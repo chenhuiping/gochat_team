@@ -198,40 +198,40 @@
 
     //SignUp
 
-//    function SignUp()
-//    {
-//        var checkPwdURL = "/gochat/user/register";
-//        var user = document.getElementById('user').value;
-//        var passwd = document.getElementById('passwd').value;
-//        var passwd2 = document.getElementById('passwd2').value;
-////        alert(user);
-//        if(passwd!=passwd2)
-//        {
-//            alert("The password is different!");
-//            return false;
-//        }
-//
-//        $.ajax({
-//            type: "post",
-//            url: checkPwdURL,
-//            dataType: "json",
-//            data: {
-//                user : user,
-//                passwd : passwd,
-//
-//            },
-//            success: function (data) {
-//                if(data.status){
-//                    window.location.href='/gochat/admin/index';
-////				alert("ok");
-//                }
-//                else{
-//                    alert("failed");
-//                    window.location.href='/gochat/admin/logintest';
-//                }
-//            }
-//        })
-//    }
+    function SignUp()
+    {
+        var checkPwdURL = "/gochat/user/register";
+        var user = document.getElementById('user').value;
+        var passwd = document.getElementById('passwd').value;
+        var passwd2 = document.getElementById('passwd2').value;
+//        alert(user);
+        if(passwd!=passwd2)
+        {
+            alert("The password is different!");
+            return false;
+        }
+
+        $.ajax({
+            type: "post",
+            url: checkPwdURL,
+            dataType: "json",
+            data: {
+                user : user,
+                passwd : passwd,
+
+            },
+            success: function (data) {
+                if(data.status){
+                    window.location.href='/gochat/admin/index';
+//				alert("ok");
+                }
+                else{
+                    alert("failed");
+                    window.location.href='/gochat/admin/logintest';
+                }
+            }
+        })
+    }
 
 //显示上传的文件名
 $(document).ready(function(){
