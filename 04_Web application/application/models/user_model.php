@@ -159,6 +159,16 @@ class User_model extends CI_Model {
         return $this->db->insert("".$UserName."", $info);
     }
 
+    //FIND CHATID
+    public function getChatType($UserName,$ChatId)
+    {
+        $sql = "SELECT * FROM ".$UserName." WHERE ChatId=".$ChatId;
+//        var_dump($sql);
+        $query = $this->db->query($sql);
+        return $query->row_array();
+
+    }
+
 
 }
 
