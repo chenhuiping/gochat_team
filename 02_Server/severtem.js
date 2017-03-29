@@ -2,11 +2,16 @@ var mysql = require('mysql');
 var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
-    database: 'gochat',
+    password: 'Snamione07',
+    database: 'gochat2',
     port: 3306
 });
 conn.connect();
+
+//using library for security function
+var forge = require('node-forge');
+var iteration = 40;
+
 //INSERT IP IN USER TABLE
 function InsertIp(Ip,UserName)
 {
@@ -187,37 +192,50 @@ wsServer.on('request', function(request) {
 
                 // if verification result is true,store client's ip and send database to client
 
-
-                conn.query('SELECT * from user where UserName="' + strs[0] + '" and PIN="' + strs[1] + '"',
+                InsertIp(clients[index].remoteAddress,UserName);
+				
+                //conn.query('SELECT * from user where UserName="' + strs[0] + '" and PIN="' + strs[1] + '"',
+				
+				conn.query('SELECT PIN from user where UserName="' + strs[0] + '"', // Anis
                     function (err, logincheck, fields) {
                         if (err) throw err;
 
                         if (logincheck.length == 0) {
                             var logininfo ="wrong";
+							console.log((new Date()) + " " + logininfo);
                             connection.sendUTF(JSON.stringify({type: 'logincheck', data:logininfo}));
 
                         }else{
-                            InsertIp(clients[index].remoteAddress,UserName);
-                            //var logininfo ="true";
-                            //connection.sendUTF(JSON.stringify({type: 'logincheck', data:logininfo}));
-                            UserName = strs[0];
-                            password = strs[1];
-                            //GET USER TABLE
-                            conn.query('SELECT * from user where UserName="' + UserName + '" and PIN="' + password + '"',
-                                function (err, rows, fields) {
-                                    if (err) throw err;
-                                    //anis
-                                    if(rows.length==0){
-                                        // throw exception here
-                                    }else{
-                                        UserId = rows[0].UserId;
-                                        var jsonstr = "[{UserId: " + rows[0].UserId + ", PIN:'" + rows[0].PIN + "', UserName: '" + rows[0].UserName + "', profile:'"+rows[0].profile+"' , Ip:'"+rows[0].Ip+"' }]";
-                                        var UserList = eval('(' + jsonstr + ')');
-
-                                    }
-
-
-                                    //GET INFO FROM FRIEND TABLE
+							// Anis
+							// verify password with stored hash value (using pbkdf2)
+							var getStoredHash = logincheck[0].PIN.split('$');
+							var salt = getStoredHash[0];
+							var HashValue = getStoredHash[1];
+							
+							UserName = strs[0];
+							password = strs[1];
+							
+							var computedHash = forge.util.bytesToHex(forge.pkcs5.pbkdf2(password, salt, iteration, 32));
+							
+							if (HashValue == computedHash){
+								var logininfo ="true";
+								console.log((new Date()) + " " + logininfo);
+								connection.sendUTF(JSON.stringify({type: 'logincheck', data:logininfo}));
+																
+								//GET USER TABLE
+								conn.query('SELECT * from user where UserName="' + UserName + '" and PIN="' + logincheck[0].PIN + '"',
+									function (err, rows, fields) {
+										if (err) throw err;
+										//anis
+										if(rows.length==0){
+											// throw exception here
+										}else{
+											UserId = rows[0].UserId;
+											var jsonstr = "[{UserId: " + rows[0].UserId + ", PIN:'" + rows[0].PIN + "', UserName: '" + rows[0].UserName + "', profile:'"+rows[0].profile+"' , Ip:'"+rows[0].Ip+"' }]";
+											var UserList = eval('(' + jsonstr + ')');
+										}
+										
+								//GET INFO FROM FRIEND TABLE
                                     conn.query('SELECT * from friend where UserId=' + UserId,
                                         function (err, fri, fields) {
                                             if (err) throw err;
@@ -255,6 +273,9 @@ wsServer.on('request', function(request) {
                                                             };
                                                             UserList.push(array);
                                                         }
+
+
+
                                                         connection.sendUTF(JSON.stringify({type: 'user', data: UserList}));
                                                         //connection.sendUTF(JSON.stringify({type: 'friend', data: friendList}));
 
@@ -263,8 +284,9 @@ wsServer.on('request', function(request) {
 
                                             }
                                         });
-
-                                    //GET CHAT TABLE
+										
+									
+									//GET CHAT TABLE
                                     conn.query('SELECT * from chat where member like "%' + UserId + '%"',
                                         function (err, rows, fields) {
                                             if (err) throw err;
@@ -330,9 +352,16 @@ wsServer.on('request', function(request) {
                                                     });
                                             }
                                         });
-                                });
-                        }
-                    });
+									});
+								
+							}else{
+								
+								var logininfo ="wrong password";
+								console.log((new Date()) + " " + logininfo);
+								connection.sendUTF(JSON.stringify({type: 'logincheck', data:logininfo}));
+							}
+						
+                    }});
 
             } else { // log and broadcast the message
 
@@ -396,7 +425,21 @@ wsServer.on('request', function(request) {
                             }
                             else
                             {
-                                InsertUser(strs[1],strs[2],strs[3]);
+								// create hash value from password (using pbkdf2)
+								//var iteration = 40;
+								var salt = forge.random.getBytesSync(64);
+								var key = forge.util.bytesToHex(forge.pkcs5.pbkdf2(strs[2], forge.util.bytesToHex(salt), iteration, 32));
+								var storedHash = forge.util.bytesToHex(salt)+ "$" +key;
+								console.log((new Date()) + storedHash);
+								
+								
+								// using SHA256
+								//var key = forge.md.sha256.create();
+								//key.update(salt + strs[2]);
+								//console.log((new Date()) + key.digest().toHex());
+								
+                                InsertUser(strs[1],storedHash,strs[3]);
+                                //InsertUser(strs[1],strs[2],strs[3]);
                                 obj="succeed";
                                 var json = JSON.stringify({type: 'register', data: obj});
                                 clients[index].sendUTF(json);
