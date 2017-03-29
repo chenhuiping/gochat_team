@@ -50,11 +50,10 @@ class Admin extends CI_Controller {
                 $info1= implode(",",$arr1);
                 $info2= implode(",",$arr2);
                 $data['ChatId'] = $this->admin_model->getChatId($data['UserName'],$info1,$info2);
-//                    var_dump($data['ChatId']);
+//
                 $data['friendInfo'][$i] = $this->admin_model->getUserInfo($data['UserName'],$friendList);
                 $data['friendInfo'][$i]['ChatId']=$data['ChatId']['ChatId'];
                 $i++;
-
             }
         }
 
@@ -188,22 +187,23 @@ class Admin extends CI_Controller {
     public function getMessage()
     {
         $userId=  $this->input->post('userId');
-        $friendId = $this->input->post('friendId');
+//        $friendId = $this->input->post('friendId');
         $UserName = $this->input->post('UserName');
+        $chatId = $this->input->post('chatId');
 //        $userId=1;
 //        $friendId=3;
 
-        $arr1 = array($userId,$friendId);
-        $arr2 = array($friendId,$userId);
-        $info1= implode(",",$arr1);
-        $info2= implode(",",$arr2);
+//        $arr1 = array($userId,$friendId);
+//        $arr2 = array($friendId,$userId);
+//        $info1= implode(",",$arr1);
+//        $info2= implode(",",$arr2);
 
         $data['userId'] = $userId;
-        $data['ChatId'] = $this->admin_model->getChatId($UserName,$info1,$info2);
-        if($data['ChatId']!="")
-        {
-            $data['message'] = $this->admin_model->getMessage($UserName,$data['ChatId']['ChatId']);
-        }
+//        $data['ChatId'] = $this->admin_model->getChatId($UserName,$info1,$info2);
+//        if($data['ChatId']!="")
+//        {
+            $data['message'] = $this->admin_model->getMessage($UserName,$chatId);
+//        }
         $i=0;
         foreach($data['message'] as $message)
         {
@@ -226,9 +226,8 @@ class Admin extends CI_Controller {
         $UserName =$this->input->post('UserName');
 //        $userId=1;
 //        $chatId=3;
-
+//        var_dump($UserName);
         $data['userId'] = $userId;
-
 
         $data['groupMessage'] = $this->admin_model->getMessage($UserName,$chatId);
 //        var_dump($data['groupMessage']);die;

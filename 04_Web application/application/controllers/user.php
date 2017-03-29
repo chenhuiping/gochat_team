@@ -178,7 +178,7 @@ class User extends CI_Controller {
         $this->user_model->createUser($user);
         $this->user_model->createFriend($friend);
         $this->user_model->createChat($chat);
-        $data=$this->user_model->createMessage($message);
+        $data['status']=$this->user_model->createMessage($message);
 
         $json = json_encode($data);
         print_r($json);
@@ -190,6 +190,7 @@ class User extends CI_Controller {
 
         $userList=  $this->input->post('user');
         $UserName=  $this->input->post('UserName');
+//        var_dump($UserName);
         $data['UserName']=$UserName;
         $UserName = "user_".$UserName;
 //        var_dump($UserName);
@@ -299,7 +300,7 @@ class User extends CI_Controller {
 
         $uchat=  $this->input->post('uchat');
 
-        $data['status'] = $this->user_model->insertUChat($UserName,$uinsertUMessagechat);
+        $data['status'] = $this->user_model->insertUChat($UserName,$uchat);
 
         $json = json_encode($data);
         print_r($json);
@@ -310,11 +311,16 @@ class User extends CI_Controller {
     public function insertUMessage()
     {
         $UserName =  $this->input->post('UserName');
+        $talbeName="chat_".$UserName;
         $message =  $this->input->post('message');
         $UserName ="message_".$UserName;
-//        var_dump($UserName);
-//        var_dump($message);die;
+
+        $data['message']=$message;
         $data['status']=$this->user_model->insertUMessage($UserName,$message);
+//        var_dump($message['ChatId']);die;
+
+        $data['type']=$this->user_model->getChatType($talbeName,$message['ChatId']);
+//        var_dump($data['type']);die;
 
         $json = json_encode($data);
         print_r($json);
