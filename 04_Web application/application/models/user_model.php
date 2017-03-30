@@ -103,30 +103,30 @@ class User_model extends CI_Model {
     }
 
     //DELETE USER TABLE
-    public function deleteUser()
+    public function deleteUser($UserName)
     {
-        $query = $this->db->query('delete from user');
+        $query = $this->db->query('delete from user_'.$UserName);
         return $query;
     }
 
     //DELETE FRIEND TABLE
-    public function deleteFriend()
+    public function deleteFriend($UserName)
     {
-        $query = $this->db->query('delete from friend');
+        $query = $this->db->query('delete from friend_'.$UserName);
         return $query;
     }
 
     //DELETE CHAT TABLE
-    public function deleteChat()
+    public function deleteChat($UserName)
     {
-        $query = $this->db->query('delete from chat');
+        $query = $this->db->query('delete from chat_'.$UserName);
         return $query;
     }
 
     //DELETE FRIEND TABLE
-    public function deleteMessage()
+    public function deleteMessage($UserName)
     {
-        $query = $this->db->query('delete from message');
+        $query = $this->db->query('delete from message_'.$UserName);
         return $query;
     }
 

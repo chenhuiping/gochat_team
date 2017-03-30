@@ -64,7 +64,7 @@ class Admin_model extends CI_Model {
     //get chatid non-group
     public function getChatId_nogroup($UserName)
     {
-        $sql = "SELECT ChatId FROM chat_".$UserName." WHERE type=0";
+        $sql = "SELECT ChatId,member FROM chat_".$UserName." WHERE type=0";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
@@ -76,7 +76,6 @@ class Admin_model extends CI_Model {
         $query = $this->db->query($sql);
         return $query->result_array();
     }
-
 
     //GET GROUPCHAT USERINFO
     public function getGroupUser($UserName,$UserId)
