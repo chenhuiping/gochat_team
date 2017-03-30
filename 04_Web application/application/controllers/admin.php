@@ -34,9 +34,10 @@ class Admin extends CI_Controller {
         //*************FIRENDLIST******************
         //get friendlist
         $data['friend'] = $this->admin_model->getFriend($data['UserName'],$UserId);
-        if($data['friend']=="NULL")
+//        var_dump( $data['friend']);die;
+        if($data['friend']==NULL)
         {
-            $data['friendInfo']="NULL";
+            $data['friendInfo']=NULL;
         }
         else{
             $str = $data['friend']['FriendId'];
@@ -56,68 +57,63 @@ class Admin extends CI_Controller {
                 $i++;
             }
         }
-
 //        var_dump( $data['friendInfo']);die;
+
         //*************NONE-GROUPCHAT******************
         //GET CHATID NONE-GROUP
         $data['chat_nogroup'] = $this->admin_model->getChatId_nogroup($data['UserName']);
         //select userId by chatId from message table
-//        var_dump($data['chat_nogroup']);die;
-        $i=0;
-        foreach ($data['chat_nogroup'] as $nogroup){
-            $data['RUList'][$i]= $this->admin_model->getUList($data['UserName'],$nogroup['ChatId'],$UserId);
-            $i++;
+//        var_dump(count($data['chat_nogroup']));die;
+        if(count($data['chat_nogroup'])<=0)
+        {
+            $data['recent']=NULL;
+
         }
+        else
+        {
+            $i=0;
+            foreach ($data['chat_nogroup'] as $nogroup){
+                $data['RUList'][$i]= $this->admin_model->getUList($data['UserName'],$nogroup['ChatId'],$UserId);
+                $i++;
+            }
 //        var_dump($data['RUList']);die;
-        //SELECT USERINFO
-        $j=0;
-        foreach ($data['RUList'] as $ru){
-            $data['recent'][$j]= $this->admin_model->getUserInfo($data['UserName'],$ru['from']);
-            $data['recent'][$j]['ChatId']=$ru['ChatId'];
-            $j++;
+            //SELECT USERINFO
+            $j=0;
+            foreach ($data['RUList'] as $ru){
+                $data['recent'][$j]= $this->admin_model->getUserInfo($data['UserName'],$ru['from']);
+                $data['recent'][$j]['ChatId']=$ru['ChatId'];
+                $j++;
+            }
+
         }
+
 //        var_dump($data['recent']);die;
 
         //*************GROUPCHAT******************
         //GET CHATID GROUP
         $data['chat_group'] = $this->admin_model->getChatId_group($data['UserName']);
 
-//       var_dump($data['chat_group']);die;
-        $j=0;
-        foreach($data['chat_group'] as $chatid){
-            $data['groupUser'][$j]['ChatId']=$chatid['ChatId'];
-//            $str1 = explode(",",$str);
-            $str=explode(",",$chatid['member']);
-            for($m=0;$m<count($str);$m++)
-            {
-                $data['groupUser'][$j]['User'][$m]=$this->admin_model->getGroupUser($data['UserName'],$str[$m]);
-            }
-            $j++;
 
+        if(count($data['chat_group'])<=0)
+        {
+            $data['groupUser']=NULL;
         }
-        //SELECT USERID BY CHATID FROM MESSAGE TABLE
-//        $i=0;
-//        foreach ($data['chat_group'] as $group){
-//
-//            $data['groupList'][$i]= $this->admin_model->getGroupId($data['UserName'],$group['ChatId'],$UserId);
-//            $i++;
-//        }
-////                var_dump($data['groupList']);die;
-//        //SELECT USERINFO
-//
-//        $j=0;
-//
-//        foreach ($data['groupList'] as $gr){
-//            $m=0;
-//            foreach($gr as $g)
-//            {
-//                $data['groupUser'][$j]['ChatId']=$g['ChatId'];
-//                $data['groupUser'][$j]['User'][$m]=$this->admin_model->getGroupUser($data['UserName'],$g['from']);
-//                $m++;
-//            }
-//            $j++;
-//        }
+        else{
+            $j=0;
+            foreach($data['chat_group'] as $chatid){
+                $data['groupUser'][$j]['ChatId']=$chatid['ChatId'];
+//            $str1 = explode(",",$str);
+                $str=explode(",",$chatid['member']);
+                for($m=0;$m<count($str);$m++)
+                {
+                    $data['groupUser'][$j]['User'][$m]=$this->admin_model->getGroupUser($data['UserName'],$str[$m]);
+                }
+                $j++;
+
+            }
+        }
 //        var_dump($data['groupUser']);die;
+
 
         $this->load->view('index',$data);
     }
