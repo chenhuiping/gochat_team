@@ -2,8 +2,8 @@ var mysql = require('mysql');
 var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'Snamione07',
-    database: 'gochat2',
+    password: '',
+    database: 'gochat',
     port: 3306
 });
 conn.connect();
@@ -201,7 +201,7 @@ wsServer.on('request', function(request) {
                         if (err) throw err;
 
                         if (logincheck.length == 0) {
-                            var logininfo ="wrong";
+                            var logininfo ="wrong password";
 							console.log((new Date()) + " " + logininfo);
                             connection.sendUTF(JSON.stringify({type: 'logincheck', data:logininfo}));
 
@@ -215,7 +215,7 @@ wsServer.on('request', function(request) {
 							UserName = strs[0];
 							password = strs[1];
 							
-							var computedHash = forge.util.bytesToHex(forge.pkcs5.pbkdf2(password, salt, iteration, 32));
+							var computedHash = forge.util.bytesToHex(forge.pkcs5.pbkdf2(password, salt, iteration, 32, 'sha256'));
 							
 							if (HashValue == computedHash){
 								var logininfo ="true";
@@ -231,7 +231,7 @@ wsServer.on('request', function(request) {
 											// throw exception here
 										}else{
 											UserId = rows[0].UserId;
-											var jsonstr = "[{UserId: " + rows[0].UserId + ", PIN:'" + rows[0].PIN + "', UserName: '" + rows[0].UserName + "', profile:'"+rows[0].profile+"' , Ip:'"+rows[0].Ip+"' }]";
+											var jsonstr = "[{UserId: " + rows[0].UserId + ", PIN:'', UserName: '" + rows[0].UserName + "', profile:'"+rows[0].profile+"' , Ip:'"+rows[0].Ip+"' }]";
 											var UserList = eval('(' + jsonstr + ')');
 										}
 										
@@ -266,7 +266,7 @@ wsServer.on('request', function(request) {
                                                             var array =
                                                             {
                                                                 UserId: friends[i].UserId,
-                                                                PIN: friends[i].PIN,
+                                                                PIN: '',
                                                                 UserName: friends[i].UserName,
                                                                 profile: friends[i].profile,
                                                                 Ip:friends[i].Ip
@@ -395,7 +395,7 @@ wsServer.on('request', function(request) {
                                             var obj =
                                             {
                                                 "UserId" : rows[0].UserId,
-                                                "PIN": rows[0].PIN,
+                                                "PIN": '',
                                                 "UserName": rows[0].UserName,
                                                 "profile": rows[0].profile,
                                                 "Ip": rows[0].Ip
@@ -428,7 +428,7 @@ wsServer.on('request', function(request) {
 								// create hash value from password (using pbkdf2)
 								//var iteration = 40;
 								var salt = forge.random.getBytesSync(64);
-								var key = forge.util.bytesToHex(forge.pkcs5.pbkdf2(strs[2], forge.util.bytesToHex(salt), iteration, 32));
+								var key = forge.util.bytesToHex(forge.pkcs5.pbkdf2(strs[2], forge.util.bytesToHex(salt), iteration, 32, 'sha256'));
 								var storedHash = forge.util.bytesToHex(salt)+ "$" +key;
 								console.log((new Date()) + storedHash);
 								
@@ -556,6 +556,14 @@ wsServer.on('request', function(request) {
                                 });
                         });
                 }
+				if(strs[0]=="logout"){
+                        console.log((new Date()) + " Peer "
+                            + strs[1] + " disconnected.");
+							
+                        // remove user from the list of connected clients
+                        RemoveIp(strs[1]);
+                        clients.splice(index, 1);
+                }
             }
         }
     });
@@ -566,7 +574,7 @@ wsServer.on('request', function(request) {
             console.log((new Date()) + " Peer "
                 + UserName + " disconnected.");
             // remove user from the list of connected clients
-            //RemoveIp(UserName);
+           // RemoveIp(UserName);
             clients.splice(index, 1);
         }
     });
