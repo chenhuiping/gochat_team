@@ -5,4 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!--    <script src="assets/js/jquery-2.1.1.min.js" type="text/javascript"></script>-->
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/form-samples.js"></script>
+    <script src="assets/js/jquery.form.js"></script>
     <script src="assets/js/client.js"></script>

@@ -3,7 +3,14 @@
     <title>gochat</title>
     <base href="<?= base_url()?>" />
     <meta http-equiv="Content-Type" content="text/html; charsetutf-8" />
+
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/chosen.css" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-fileupload.css" />
+
+
+    <link href="assets/css/image-crop.css" rel="stylesheet"/>
     <script src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.scrollTo.js"></script>
     <script src="assets/js/index.js"></script>
@@ -57,6 +64,7 @@
             overflow:hidden;
             position:relative;
             border-bottom: 1px solid #24272c;
+            padding-bottom: 8px;
 
         }
         .tab_chat,.tab_friend,.tab_groupchat{
@@ -392,7 +400,16 @@
             width: 150px;
             height: 150px;
         }
-
+        .RedPoint{
+            width: 15px;
+            height=15px;
+            position: absolute;
+            right:20px
+        }
+        /*.m-list{*/
+            /*height:495px;*/
+            /*overflow-y: scroll;*/
+        /*}*/
     </style>
 </head>
 <body>
@@ -403,7 +420,7 @@
             <header>
                 <input id="getUserId" value="<?=$userId?>" class="displayNone"/>
                 <input id="getUserName" value="<?=$UserName?>" class="displayNone"/>
-                <img class="avatar" width="40" height="40" alt="Coffce" src="<?=$userInfo['profile']?>">
+                <img class="avatar" width="45" height="45" alt="Coffce" src="<?=$userInfo['profile']?>" onclick="CreateChatId()">
                 <p class="name"><?=$userInfo['UserName']?></p>
 <!--                功能列表按钮-->
                 <div class="functionOpt " id="functionOpt">
@@ -414,7 +431,7 @@
 <!--                功能列表按钮结束-->
             </header>
             <footer>
-                <input class="search" placeholder="search user...">
+<!--                <input class="search" placeholder="">-->
             </footer>
         </div>
         <div class="tab">
@@ -436,18 +453,22 @@
         </div>
         <div class="m-list" id="chatList">
             <ul id="recentList" >
-                <?php foreach($recent as $rl){?>
+
+                <?php if($recent!=NULL){
+                foreach($recent as $rl){?>
                     <li onclick="getMessage(<?=$rl['ChatId']?>)" id="<?=$rl['ChatId']?>" name="recent">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="<?=$rl['profile']?>">
                         <p class="name"><?=$rl['UserName']?></p>
+                        <img class="RedPoint displayNone"  src="assets/dist/images/red_dot.png">
                     </li>
-                <?php }?>
+                <?php }}?>
 
             </ul>
         </div>
-        <div class="m-list displayNone" id="groupList">
+        <div class="m-list displayNone"  id="groupList">
             <ul>
-                <?php foreach($groupUser as $group)
+                <?php if($groupUser!=NULL){
+                foreach($groupUser as $group)
                 {?>
                     <li onclick="getGroupMessage(<?=$group['ChatId']?>)" id="<?=$group['ChatId']?>" name="group">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="assets/dist/images/group2.png">
@@ -458,8 +479,9 @@
                             echo $g['UserName'].",";
                         } ?>
                         </p>
+                        <img class="RedPoint displayNone"  src="assets/dist/images/red_dot.png">
                     </li>
-               <?php }?>
+               <?php }}?>
 
             </ul>
         </div>
@@ -469,10 +491,13 @@
                 <?php if(!$friendInfo!="NULL"){
 
                 foreach ($friendInfo as $fri)
-                {?>
+                {
+
+                    ?>
                 <li onclick="getMessage(<?=$fri['ChatId']?>)" id="<?=$fri['ChatId']?>" name="friend">
                     <img class="avatar" width="30" height="30" alt="示例介绍" src="<?=$fri['profile']?>">
                     <p class="name"><?=$fri['UserName']?></p>
+<!--                    <img class="RedPoint displayNone"  src="assets/dist/images/red_dot.png">-->
                 </li>
                <?php }}?>
 
@@ -544,14 +569,20 @@
         </div>
         <div class="m-text displayNone" id="m_text">
             <div style="height: 33px;padding: 5px 17px;">
-                <?php echo form_open_multipart('upload/do_upload/'.$UserName);?>
-
-<!--                <img src="assets/dist/images/file.png" width="20px"/>-->
-                    <input type="file"  name="userfile" size="10"/>
-<!--                <input type="file" id="file" multiple="multiple" size="1" />-->
-<!--                     <img width="20px" src="assets/dist/images/file.png"  style="cursor:hand"/>-->
-<!--                    <button onclick="do_upload()">upload</button>-->
-                <input type="submit" value="upload">
+                <form method="post" enctype="multipart/form-data" action="/gochat/upload/uploadCgPhoto/<?=$UserName?>" id="uploadForm" name="uploadForm" >
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <span class="btn btn-file">
+                            <span class="fileupload-new">Select file</span>
+                            <span class="fileupload-exists">Change</span>
+                            <input type="file" class="default" name="userfile" size="20" id="userfile" />
+                        </span>
+                        <span class="fileupload-preview"></span>
+                        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none" ></a>
+                        <input type="submit" value="upload" name="upload-btn" id="upload-btn"/>
+                        <input value="" name="imgPath" id="imgPath"  hidden="hidden"/>
+                        <input value="" name="imagePath" id="imagePath" hidden="hidden"/>
+                    </div>
+                </form>
             </div>
             <textarea placeholder="" id="leftText"></textarea>
         </div>
@@ -581,7 +612,7 @@
                 </div>
                 <div class="chooser">
                     <div class="contactList">
-                        <?php if($friendInfo!="NULL"){
+                        <?php if($friendInfo!=NULL){
 
                             foreach ($friendInfo as $fri)
                             {?>
@@ -614,9 +645,13 @@
 <!--<script src="assets/dist/main.js"></script>-->
 <script type="text/javascript" src="assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
+<script src="assets/js/form-samples.js"></script>
+<script src="assets/js/jquery.form.js"></script>
 <!--<script type="text/javascript" src="js/my.js"></script>-->
 <script type ="text/javascript">
     $(document).ready(function(){
+
+
 
         //显示功能列表
         $("#functionOpt").click(function(){
@@ -661,6 +696,8 @@
             });
 
     });
+
+
     function changeChat()
     {
         document.getElementById("chatNow").src="assets/dist/images/chat2.png";
@@ -757,6 +794,8 @@
     //GET CHATING MESSAGE
     function getMessage(chatId)
     {
+
+        $('#'+chatId+' .RedPoint').addClass('displayNone');
         var getMessageURL = "/gochat/admin/getMessage";
         var userId = <?=$userId?>;
 //        alert(userId);
@@ -785,25 +824,31 @@
                     {
                         var time,content,from,type,profile;
 //                            alert(a[i]['time']);
-                        if()
-                        time = a[i]['time'];
+//                        var strtime,strtime1;
+                        time = a[i]['time'].substring(11, 16);
                         content = a[i]['content'];
                         from = a[i]['from'];
                         type = a[i]['type'];
                         profile = a[i]['profile']['profile'];
 
-                        var strtime=time.split(" ");
-//                        alert(strtime[0]);
-                        time=time.substring(11,16);
                         str = str+"<li>";
 //                        if(i==0)
 //                        {
                             str = str+"<p class='time'><span>"+time+"</span></p>";
 //                        }
-//                        else if(i!=0 && time-5>a[i-1]['time'])
+//                        else
 //                        {
-//                            str = str+"<p class='time'><span>"+time+"</span></p>";
+//
+//                                strtime=time.split(" ");
+//                                strtime1 = a[i-1]['time'].split("");
+//                                if(strtime[0]==strtiem1[0]) {
+//                                    str = str + "<p class='time'><span>" + a[i]['time'].substring(11, 16) + "</span></p>";
+//                                }
+//                                else{
+//                                    str = str+"<p class='time'><span>"+a[i]['time']+"</span></p>";
+//                                }
 //                        }
+
 
                         if(from==userId)
                         {
@@ -846,6 +891,7 @@
     //GET GROUPCHAT MESSAGE
     function getGroupMessage(ChatId)
     {
+        $('#'+ChatId+' .RedPoint').addClass('displayNone');
         var getMessageURL = "/gochat/admin/getGroupMessage";
         var userId = <?=$userId?>;
 //        alert(userId);

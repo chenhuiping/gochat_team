@@ -3,6 +3,10 @@
     <script type="text/javascript" src="assets/js/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="assets/images/login.js"></script>
     <link href="assets/css/login2.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/chosen.css" />
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-fileupload.css" />
 <style>
     .file {
         position: relative;
@@ -163,27 +167,31 @@
 
                         <label for="user"  class="input-tips2">portrait：</label>
                         <div class="inputOuter2">
-                            <a href="javascript:;" class="file">Search File
-                                <input type="file" name="userfile"  id="choosefile" multiple="multiple" size="10"/>
-                            </a>
-                            <a href="#" class="upload">Upload
-                                <input type="submit" name="upload">
-                            </a>
-
-                            <input type="text"  id="aim"/>
+                            <form method="post" enctype="multipart/form-data" action="/gochat/upload/uploadProfile" id="uploadPForm" name="uploadPForm" >
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <span class="btn btn-file">
+                            <span class="fileupload-new">Select file</span>
+                            <span class="fileupload-exists">Change</span>
+                            <input type="file" class="default" name="userpfile" size="20" id="userpfile" />
+                        </span>
+                                    <span class="fileupload-preview"></span>
+                                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none" ></a>
+                                    <input type="submit" value="upload" name="uploadProfile" id="uploadProfile"/>
+                                    <input value="" name="imgPath" id="imgPath"  hidden="hidden"/>
+                                    <input value="" name="imagePath" id="imagePath" hidden="hidden"/>
+                                </div>
+                            </form>
 
                         </div>
 
                     </li>
-
-
                     <li>
                         <div class="inputArea">
                             <input type="button"  style="margin-top:10px;margin-left:85px;" class="button_blue" value="Sign up" id="sign_up"/>
                             <a href="#" class="zcxy" target="_blank"></a>
                         </div>
-
-                    </li><div class="cl"></div>
+                    </li>
+                    <div class="cl"></div>
                 </ul></form>
 
 
@@ -194,6 +202,7 @@
     <!--注册end-->
 </div>
 <script src="assets/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
     //SignUp
