@@ -63,7 +63,7 @@ class Admin extends CI_Controller {
         //GET CHATID NONE-GROUP
         $data['chat_nogroup'] = $this->admin_model->getChatId_nogroup($data['UserName']);
         //select userId by chatId from message table
-//        var_dump(count($data['chat_nogroup']));die;
+//        var_dump($data['chat_nogroup']);die;
         if(count($data['chat_nogroup'])<=0)
         {
             $data['recent']=NULL;
@@ -71,6 +71,7 @@ class Admin extends CI_Controller {
         }
         else
         {
+
             $i=0;
             foreach ($data['chat_nogroup'] as $nogroup){
                 $data['RUList'][$i]= $this->admin_model->getUList($data['UserName'],$nogroup['ChatId'],$UserId);
@@ -80,9 +81,12 @@ class Admin extends CI_Controller {
             //SELECT USERINFO
             $j=0;
             foreach ($data['RUList'] as $ru){
+                if($ru!=NULL)
+                {
                 $data['recent'][$j]= $this->admin_model->getUserInfo($data['UserName'],$ru['from']);
                 $data['recent'][$j]['ChatId']=$ru['ChatId'];
                 $j++;
+                }
             }
 
         }

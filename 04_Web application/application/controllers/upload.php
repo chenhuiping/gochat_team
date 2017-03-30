@@ -55,7 +55,7 @@ class Upload extends CI_Controller {
     }
 
 
-    /*功能 上传图片*/
+    /* UPLOAD FILE*/
     public function uploadCgPhoto($Username)
     {
         $filePath='./uploads/'.$Username."/";
@@ -87,18 +87,37 @@ class Upload extends CI_Controller {
         $config['file_name']=$fileName;
 
         $this->load->library('upload', $config);
-
-        if ( ! $this->upload->do_upload('userfile'))
-        {
-            $error = array('error' => $this->upload->display_errors());
-
-            $this->load->view('upload_form', $error);
-        }
-
             $data['path']=$filePath.$fileName;
             $json=json_encode($data);
             print_r($json);
 //        }
+    }
+
+
+    /* UPLOAD PROFILE*/
+    public function uploadProfile()
+    {
+        $filePath='./uploads/PROFILE/';
+
+        if (!file_exists($filePath))
+        {
+            mkdir ($filePath);
+        }
+        $fileName = $_FILES['userpfile']['name'];
+        var_dump($fileName);
+        $config['upload_path']      = $filePath;
+        $config['allowed_types']    = 'gif|jpg|png|';
+        $config['max_size']     = 1000;
+        $config['max_width']        = 1024;
+        $config['max_height']       = 768;
+        $config['overwrite']=true;
+        $config['file_name']=$fileName;
+
+        $this->load->library('upload', $config);
+
+        $data['path']=$filePath.$fileName;
+        $json=json_encode($data);
+        print_r($json);
     }
 }
 ?>

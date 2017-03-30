@@ -330,11 +330,12 @@ class User extends CI_Controller {
     //DELETE TABLE
     public function deleteTable()
     {
-        $data['status2']=$this->user_model->deleteUser();
-        $data['status3']=$this->user_model->deleteChat();
-        $data['status4']=$this->user_model->deleteMessage();
-        $data['status1']=$this->user_model->deleteUser();
-
+        $UserName = $this->input->post('UserName');
+//        var_dump($UserName);
+        $data['status2']=$this->user_model->deleteUser($UserName);
+        $data['status3']=$this->user_model->deleteChat($UserName);
+        $data['status4']=$this->user_model->deleteMessage($UserName);
+        $data['status1']=$this->user_model->deleteUser($UserName);
 
         $json = json_encode($data);
         print_r($json);
