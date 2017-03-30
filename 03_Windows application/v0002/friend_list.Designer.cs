@@ -30,41 +30,28 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.fItem = new chat_list.friend_item(mainForm);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.fItem);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(350, 295);
+            this.panel1.Size = new System.Drawing.Size(467, 369);
             this.panel1.TabIndex = 1;
-            // 
-            // fItem
-            // 
-            this.fItem.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.fItem.Location = new System.Drawing.Point(15, 14);
-            this.fItem.Name = "fItem";
-            this.fItem.Size = new System.Drawing.Size(309, 138);
-            this.fItem.TabIndex = 0;
-            this.fItem.Visible = false;
-            // 
-           
             // 
             // friend_list
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "friend_list";
-            this.Size = new System.Drawing.Size(350, 295);
-            this.panel1.ResumeLayout(false);
+            this.Size = new System.Drawing.Size(467, 369);
             this.ResumeLayout(false);
 
         }

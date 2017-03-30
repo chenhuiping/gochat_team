@@ -18,7 +18,12 @@ namespace chat_list
         public int userID;
         private int itemType; // 0 = friend with chat, 1 = friend without chat, 2 = group chat
         public string UserName;
+        public string UserList; 
+        string[] splite;
         public string pathprofile;
+        private bool setUserImage;
+        public int count = 0;
+
 
         public friend_item(Form1 MainForm)
         {
@@ -34,13 +39,65 @@ namespace chat_list
             this.UserName = message;
             this.itemType = itemType;
             this.pathprofile = path;
+
+
+            List<string> memberList;
+            
+            if (message.Contains(","))
+            {
+                splite = System.Text.RegularExpressions.Regex.Split(message, ",");
+                foreach (var ut in this.MainForm.loginForm.DB_UserTable)
+                {
+                    
+                    
+                    foreach (var rid in splite)
+                    {
+                        if (Int32.Parse(rid) == ut.UserId)
+                        {
+                            if(count == 0)
+                            {
+                                this.UserList = ut.UserName;
+                                //this.UserList = message;
+                            }
+                            else if (count == 1)
+                            {
+                                this.UserList += " and ";
+                            }
+                            count++;
+                        }
+                    }
+                    
+                }
+                if (this.UserList != null && count != 0 && count != 1)
+                    this.UserList += (count - 1).ToString();
+
+                /*foreach (string s in splite) {
+                    Debug.WriteLine(s);
+
+                }*/
+                
+
+            }
+            if (count == 0 || count == 1)
+                userName.Text = message;
+            else
+            {
+                userName.Text = UserList;
+            }
+                
+
             if (path != "")
-                this.pictureBox1.ImageLocation = "http://47.91.75.150/" + path;
-            userName.Text = message;
+            {
+                setUserImage = true;
+                this.pictureBox1.ImageLocation = "http://47.91.75.150/" + "gochat/" + path;
+
+            }
+            
             userInformation.Text = time;
             if (messagetype.ToString() == "In")
             { //incoming message
                 this.BackColor = Color.FromArgb(0, 164, 147);
+                this.userName.ForeColor = Color.White;
 
             }
 
@@ -75,25 +132,26 @@ namespace chat_list
         // what happens when we click friend_item
         public void friend_item_Click(object sender, EventArgs e)
         {
-            this.BackColor = Color.FromArgb(0, 164, 147);
-
+            this.BackColor = Color.FromArgb(46, 50, 56);
+            //this.BackColor = Color.
             if (MainForm.add_grouplist)
             {
+                bool added = false;
                 // change the colour to red it - after we click add group
-                this.BackColor = Color.Red;
+                this.BackColor = Color.Wheat;
                 if (this.itemType == 2)
                 {
                     // for exist group
-                    MainForm.add_strfriendList(this.UserName);
+                    added = MainForm.add_strfriendList(this.UserName);
                 }
                 else
                 {
                     // for new member
-                    MainForm.add_strfriendList(this.userID.ToString());
+                    added = MainForm.add_strfriendList(this.userID.ToString());
                 }
 
-                
-                MainForm.displayMember(this.UserName, this.userID, this.pathprofile);
+                if(added)
+                    MainForm.displayMember(this.UserName, this.userID, this.pathprofile);
             }
             else if (itemType == 0 || itemType == 2)
             {
@@ -114,6 +172,15 @@ namespace chat_list
         private void friend_item_KeyDown(object sender, KeyEventArgs e)
         {
             
+        }
+
+        private void pictureBox1_LoadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            if(setUserImage)
+            {
+                pictureBox1.BackgroundImage = null;
+                setUserImage = false;
+            }
         }
     }
     public enum msgtype1

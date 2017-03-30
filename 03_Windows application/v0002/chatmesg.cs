@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace chat_list
 {
@@ -21,19 +22,55 @@ namespace chat_list
        
         public void setimage(string filepath)
         {
-            pictureBox1.ImageLocation = filepath;
+            Debug.WriteLine(filepath);
+            if (filepath[0] == '.')
+            {
+                filepath = filepath.Substring(1, filepath.Length - 1);
+            }
+            if (filepath[0] != '/')
+            {
+                filepath = "/" + filepath;
+            }
+            Debug.WriteLine(filepath);
+
+            pictureBox1.ImageLocation = "http://47.91.75.150:1337" + filepath;
             while(LoadCompleted)
             {
                 
             }
         }
 
-        public chatmesg(string message, msgtype messagetype, string username, string time)
+        public chatmesg(string message, msgtype messagetype, string username, string time, int type)
         {
 
             InitializeComponent();
             if (message.Contains("/"))
             {
+                if(type == 1)
+                {
+                    //Image img = Image.FromFile(message);
+                    //pictureBox1.Image = img;
+                    Debug.WriteLine(message);
+                    if (message[0] == '.')
+                    {
+                        message = message.Substring(1, message.Length - 1);
+                    }
+                    if(message[0] != '/')
+                    {
+                        message = "/" + message;
+                    }
+                    Debug.WriteLine(message);
+
+                    pictureBox1.ImageLocation = "ws://47.91.75.150:1337" + message;
+
+                    pictureBox1.Visible = true;
+                    pictureBox1.Refresh();
+                }
+                else if(type == 2)
+                {
+                   
+                }
+                //Debug.WriteLine("filepath!!!!!!");
                 // Image img = Image.FromFile(message);
                 //pictureBox1.Image = img;
                 //pictureBox1.ImageLocation = message;
@@ -52,11 +89,11 @@ namespace chat_list
                 Ibltime.Text = time;
                 if (messagetype.ToString() == "In")
                 { //incoming message
-                    this.BackColor = Color.FromArgb(0, 164, 147);
+                    this.BackColor = Color.White;
                 }
                 else
                 { //outgoing message
-                    this.BackColor = Color.Gray;
+                    this.BackColor = Color.FromArgb(157,234,128);
                 }
                 //lets add the function which adjust the bubble height
                 

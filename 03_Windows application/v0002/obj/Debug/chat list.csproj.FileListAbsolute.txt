@@ -104,7 +104,6 @@ C:\Users\k1515\Desktop\chat list\chat list\obj\Debug\chat list.pdb
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\bin\Debug\chat list.pdb
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.exe
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.pdb
-\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.csprojResolveAssemblyReference.cache
 C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\bin\Debug\chat list.exe.config
 C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\bin\Debug\chat list.exe
 C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\bin\Debug\chat list.pdb
@@ -141,3 +140,4 @@ C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v000
 \\Mac\Home\Downloads\v0004\obj\Debug\chat list.exe
 \\Mac\Home\Downloads\v0004\obj\Debug\chat list.pdb
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.addGroup.resources
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.csprojResolveAssemblyReference.cache

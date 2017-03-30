@@ -49,6 +49,12 @@ namespace chat_list
         // close button
         private void pictureBox3_Click(object sender, EventArgs e)
         {
+            foreach (var temp in this.MainForm.friend_list1.store_list)
+            {
+                temp.BackColor = Color.FromArgb(46, 50, 56);
+            }
+            this.MainForm.add_grouplist = false;
+
             this.Close();
         }
 
@@ -56,10 +62,15 @@ namespace chat_list
         public delegate void callPassMember();
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            this.MainForm.add_grouplist = false;
             this.Invoke(new callPassMember(MainForm.passMemberID));
             this.MainForm.Show();
             this.MainForm.add_grouplist = false;
+            foreach(var temp in this.MainForm.friend_list1.store_list)
+            {
+                temp.BackColor = Color.FromArgb(46, 50, 56);
+            }
+            
             this.Close();
         }
         //---------------------------------------------------------------------------------------------------------------- 

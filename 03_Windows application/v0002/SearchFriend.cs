@@ -35,6 +35,7 @@ namespace chat_list
             this.userDetail2.TabIndex = 0;
             this.userDetail2.Dock = System.Windows.Forms.DockStyle.Fill;
 
+            userDetail2.BackColor = Color.FromArgb(46, 50, 56);
 
             this.panel1.Controls.Add(this.userDetail2);
         }

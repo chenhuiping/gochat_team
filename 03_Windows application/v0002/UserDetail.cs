@@ -23,7 +23,7 @@ namespace chat_list
         }
         private void set_image(string str)
         {
-            this.Invoke(new MethodInvoker(delegate { pictureBox1.ImageLocation = str; }));
+            this.Invoke(new MethodInvoker(delegate { pictureBox1.ImageLocation = "http://47.91.75.150/" + "gochat/" + str; }));
             Debug.WriteLine("imageLocation: " + str);
         }
         private void set_userName(string str)

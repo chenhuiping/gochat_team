@@ -72,9 +72,9 @@ namespace chat_list
 
         //------------------------------------------------------------------------------------------------------------------
         // display received picture/file
-        public void addInPicture(string message, string username, string time)
+        public void addInPicture(string message, string username, string time, int type)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In, username, time);
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In, username, time, type);
             //message = "https://www.w3schools.com/css/img_fjords.jpg";
             bbl.setimage(message);
             //while (bbl.p)
@@ -93,14 +93,24 @@ namespace chat_list
         }
         //------------------------------------------------------------------------------------------------------------------
         // display received text message
-        public void addInMessage(string message, string username, string time)
+        public void addInMessage(string message, string username, string time, int type)
         {
             //if (message.Contains(" says : "))
-            
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In, username, time);
-            //message = "https://www.w3schools.com/css/img_fjords.jpg";
-            //bbl.setimage(message);
-            bbl.Location = bubble1.Location;
+
+            if (type == 1)
+            {
+                addInPicture(message, username, time, type);
+            }
+            else if (type == 2)
+            {
+
+            }
+            else
+            {
+                chatmesg bbl = new chat_list.chatmesg(message, msgtype.In, username, time, type);
+                //message = "https://www.w3schools.com/css/img_fjords.jpg";
+                //bbl.setimage(message);
+                bbl.Location = bubble1.Location;
                 bbl.Size = bubble1.Size;
                 bbl.Anchor = bubble1.Anchor;
                 //if (bbl.Location != bubble1.Location)
@@ -110,14 +120,16 @@ namespace chat_list
                 panel5.Controls.Add(bbl);
                 panel5.VerticalScroll.Value = panel5.VerticalScroll.Maximum;
 
-                bbl_old = bbl;// safe the last added object                 
+                bbl_old = bbl;// safe the last added object     
+            }
                       
         }
         //------------------------------------------------------------------------------------------------------------------
         // display sent picture/file
-        public void addOutPicture(string message, string username, string time)
+        public void addOutPicture(string message, string username, string time, int type)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time);
+
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time, type);
             //message = "https://www.w3schools.com/css/img_fjords.jpg";
             bbl.setimage(message);
             //while (bbl.p)
@@ -133,13 +145,15 @@ namespace chat_list
             panel5.VerticalScroll.Value = panel5.VerticalScroll.Maximum;
 
             bbl_old = bbl;// safe the last added object
+
+
         }
 
         //------------------------------------------------------------------------------------------------------------------
         // display sent text message
-        public void addOutMessage(string message, string username, string time)
+        public void addOutMessage(string message, string username, string time, int type)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time);
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time, type);
             bbl.Location = bubble1.Location;
             bbl.Left += 20;
             bbl.Size = bubble1.Size;

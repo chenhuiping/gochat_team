@@ -249,7 +249,7 @@ namespace chat_list
         public void OnReceive(byte[] msgBytes)
         {
             string rcvMsg = Encoding.UTF8.GetString(msgBytes);
-            Debug.WriteLine(rcvMsg);
+            
             if(buffer == "")
             {
                 buffer = rcvMsg;
@@ -260,21 +260,26 @@ namespace chat_list
             }
             int r_count = 0;
             int l_count = 0;
-            foreach (byte temp in buffer)
+            foreach (var temp in buffer)
             {
                 if (temp == '{')
                     l_count++;
                 if (temp == '}')
                     r_count++;
             }
-
-            if (l_count - r_count == 0)
+            Debug.WriteLine(l_count.ToString());
+            Debug.WriteLine(r_count.ToString());
+            if ((l_count - r_count) == 0)
             {
-                Debug.WriteLine(buffer);
+                Debug.WriteLine(l_count.ToString());
+                Debug.WriteLine(r_count.ToString());
+                //Debug.WriteLine(buffer);
                 deserializeData(buffer);
                 buffer = "";
             }
-            
+            Debug.WriteLine(buffer);
+
+
         }
         //---------------------------------------------------------------------------------------------------------------
         // deserialize data
@@ -300,7 +305,7 @@ namespace chat_list
 
                     }
                 }
-                Debug.WriteLine("user");
+                Debug.WriteLine("user desiralize complite");
                 Debug.WriteLine(userinfo.UserName);
                 Rcheck_user = true;
             }
@@ -365,8 +370,8 @@ namespace chat_list
                 {
                     try
                     {
-                        if (rcvMsg.Contains("[") && rcvMsg.IndexOf("[") == 25)
-                        {
+                        //if (rcvMsg.Contains("[") && rcvMsg.IndexOf("[") == 25)
+                        //{
                             MessageTable temp = JsonConvert.DeserializeObject<MessageTable>(rcvMsg);
                             foreach (message tempH in temp.data)
                             {
@@ -374,11 +379,11 @@ namespace chat_list
                             }
                             Debug.WriteLine("message history deserialize complete");
                             Rcheck_message = true;
-                        }
-                        else
-                        {
+                        //}
+                        //else
+                        //{
 
-                        }
+                        //}
                     }
                     catch (Exception e)
                     {
@@ -404,9 +409,9 @@ namespace chat_list
                 if (temp.data.ChatId == MainForm.chatbox1.chatID)
                 {
                     if (temp.data.from == userinfo.UserId)
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content, sender, temp.data.time);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content, sender, temp.data.time, temp.data.type);
                     else if (temp.data.from != userinfo.UserId)
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content, sender, temp.data.time);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content, sender, temp.data.time, temp.data.type);
                 }
                 else
                 {
@@ -478,15 +483,12 @@ namespace chat_list
                     loginCheck = true;
                     Debug.WriteLine("Login success!");
                 }
-                else if (rcvMsg.ToString().Contains("wrong password"))
+                else if (rcvMsg.ToString().Contains("wrong password") | rcvMsg.ToString().Contains("wrong username"))
                 {
                     loginCheck = false;
-                    MessageBox.Show("Wrong Password!");
-                }
-                else if (rcvMsg.ToString().Contains("wrong username"))
-                {
-                    loginCheck = false;
-                    MessageBox.Show("Wrong Username!");
+                    ResetConnection();
+                    MessageBox.Show("Wrong Uername or Password!");
+                
                 }
             }
         }
@@ -570,7 +572,8 @@ namespace chat_list
         public void signOut()
         {
             this.loginCheck = false;
-            MainForm.Close();
+            if(MainForm != null)
+               MainForm.Close();
             ResetConnection();
             this.Show();
 
@@ -703,7 +706,7 @@ namespace chat_list
         //--------------------------------------------------------------------------------------------------------------
         // function to display chat history
 
-        public delegate void set_chatbox(string message, string username, string time);
+        public delegate void set_chatbox(string message, string username, string time, int type);
 
         public void DisplayChatHistory(int ID)
         {
@@ -733,12 +736,12 @@ namespace chat_list
                     if(type == 0)
                     {
                         // display text message
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), content, senderName, time);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), content, senderName, time, type);
                     }
                     else
                     {
                         // display file/image
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutPicture), content, senderName, time);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutPicture), content, senderName, time, type);
                     }
                     
                 }
@@ -747,12 +750,12 @@ namespace chat_list
                     if (type == 0)
                     {
                         // display text message
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), content, senderName, time);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), content, senderName, time, type);
                     }
                     else
                     {
                         // display file/image
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInPicture), content, senderName, time);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInPicture), content, senderName, time, type);
                     }
                 }
             }

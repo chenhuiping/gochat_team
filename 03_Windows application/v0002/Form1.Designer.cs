@@ -66,7 +66,7 @@
             // 
             // header1
             // 
-            this.header1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(140)))), ((int)(((byte)(127)))));
+            this.header1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(50)))), ((int)(((byte)(56)))));
             this.header1.Controls.Add(this.pictureBox3);
             this.header1.Controls.Add(this.label2);
             this.header1.Controls.Add(this.pictureBox1);
@@ -130,6 +130,7 @@
             // 
             // chat
             // 
+            this.chat.BackColor = System.Drawing.Color.Transparent;
             this.chat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chat.Location = new System.Drawing.Point(515, 0);
             this.chat.Margin = new System.Windows.Forms.Padding(4);
@@ -175,6 +176,7 @@
             // tabPageChat
             // 
             this.tabPageChat.AutoScroll = true;
+            this.tabPageChat.BackColor = System.Drawing.Color.White;
             this.tabPageChat.Controls.Add(this.panel4);
             this.tabPageChat.ImageIndex = 1;
             this.tabPageChat.Location = new System.Drawing.Point(8, 46);
@@ -183,7 +185,6 @@
             this.tabPageChat.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageChat.Size = new System.Drawing.Size(499, 818);
             this.tabPageChat.TabIndex = 0;
-            this.tabPageChat.UseVisualStyleBackColor = true;
             // 
             // panel4
             // 
@@ -225,7 +226,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(172)))), ((int)(((byte)(157)))));
+            this.panel1.BackColor = System.Drawing.Color.Silver;
             this.panel1.Controls.Add(this.addFriendButton);
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.addGroupButton);
@@ -238,6 +239,7 @@
             // 
             // addFriendButton
             // 
+            this.addFriendButton.BackColor = System.Drawing.Color.Transparent;
             this.addFriendButton.Image = ((System.Drawing.Image)(resources.GetObject("addFriendButton.Image")));
             this.addFriendButton.Location = new System.Drawing.Point(68, 4);
             this.addFriendButton.Margin = new System.Windows.Forms.Padding(4);
@@ -293,6 +295,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);

@@ -97,6 +97,8 @@ namespace chat_list
 
             //--------------------------------------------------------------------------------------------------------------
 
+            
+
             ToolTip tt1 = new ToolTip();
             tt1.SetToolTip(addGroupButton, "Add Group");
             ToolTip tt2 = new ToolTip();
@@ -110,6 +112,19 @@ namespace chat_list
             loginForm.searchFriend(str);
         }
 
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            base.OnPaintBackground(e);
+            Rectangle lasttabrect = tabControl1.GetTabRect(tabControl1.TabPages.Count - 1);
+            RectangleF emptyspacerect = new RectangleF(
+                    lasttabrect.X + lasttabrect.Width + tabControl1.Left,
+                    tabControl1.Top + lasttabrect.Y,
+                    tabControl1.Width - (lasttabrect.X + lasttabrect.Width),
+                    lasttabrect.Height);
+
+            Brush b = Brushes.BlueViolet; // the color you want
+            e.Graphics.FillRectangle(b, emptyspacerect);
+        }
 
 
 
@@ -311,10 +326,18 @@ namespace chat_list
         // variable for passing receive data --> trial!
         //private string receiveMessage;
         
-        public void add_strfriendList(string str)
+        public bool add_strfriendList(string str)
         {
+            bool already_added = true;
+            foreach (var temp in strfriendList)
+            {
+                if (str == temp)
+                    already_added = false;
+            }
+            if(already_added)
+                strfriendList.Add(str);
 
-            strfriendList.Add(str);
+            return already_added;
                         
         }
 
@@ -360,9 +383,26 @@ namespace chat_list
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
+            if (SFriend != null)
+                SFriend.Close();
+            if (NewGroup != null)
+                NewGroup.Close();
+            
             loginForm.send_data("logout");
             loginForm.signOut();
+            
             this.Dispose();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (SFriend != null)
+                SFriend.Close();
+            if (NewGroup != null)
+                NewGroup.Close();
+
+            //loginForm.send_data("logout");
+            //loginForm.signOut();
         }
     }
 }

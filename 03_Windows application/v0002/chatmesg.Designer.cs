@@ -41,8 +41,8 @@
             this.Iblmessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Iblmessage.AutoSize = true;
-            this.Iblmessage.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.Iblmessage.Location = new System.Drawing.Point(27, 69);
+            this.Iblmessage.ForeColor = System.Drawing.Color.Black;
+            this.Iblmessage.Location = new System.Drawing.Point(27, 65);
             this.Iblmessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Iblmessage.Name = "Iblmessage";
             this.Iblmessage.Size = new System.Drawing.Size(70, 25);
@@ -53,8 +53,8 @@
             // 
             this.Ibltime.AutoSize = true;
             this.Ibltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Ibltime.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.Ibltime.Location = new System.Drawing.Point(620, 19);
+            this.Ibltime.ForeColor = System.Drawing.Color.Black;
+            this.Ibltime.Location = new System.Drawing.Point(616, 19);
             this.Ibltime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Ibltime.Name = "Ibltime";
             this.Ibltime.Size = new System.Drawing.Size(76, 26);
@@ -80,7 +80,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblUser.AutoSize = true;
             this.lblUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUser.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.lblUser.ForeColor = System.Drawing.Color.Black;
             this.lblUser.Location = new System.Drawing.Point(24, 19);
             this.lblUser.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUser.Name = "lblUser";
