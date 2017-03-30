@@ -156,9 +156,12 @@ namespace chat_list
             this.chatbox1.Name = "chatbox1";
             this.chatbox1.Size = new System.Drawing.Size(717, 600);
             this.chatbox1.TabIndex = 0;
+
             this.chatbox1.chatbox_visible(false);
             this.Width = 257;
+
             this.Invoke(new set_chathistory(loginForm.DisplayChatHistory), ID);
+
             this.chatbox1.chatbox_visible(true);
             this.Width = 728;
 
@@ -240,15 +243,61 @@ namespace chat_list
 
         //-------------------------------------------------------------------------------------------------------------------
         // add group button
+        public addGroup NewGroup;
+
         public delegate void set_addGroup(string member);
         private void addGroupButton_Click(object sender, EventArgs e)
         {
             add_grouplist = true;
+
             strfriendList = new List<string>();
 
-            //string member = "";
-            //this.Invoke(new set_addGroup(loginForm.addGroup), member);
+            // display addGroup form
+            NewGroup = new addGroup(this);
+            NewGroup.Show();
+
+            // go to tabpageChat
+            this.tabControl1.SelectedTab = tabPageChat;
+                        
         }
+        
+
+        // display member
+        public delegate void set_member(string str, int ID, string path);
+        public void displayMember(string str, int ID, string path)
+        {
+            this.Invoke(new set_member(loginForm.ReviewGroupMember), str, ID, path);
+        }
+
+        // send data to login form
+        public delegate void set_memberId(string memberID);
+        public void passMemberID()
+        {
+            //string memberID = loginForm.userinfo.UserId.ToString();
+            string temp = loginForm.userinfo.UserId.ToString();
+
+            foreach (string s in strfriendList)
+            {
+               temp += "," + s;                
+            }
+
+            var temp1 = temp.Split(',').ToList();
+            var temp2 = temp1.Distinct().ToList();
+            var sortemp2 = temp2.OrderBy(x => x).ToList();
+            string memberID = String.Join(",", sortemp2);
+            
+            this.Invoke(new set_memberId(loginForm.addGroup), memberID);
+                        
+        }
+                
+        // display chat history for the new group
+        public void view_newGroup(int ID)
+        {
+            this.tabControl1.SelectedTab = tabPageGroup;
+            ChatHistory(ID);
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        
         //-------------------------------------------------------------------------------------------------------------------
 
         public void add_list_from_friendlist(string str)
@@ -261,9 +310,12 @@ namespace chat_list
 
         // variable for passing receive data --> trial!
         //private string receiveMessage;
+        
         public void add_strfriendList(string str)
         {
+
             strfriendList.Add(str);
+                        
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -290,6 +342,7 @@ namespace chat_list
         {
             
         }
+        
 
         // trial button
         private void button2_Click(object sender, EventArgs e)
@@ -307,6 +360,7 @@ namespace chat_list
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
+            loginForm.send_data("logout");
             loginForm.signOut();
             this.Dispose();
         }

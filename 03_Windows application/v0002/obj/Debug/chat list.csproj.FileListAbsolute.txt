@@ -105,3 +105,39 @@ C:\Users\k1515\Desktop\chat list\chat list\obj\Debug\chat list.pdb
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.exe
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.pdb
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.csprojResolveAssemblyReference.cache
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\bin\Debug\chat list.exe.config
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\bin\Debug\chat list.exe
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\bin\Debug\chat list.pdb
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat list.csprojResolveAssemblyReference.cache
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.chatbox.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.chatmesg.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.Form1.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.friend_item.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.friend_list.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.Login.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.Properties.Resources.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.SearchFriend.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.sign_up.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.UserDetail.resources
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat list.csproj.GenerateResource.Cache
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat list.exe
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat list.pdb
+C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v0004\obj\Debug\chat_list.addGroup.resources
+\\Mac\Home\Downloads\v0004\bin\Debug\chat list.exe
+\\Mac\Home\Downloads\v0004\bin\Debug\chat list.exe.config
+\\Mac\Home\Downloads\v0004\bin\Debug\chat list.pdb
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.addGroup.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.chatbox.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.chatmesg.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.Form1.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.friend_item.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.friend_list.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.Login.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.Properties.Resources.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.SearchFriend.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.sign_up.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat_list.UserDetail.resources
+\\Mac\Home\Downloads\v0004\obj\Debug\chat list.csproj.GenerateResource.Cache
+\\Mac\Home\Downloads\v0004\obj\Debug\chat list.exe
+\\Mac\Home\Downloads\v0004\obj\Debug\chat list.pdb
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.addGroup.resources

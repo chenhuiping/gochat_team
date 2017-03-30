@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="addGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="addGroup.designer.cs">
+      <DependentUpon>addGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="chatbox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     <Compile Include="UserDetail.designer.cs">
       <DependentUpon>UserDetail.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="addGroup.resx">
+      <DependentUpon>addGroup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="chatbox.resx">
       <DependentUpon>chatbox.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,6 +153,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="sign_up.resx">
       <DependentUpon>sign_up.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserDetail.resx">
       <DependentUpon>UserDetail.cs</DependentUpon>

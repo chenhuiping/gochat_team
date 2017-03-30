@@ -11,6 +11,7 @@ using TCP_handle;
 using System.Net.NetworkInformation;
 using System.IO;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace chat_list
 {
@@ -35,6 +36,8 @@ namespace chat_list
             set { receiveMessage = value; }
             
         }
+
+        public object Enviroment { get; private set; }
 
         public void chatbox_visible(bool enable)
         {
@@ -69,9 +72,9 @@ namespace chat_list
 
         //------------------------------------------------------------------------------------------------------------------
         // display received picture/file
-        public void addInPicture(string message)
+        public void addInPicture(string message, string username, string time)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In);
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In, username, time);
             //message = "https://www.w3schools.com/css/img_fjords.jpg";
             bbl.setimage(message);
             //while (bbl.p)
@@ -90,11 +93,11 @@ namespace chat_list
         }
         //------------------------------------------------------------------------------------------------------------------
         // display received text message
-        public void addInMessage(string message)
+        public void addInMessage(string message, string username, string time)
         {
             //if (message.Contains(" says : "))
             
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In);
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In, username, time);
             //message = "https://www.w3schools.com/css/img_fjords.jpg";
             //bbl.setimage(message);
             bbl.Location = bubble1.Location;
@@ -112,9 +115,9 @@ namespace chat_list
         }
         //------------------------------------------------------------------------------------------------------------------
         // display sent picture/file
-        public void addOutPicture(string message)
+        public void addOutPicture(string message, string username, string time)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out);
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time);
             //message = "https://www.w3schools.com/css/img_fjords.jpg";
             bbl.setimage(message);
             //while (bbl.p)
@@ -134,9 +137,9 @@ namespace chat_list
 
         //------------------------------------------------------------------------------------------------------------------
         // display sent text message
-        public void addOutMessage(string message)
+        public void addOutMessage(string message, string username, string time)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out);
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time);
             bbl.Location = bubble1.Location;
             bbl.Left += 20;
             bbl.Size = bubble1.Size;
@@ -157,10 +160,14 @@ namespace chat_list
         }
         private void send_data()
         {
+            string tTex = textBox1.Text;
+            tTex = tTex.Replace(System.Environment.NewLine, "");
 
-            if (textBox1.Text != null)
+            
+            if (tTex != null)
             {
-                this.loginForm.send_data("message" + check + this.chatID + check + DateTime.Now.ToShortTimeString() + check + textBox1.Text + check + loginForm.userinfo.UserId + check + "0");
+                
+                this.loginForm.send_data("message" + check + this.chatID + check + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) + check + tTex + check + loginForm.userinfo.UserId + check + "0");
             }
             textBox1.Text = "";
 

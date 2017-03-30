@@ -29,6 +29,7 @@ namespace chat_list
         private void set_userName(string str)
         {
             this.Invoke(new MethodInvoker(delegate { label1.Text = str; }));
+            label1.Text = str;
             Debug.WriteLine("userName: " + str);
 
 
@@ -38,7 +39,8 @@ namespace chat_list
         private void button1_Click(object sender, EventArgs e)
         {
             MainForm.loginForm.addFriend(UserData.UserId);
-            MainForm.loginForm.add_usertable_from_addFriend(UserData);
+            //MainForm.loginForm.add_usertable_from_addFriend(UserData);
+            
         }
 
         internal void setUserData(Login.user temp)

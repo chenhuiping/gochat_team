@@ -77,10 +77,15 @@ namespace chat_list
             loginForm.Show();
             this.Dispose();
         }
+        //---------------------------------------------------------------------------------------------
+        // 'sign up' button
 
         public delegate void createAccount(string username, string password, string profile);
         private void pictureBox5_Click(object sender, EventArgs e)
         {
+            
+            
+            // send user details to server
             //loginForm.sendFile(fileName, shortFileName);
             this.loginForm.getSendMessage = UName.Text;
             if (pw1.Text == pw2.Text)
@@ -92,7 +97,12 @@ namespace chat_list
                // this.loginForm.getSendMessage = pw1.Text;
 
             }
+            // open connection
+            loginForm.newConnectWs();
 
+            // close this form
+            loginForm.Show();
+            this.Dispose();
         }
         
         private void pictureBox4_Click(object sender, EventArgs e)

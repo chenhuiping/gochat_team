@@ -41,6 +41,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.loadingImg = new System.Windows.Forms.PictureBox();
+            this.connection = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loadingImg)).BeginInit();
@@ -51,8 +52,8 @@
             this.usernameTextBox.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.usernameTextBox.ForeColor = System.Drawing.Color.DarkGray;
             this.usernameTextBox.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.usernameTextBox.Location = new System.Drawing.Point(492, 591);
-            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(5);
+            this.usernameTextBox.Location = new System.Drawing.Point(159, 591);
+            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(444, 53);
             this.usernameTextBox.TabIndex = 0;
@@ -65,8 +66,8 @@
             this.passwordTextBox.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.passwordTextBox.ForeColor = System.Drawing.Color.DarkGray;
             this.passwordTextBox.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.passwordTextBox.Location = new System.Drawing.Point(492, 682);
-            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(5);
+            this.passwordTextBox.Location = new System.Drawing.Point(159, 682);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(444, 53);
             this.passwordTextBox.TabIndex = 1;
@@ -78,8 +79,8 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(492, 784);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Location = new System.Drawing.Point(159, 784);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(445, 66);
             this.button1.TabIndex = 2;
@@ -93,7 +94,7 @@
             this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label1.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(552, 855);
+            this.label1.Location = new System.Drawing.Point(219, 855);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(326, 32);
@@ -104,8 +105,8 @@
             // 
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(492, 41);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Location = new System.Drawing.Point(159, 41);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(445, 418);
             this.pictureBox1.TabIndex = 4;
@@ -116,7 +117,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(592, 486);
+            this.label2.Location = new System.Drawing.Point(259, 486);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(260, 73);
@@ -126,8 +127,8 @@
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(1408, 15);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox3.Location = new System.Drawing.Point(703, 15);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(47, 42);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -145,7 +146,7 @@
             this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label3.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(567, 902);
+            this.label3.Location = new System.Drawing.Point(233, 902);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(285, 32);
@@ -156,7 +157,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(394, 612);
+            this.label4.Location = new System.Drawing.Point(61, 612);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(77, 25);
             this.label4.TabIndex = 8;
@@ -165,7 +166,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(365, 703);
+            this.label5.Location = new System.Drawing.Point(32, 702);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 25);
             this.label5.TabIndex = 9;
@@ -175,9 +176,10 @@
             // 
             this.loadingImg.BackColor = System.Drawing.Color.Transparent;
             this.loadingImg.Image = ((System.Drawing.Image)(resources.GetObject("loadingImg.Image")));
-            this.loadingImg.Location = new System.Drawing.Point(438, 47);
+            this.loadingImg.Location = new System.Drawing.Point(104, 48);
+            this.loadingImg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loadingImg.Name = "loadingImg";
-            this.loadingImg.Size = new System.Drawing.Size(554, 412);
+            this.loadingImg.Size = new System.Drawing.Size(555, 412);
             this.loadingImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.loadingImg.TabIndex = 10;
             this.loadingImg.TabStop = false;
@@ -189,7 +191,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(164)))), ((int)(((byte)(147)))));
-            this.ClientSize = new System.Drawing.Size(1471, 1040);
+            this.ClientSize = new System.Drawing.Size(763, 1040);
             this.Controls.Add(this.loadingImg);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -202,7 +204,7 @@
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
@@ -232,5 +234,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox loadingImg;
+        private System.ComponentModel.BackgroundWorker connection;
     }
 }

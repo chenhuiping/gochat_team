@@ -28,7 +28,7 @@ namespace chat_list
             }
         }
 
-        public chatmesg(string message, msgtype messagetype)
+        public chatmesg(string message, msgtype messagetype, string username, string time)
         {
 
             InitializeComponent();
@@ -47,8 +47,9 @@ namespace chat_list
                 //pictureBox1.Visible = false;
             }
             else {
+                lblUser.Text = username;
                 Iblmessage.Text = message;
-                Ibltime.Text = DateTime.Now.ToShortTimeString();
+                Ibltime.Text = time;
                 if (messagetype.ToString() == "In")
                 { //incoming message
                     this.BackColor = Color.FromArgb(0, 164, 147);
@@ -65,22 +66,22 @@ namespace chat_list
         
        
         void Setheight()
-            { Size maxSize = new Size(495, int.MaxValue);
-                Graphics g = CreateGraphics();
-                SizeF size = g.MeasureString(Iblmessage.Text, Iblmessage.Font, Iblmessage.Width);
+        {
+            Size maxSize = new Size(495, int.MaxValue);
+            Graphics g = CreateGraphics();
+            Iblmessage.Top = lblUser.Bottom + 5;
+            SizeF size = g.MeasureString(Iblmessage.Text, Iblmessage.Font, Iblmessage.Width);
             Iblmessage.Height = int.Parse(Math.Round(size.Height + 2, 0).ToString());
-            Ibltime.Top = Iblmessage.Bottom;
-                this.Height = Ibltime.Bottom + 10;
+            //Ibltime.Top = Iblmessage.Bottom;
+
+            this.Height = Iblmessage.Bottom + 10;
+                //this.Height = Ibltime.Bottom + 10;
 
             }
 
         private void chatmesg_Load(object sender, EventArgs e)
         {
             Setheight();
-            //PictureBox pictureBox1 = new PictureBox();
-            //pictureBox1.Location = new System.Drawing.Point(194, 10);
-            //pictureBox1.Name = "pictureBox1";
-            //pictureBox1.Size = new System.Drawing.Size(108, 92);
         }
         private bool LoadCompleted = false;
         private void pictureBox1_LoadCompleted(object sender, AsyncCompletedEventArgs e)
