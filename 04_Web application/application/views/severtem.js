@@ -37,12 +37,7 @@ function RemoveIp(UserName)
         });
 }
 
-//CHECK USER BEFORE REGISTER
-function checkUser(username)
-{
 
-
-}
 //REGISTER
 function InsertUser(username,pin,profile)
 {
@@ -57,6 +52,15 @@ function InsertUser(username,pin,profile)
 function updateFriend(UserId,FriendId)
 {
     conn.query('UPDATE friend set FriendId = concat(FriendId,",'+FriendId+'") where UserId='+UserId,
+        function(err, rows, fields) {
+            if (err) throw err;
+            return true;
+        });
+}
+ //USER HAVE NO FRIEND
+function insertFriend(UserId,FriendId)
+{
+    conn.query('INSERT INTO friend (UserId,FriendId) VALUES("'+UserId+'","'+FriendId+'")',
         function(err, rows, fields) {
             if (err) throw err;
             return true;
@@ -149,6 +153,7 @@ wsServer.on('request', function(request) {
     //console.log('ip:'+connection.remoteAddresses);
 
     // we need to know client index to remove them on 'close' event
+
     var index = clients.push(connection) - 1;
     //var Ip = clientsIp.push(connection.remoteAddress);
     //console.log(Ip);
@@ -159,8 +164,6 @@ wsServer.on('request', function(request) {
     console.log((new Date()) + ' Connection accepted.');
 
     for (var i = 0; i < clients.length; i++) {
-        //console.log(clients[i].remoteAddress);
-
         console.log(i+"!!!!!"+clients[i].remoteAddress);
     }
     // send back chat history
@@ -449,29 +452,65 @@ wsServer.on('request', function(request) {
 
                 //CHANGE FRIEND TABLE
                 if (strs[0] == "friend") {
-                    updateFriend(strs[1],strs[2]);
-
-                    // we want to keep history of all sent messages
-                    var obj = {
-                        UserId: strs[1],
-                        FriendId: strs[2]
-                    };
-                    var json = JSON.stringify({type: 'ufriend', data: obj});
-
-                    conn.query('SELECT user.Ip from user where UserId in ('+strs[2]+','+strs[1]+')',
-                        function (err, rows, fields) {
+                    conn.query('select * from friend where UserId="'+strs[1]+'"',
+                        function(err, friend, fields) {
                             if (err) throw err;
-
-                            for(var j=0;j<rows.length;j++)
+                            if(friend.length==0)
                             {
-                                for (var i = 0; i < clients.length; i++) {
+                                insertFriend(strs[1],strs[2]);
 
-                                    if (rows[j].Ip == clients[i].remoteAddress) {
-                                        clients[i].sendUTF(json);
-                                    }
-                                }
+                                // we want to keep history of all sent messages
+                                var obj = {
+                                    UserId: strs[1],
+                                    FriendId: strs[2]
+                                };
+                                var json = JSON.stringify({type: 'ufriend', data: obj});
+
+                                conn.query('SELECT user.Ip from user where UserId in ('+strs[2]+','+strs[1]+')',
+                                    function (err, rows, fields) {
+                                        if (err) throw err;
+
+                                        for(var j=0;j<rows.length;j++)
+                                        {
+                                            for (var i = 0; i < clients.length; i++) {
+
+                                                if (rows[j].Ip == clients[i].remoteAddress) {
+                                                    clients[i].sendUTF(json);
+                                                }
+                                            }
+                                        }
+                                    });
+
+                            }
+                            else
+                            {
+                                updateFriend(strs[1],strs[2]);
+
+                                // we want to keep history of all sent messages
+                                var obj = {
+                                    UserId: strs[1],
+                                    FriendId: strs[2]
+                                };
+                                var json = JSON.stringify({type: 'ufriend', data: obj});
+
+                                conn.query('SELECT user.Ip from user where UserId in ('+strs[2]+','+strs[1]+')',
+                                    function (err, rows, fields) {
+                                        if (err) throw err;
+
+                                        for(var j=0;j<rows.length;j++)
+                                        {
+                                            for (var i = 0; i < clients.length; i++) {
+
+                                                if (rows[j].Ip == clients[i].remoteAddress) {
+                                                    clients[i].sendUTF(json);
+                                                }
+                                            }
+                                        }
+                                    });
+
                             }
                         });
+
                 }
 
                 //CHANGE CHAT TABLE

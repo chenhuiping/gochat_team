@@ -13,6 +13,7 @@
     <link href="assets/css/image-crop.css" rel="stylesheet"/>
     <script src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.scrollTo.js"></script>
+
     <script src="assets/js/index.js"></script>
     <title>gochat</title>    <style>
 
@@ -402,9 +403,9 @@
         }
         .RedPoint{
             width: 15px;
-            height=15px;
-            position: absolute;
-            right:20px
+            position: relative;
+            right: 0px;
+            top: 22%;
         }
         /*.m-list{*/
             /*height:495px;*/
@@ -472,16 +473,16 @@
                 {?>
                     <li onclick="getGroupMessage(<?=$group['ChatId']?>)" id="<?=$group['ChatId']?>" name="group">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="assets/dist/images/group2.png">
-                        <p style="word-wrap:break-word; word-break:break-all;width: 120px;overflow: hidden; " class="name">
+                        <p style="word-wrap:break-word; word-break:break-all;width: 100px;overflow: hidden; " class="name">
                         <?php
-                        foreach($group['User'] as $g)
-                        {
-                            echo $g['UserName'].",";
-                        } ?>
+
+                            echo $userInfo['UserName'].".....(".count($group['User']).")";
+                        ?>
                         </p>
                         <img class="RedPoint displayNone"  src="assets/dist/images/red_dot.png">
                     </li>
-               <?php }}?>
+               <?php }
+                }?>
 
             </ul>
         </div>
@@ -545,8 +546,8 @@
         <!--        search friend function over-->
     </div>
     <div class="main">
-        <div class="m-message">
-            <ul  id="leftContent">
+        <div class="m-message" id="m_message">
+            <ul  id="leftContent" >
 <!--                -->
 <!--                <li>-->
 <!--                    <p class='time'>-->
@@ -647,6 +648,7 @@
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script src="assets/js/form-samples.js"></script>
 <script src="assets/js/jquery.form.js"></script>
+
 <!--<script type="text/javascript" src="js/my.js"></script>-->
 <script type ="text/javascript">
     $(document).ready(function(){
@@ -795,6 +797,9 @@
     function getMessage(chatId)
     {
 
+        var div = document.getElementById('m_message');
+        $('#m_message').scrollTop(div.scrollHeight);
+
         $('#'+chatId+' .RedPoint').addClass('displayNone');
         var getMessageURL = "/gochat/admin/getMessage";
         var userId = <?=$userId?>;
@@ -867,12 +872,12 @@
                             str = str+"<img class='avatar' width='100' height='100' src='"+content+"'></div></li>";
                         if(type==2 )
                         {
-                            content=content.split("/");
-                            content=content[content.length-1];
+                            var content1=content.split("/");
+                            content1=content1[content1.length-1];
                             str = str+"<div class='sendFile'><div class='displayInB'>";
                             str = str+"<img src='assets/dist/images/ufile1.png' height='60px'/></div>";
-                            str = str+"<div class='cont'><p class='ptitle'>"+content+"</p>";
-                            str = str+"<a href='uploads/test.docx' class='dherf'>Download</a></div></div></div></li>";
+                            str = str+"<div class='cont'><p class='ptitle'>"+content1+"</p>";
+                            str = str+"<a href='"+content+"' class='dherf'>Download</a></div></div></div></li>";
                         }
                     }
 
@@ -891,6 +896,8 @@
     //GET GROUPCHAT MESSAGE
     function getGroupMessage(ChatId)
     {
+        var div = document.getElementById('m_message');
+        $('#m_message').scrollTop(div.scrollHeight);
         $('#'+ChatId+' .RedPoint').addClass('displayNone');
         var getMessageURL = "/gochat/admin/getGroupMessage";
         var userId = <?=$userId?>;
@@ -918,8 +925,7 @@
                     for(var i=0;i < a.length;i++)
                     {
                         var time,content,from,type,profile;
-//                            alert(a[i]['time']);
-
+//
                         time = a[i]['time'];
                         content = a[i]['content'];
                         from = a[i]['from'];
@@ -954,12 +960,12 @@
                         if(type==2 )
                         {
 
-                            content=content.split("/");
-                            content=content[content.length-1];
+                            var content1=content.split("/");
+                            content1=content1[content1.length-1];
                             str = str+"<div class='sendFile'><div class='displayInB'>";
                             str = str+"<img src='assets/dist/images/ufile1.png' height='60px'/></div>";
-                            str = str+"<div class='cont'><p class='ptitle'>"+content+"</p>";
-                            str = str+"<a href='uploads/test.docx' class='dherf'>Download</a></div></div></div></li>";
+                            str = str+"<div class='cont'><p class='ptitle'>"+content1+"</p>";
+                            str = str+"<a href='"+content+"' class='dherf'>Download</a></div></div></div></li>";
 
                         }
                     }
