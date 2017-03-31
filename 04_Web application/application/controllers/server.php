@@ -133,6 +133,14 @@ class Server extends CI_Controller
             usleep(1000);
         }
     }
+
+    public function login()
+    {
+        $message=  $this->input->post('message');
+        var_dump($message);die;
+        $json = json_encode($data);
+        print_r($json);
+    }
 }
 ?>
 

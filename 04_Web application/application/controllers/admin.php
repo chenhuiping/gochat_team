@@ -15,76 +15,109 @@ class Admin extends CI_Controller {
     }
 
     /*页面 主页*/
-    public function index()
+    public function index($UserName,$UserId)
     {
         //CHECK SESSION
-        $this->login_check();
 
-        $UserId=$_SESSION['jm_admin_id'];
+//        $UserId=$this->input->post('UserId');
+//        $UserId=2;
         $data['userId']=$UserId;
-
+        $data['UserName']=$UserName;
+//        var_dump($data['userId']);
+//        var_dump($data['UserName']);die;
         //*************USERINFO******************
         //get USERINFO by userId for profile and username
-        $data['userInfo'] = $this->admin_model->getUserInfo($UserId);
-        $data['UserName'] = $data['userInfo']['UserName'];
+        $data['userInfo'] = $this->admin_model->getUserInfo($data['UserName'],$UserId);
+//        var_dump($data['userInfo']);die;
+//        $data['UserName'] = $data['userInfo']['UserName'];
 
         //*************FIRENDLIST******************
         //get friendlist
-        $data['friend'] = $this->admin_model->getFriend($UserId);
-        $str = $data['friend']['FriendId'];
-            //split friendlist and get friendinfo
-        $str1 = explode(",",$str);
-        $i=0;
-        foreach ($str1 as $friendList)
+        $data['friend'] = $this->admin_model->getFriend($data['UserName'],$UserId);
+//        var_dump( $data['friend']);die;
+        if($data['friend']==NULL)
         {
-            $data['friendInfo'][$i] = $this->admin_model->getUserInfo($friendList);
-            $i++;
+            $data['friendInfo']=NULL;
         }
+        else{
+            $str = $data['friend']['FriendId'];
+            //split friendlist and get friendinfo
+            $str1 = explode(",",$str);
+            $i=0;
+            foreach ($str1 as $friendList)
+            {
+                $arr1 = array($UserId,$friendList);
+                $arr2 = array($friendList,$UserId);
+                $info1= implode(",",$arr1);
+                $info2= implode(",",$arr2);
+                $data['ChatId'] = $this->admin_model->getChatId($data['UserName'],$info1,$info2);
+//
+                $data['friendInfo'][$i] = $this->admin_model->getUserInfo($data['UserName'],$friendList);
+                $data['friendInfo'][$i]['ChatId']=$data['ChatId']['ChatId'];
+                $i++;
+            }
+        }
+//        var_dump( $data['friendInfo']);die;
 
         //*************NONE-GROUPCHAT******************
         //GET CHATID NONE-GROUP
-        $data['chat_nogroup'] = $this->admin_model->getChatId_nogroup();
+        $data['chat_nogroup'] = $this->admin_model->getChatId_nogroup($data['UserName']);
         //select userId by chatId from message table
-        $i=0;
-        foreach ($data['chat_nogroup'] as $nogroup){
-            $data['RUList'][$i]= $this->admin_model->getUList($nogroup['ChatId'],$UserId);
-            $i++;
+//        var_dump($data['chat_nogroup']);die;
+        if(count($data['chat_nogroup'])<=0)
+        {
+            $data['recent']=NULL;
 
         }
-        //SELECT USERINFO
-        $j=0;
-        foreach ($data['RUList'] as $ru){
-            $data['recent'][$j]= $this->admin_model->getUserInfo($ru['from']);
-            $j++;
+        else
+        {
+
+            $i=0;
+            foreach ($data['chat_nogroup'] as $nogroup){
+                $data['RUList'][$i]= $this->admin_model->getUList($data['UserName'],$nogroup['ChatId'],$UserId);
+                $i++;
+            }
+//        var_dump($data['RUList']);die;
+            //SELECT USERINFO
+            $j=0;
+            foreach ($data['RUList'] as $ru){
+                if($ru!=NULL)
+                {
+                $data['recent'][$j]= $this->admin_model->getUserInfo($data['UserName'],$ru['from']);
+                $data['recent'][$j]['ChatId']=$ru['ChatId'];
+                $j++;
+                }
+            }
+
         }
+
 //        var_dump($data['recent']);die;
 
         //*************GROUPCHAT******************
         //GET CHATID GROUP
-        $data['chat_group'] = $this->admin_model->getChatId_group();
+        $data['chat_group'] = $this->admin_model->getChatId_group($data['UserName']);
 
-        //SELECT USERID BY CHATID FROM MESSAGE TABLE
-        $i=0;
-        foreach ($data['chat_group'] as $group){
-            $data['groupList'][$i]= $this->admin_model->getGroupId($group['ChatId'],$UserId);
-            $i++;
+
+        if(count($data['chat_group'])<=0)
+        {
+            $data['groupUser']=NULL;
         }
-        //        var_dump($data['groupList']);die;
-        //SELECT USERINFO
+        else{
+            $j=0;
+            foreach($data['chat_group'] as $chatid){
+                $data['groupUser'][$j]['ChatId']=$chatid['ChatId'];
+//            $str1 = explode(",",$str);
+                $str=explode(",",$chatid['member']);
+                for($m=0;$m<count($str);$m++)
+                {
+                    $data['groupUser'][$j]['User'][$m]=$this->admin_model->getGroupUser($data['UserName'],$str[$m]);
+                }
+                $j++;
 
-        $j=0;
-
-        foreach ($data['groupList'] as $gr){
-            $m=0;
-            foreach($gr as $g)
-            {
-                $data['groupUser'][$j]['ChatId']=$g['ChatId'];
-                $data['groupUser'][$j]['User'][$m]=$this->admin_model->getGroupUser($g['from']);
-                $m++;
             }
-            $j++;
         }
 //        var_dump($data['groupUser']);die;
+
 
         $this->load->view('index',$data);
     }
@@ -154,25 +187,27 @@ class Admin extends CI_Controller {
     public function getMessage()
     {
         $userId=  $this->input->post('userId');
-        $friendId = $this->input->post('friendId');
+//        $friendId = $this->input->post('friendId');
+        $UserName = $this->input->post('UserName');
+        $chatId = $this->input->post('chatId');
 //        $userId=1;
 //        $friendId=3;
 
-        $arr1 = array($userId,$friendId);
-        $arr2 = array($friendId,$userId);
-        $info1= implode(",",$arr1);
-        $info2= implode(",",$arr2);
+//        $arr1 = array($userId,$friendId);
+//        $arr2 = array($friendId,$userId);
+//        $info1= implode(",",$arr1);
+//        $info2= implode(",",$arr2);
 
         $data['userId'] = $userId;
-        $data['ChatId'] = $this->admin_model->getChatId($info1,$info2);
-        if($data['ChatId']!="")
-        {
-            $data['message'] = $this->admin_model->getMessage($data['ChatId']['ChatId']);
-        }
+//        $data['ChatId'] = $this->admin_model->getChatId($UserName,$info1,$info2);
+//        if($data['ChatId']!="")
+//        {
+            $data['message'] = $this->admin_model->getMessage($UserName,$chatId);
+//        }
         $i=0;
         foreach($data['message'] as $message)
         {
-            $data['message'][$i]['profile']=$this->admin_model->getProfile($message['from']);
+            $data['message'][$i]['profile']=$this->admin_model->getProfile($UserName,$message['from']);
 //            var_dump($message['profile']);
             $i++;
         }
@@ -188,21 +223,27 @@ class Admin extends CI_Controller {
     {
         $userId=  $this->input->post('userId');
         $chatId = $this->input->post('ChatId');
-//        $userId=1;
-//        $chatId=3;
-
+        $UserName =$this->input->post('UserName');
+//        $userId=2;
+//        $chatId=10;
+//        $UserName="viki";
+//        var_dump($UserName);
         $data['userId'] = $userId;
 
-
-        $data['groupMessage'] = $this->admin_model->getMessage($chatId);
+        $data['groupMessage'] = $this->admin_model->getMessage($UserName,$chatId);
 //        var_dump($data['groupMessage']);die;
         $i=0;
         foreach($data['groupMessage'] as $message)
         {
-            $data['groupMessage'][$i]['profile']=$this->admin_model->getProfile($message['from']);
-//            var_dump($message['profile']);
+            $data['groupMessage'][$i]['profile']=$this->admin_model->getProfile($UserName,$message['from']);
+            if($data['groupMessage'][$i]['profile']==NULL)
+            {
+                $data['groupMessage'][$i]['profile']['profile']="uploads/profile/profile.png";
+            }
+//            var_dump($data['groupMessage'][$i]['profile']);
             $i++;
         }
+
 //        var_dump($data['groupMessage']);die;
 
         $json = json_encode($data);

@@ -1,11 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <base href="<?= base_url()?>" />
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
     <title>gochat</title>
-    <style>
+    <base href="<?= base_url()?>" />
+    <meta http-equiv="Content-Type" content="text/html; charsetutf-8" />
+
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/chosen.css" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-fileupload.css" />
+
+
+    <link href="assets/css/image-crop.css" rel="stylesheet"/>
+    <script src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.scrollTo.js"></script>
+
+    <script src="assets/js/index.js"></script>
+    <title>gochat</title>    <style>
+
         *, *:before, *:after {
             box-sizing: border-box;
         }
@@ -54,6 +65,7 @@
             overflow:hidden;
             position:relative;
             border-bottom: 1px solid #24272c;
+            padding-bottom: 8px;
 
         }
         .tab_chat,.tab_friend,.tab_groupchat{
@@ -204,7 +216,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            padding-top: 97px;
+            padding-top: 20px;
 
 
         }
@@ -389,7 +401,16 @@
             width: 150px;
             height: 150px;
         }
-
+        .RedPoint{
+            width: 15px;
+            position: relative;
+            right: 0px;
+            top: 22%;
+        }
+        /*.m-list{*/
+            /*height:495px;*/
+            /*overflow-y: scroll;*/
+        /*}*/
     </style>
 </head>
 <body>
@@ -398,95 +419,107 @@
     <div class="sidebar">
         <div class="m-card">
             <header>
-                <img class="avatar" width="40" height="40" alt="Coffce" src="<?=$userInfo['profile']?>">
+                <input id="getUserId" value="<?=$userId?>" class="displayNone"/>
+                <input id="getUserName" value="<?=$UserName?>" class="displayNone"/>
+                <img class="avatar" width="45" height="45" alt="Coffce" src="<?=$userInfo['profile']?>" onclick="CreateChatId()">
                 <p class="name"><?=$userInfo['UserName']?></p>
 <!--                功能列表按钮-->
-                <div class="functionOpt" id="functionOpt">
-                    <a class="add" href="">
+                <div class="functionOpt " id="functionOpt">
+                    <a class="add" href="admin/index/<?=$UserName?>/<?=$userId?>/#">
                         <img class="functionDisplay" src="assets/dist/images/functions.png" width="20px" height="20px">
                     </a >
                 </div>
 <!--                功能列表按钮结束-->
             </header>
             <footer>
-                <input class="search" placeholder="search user...">
+<!--                <input class="search" placeholder="">-->
             </footer>
         </div>
         <div class="tab">
             <div class="tab_chat" >
-                <a class="chat" href="#chatList" >
+                <a class="chat" href="admin/index/<?=$UserName?>/<?=$userId?>/#chatList" >
                     <img class="avatar imageSize" id="chatNow" onclick="changeChat()" src="assets/dist/images/chat1.png">
                 </a>
             </div>
             <div class="tab_groupchat">
-                <a class="chat" href="#groupList">
+                <a class="chat" href="admin/index/<?=$UserName?>/<?=$userId?>/#groupList">
                     <img class="avatar imageSize" id="groupChat" onclick="changeGroup()" src="assets/dist/images/groupchat1.png">
                 </a>
             </div>
             <div class="tab_friend">
-                <a class="chat" href="#friendList">
+                <a class="chat" href="admin/index/<?=$UserName?>/<?=$userId?>/#friendList">
                     <img class="avatar imageSize" id="friend" onclick="changeFriend()"  src="assets/dist/images/businesscard1.png">
                 </a>
             </div>
         </div>
         <div class="m-list" id="chatList">
             <ul id="recentList" >
-                <?php foreach($recent as $rl){?>
-                    <li onclick="getMessage(<?=$rl['UserId']?>)">
+
+                <?php if($recent!=NULL){
+                foreach($recent as $rl){?>
+                    <li onclick="getMessage(<?=$rl['ChatId']?>)" id="<?=$rl['ChatId']?>" name="recent">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="<?=$rl['profile']?>">
                         <p class="name"><?=$rl['UserName']?></p>
+                        <img class="RedPoint displayNone"  src="assets/dist/images/red_dot.png">
                     </li>
-                <?php }?>
+                <?php }}?>
 
             </ul>
         </div>
-        <div class="m-list displayNone" id="groupList">
+        <div class="m-list displayNone"  id="groupList">
             <ul>
-                <?php foreach($groupUser as $group)
+                <?php if($groupUser!=NULL){
+                foreach($groupUser as $group)
                 {?>
-                    <li onclick="getGroupMessage(<?=$group['ChatId']?>)">
+                    <li onclick="getGroupMessage(<?=$group['ChatId']?>)" id="<?=$group['ChatId']?>" name="group">
                         <img class="avatar" width="30" height="30" alt="示例介绍" src="assets/dist/images/group2.png">
-                        <p class="name">
+                        <p style="word-wrap:break-word; word-break:break-all;width: 100px;overflow: hidden; " class="name">
                         <?php
-                        foreach($group['User'] as $g)
-                        {
-                            echo $g['UserName'].",";
-                        } ?>
+
+                            echo $userInfo['UserName'].".....(".count($group['User']).")";
+                        ?>
                         </p>
+                        <img class="RedPoint displayNone"  src="assets/dist/images/red_dot.png">
                     </li>
-               <?php }?>
+               <?php }
+                }?>
 
             </ul>
         </div>
 
         <div class="m-list displayNone" id="friendList">
             <ul>
-                <?php foreach ($friendInfo as $fri)
-                {?>
-                <li onclick="getMessage(<?=$fri['UserId']?>)">
+                <?php if(!$friendInfo!="NULL"){
+
+                foreach ($friendInfo as $fri)
+                {
+
+                    ?>
+                <li onclick="getMessage(<?=$fri['ChatId']?>)" id="<?=$fri['ChatId']?>" name="friend">
                     <img class="avatar" width="30" height="30" alt="示例介绍" src="<?=$fri['profile']?>">
                     <p class="name"><?=$fri['UserName']?></p>
+<!--                    <img class="RedPoint displayNone"  src="assets/dist/images/red_dot.png">-->
                 </li>
-               <?php }?>
+               <?php }}?>
 
             </ul>
         </div>
         <!--        功能列表界面-->
-        <div class="functionList" id="aaaaaa">
+        <div class="functionList closeFunction " id="functionList">
             <ul class="dropdown_menu">
                 <li id="addfriends" style="border-bottom: 1px solid #f1f1f1 ;">
-                    <a href="#" >
+                    <a href="admin/index/<?=$UserName?>/<?=$userId?>/#" >
                         <p>Add Friend</p >
                     </a >
                 </li>
                 <li id="create_groupchat" style="border-bottom: 1px solid #f1f1f1 ;">
-                    <a href="#">
+                    <a href="admin/index/<?=$UserName?>/<?=$userId?>/#">
                         <p>Create Group Chat</p >
                     </a >
                 </li>
                 <li>
-                    <a href="#">
-                        <p>Log Out</p >
+                    <a href="admin/index/<?=$UserName?>/<?=$userId?>/#">
+                        <p id="logout">Log Out</p >
                     </a >
                 </li>
             </ul>
@@ -500,7 +533,7 @@
             </div>
             <div class="searchBg">
                 <input  class="searchUser" placeholder="search friends..." id="searchusername">
-                <button type="button" onclick="searchFriend()" style="height: 24px;position: relative;background-color: #3caf36;border:0;border-radius:4px;margin-left:14px;color: white;">Search</button>
+                <button type="button" id="SFButton" style="height: 24px;position: relative;background-color: #3caf36;border:0;border-radius:4px;margin-left:14px;color: white;">Search</button>
             </div>
             <div class="resultDisplay" id="addNow">
 
@@ -513,8 +546,8 @@
         <!--        search friend function over-->
     </div>
     <div class="main">
-        <div class="m-message">
-            <ul  id="leftContent">
+        <div class="m-message" id="m_message">
+            <ul  id="leftContent" >
 <!--                -->
 <!--                <li>-->
 <!--                    <p class='time'>-->
@@ -535,20 +568,26 @@
 <!--                </li>-->
             </ul>
         </div>
-        <div class="m-text">
+        <div class="m-text displayNone" id="m_text">
             <div style="height: 33px;padding: 5px 17px;">
-                <?php echo form_open_multipart('upload/do_upload/'.$UserName);?>
-
-<!--                <img src="assets/dist/images/file.png" width="20px"/>-->
-                    <input type="file"  name="userfile" size="10"/>
-<!--                <input type="file" id="file" multiple="multiple" size="1" />-->
-<!--                     <img width="20px" src="assets/dist/images/file.png"  style="cursor:hand"/>-->
-<!--                    <button onclick="do_upload()">upload</button>-->
-                <input type="submit" value="upload">
+                <form method="post" enctype="multipart/form-data" action="/gochat/upload/uploadCgPhoto/<?=$UserName?>" id="uploadForm" name="uploadForm" >
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <span class="btn btn-file">
+                            <span class="fileupload-new">Select file</span>
+                            <span class="fileupload-exists">Change</span>
+                            <input type="file" class="default" name="userfile" size="20" id="userfile" />
+                        </span>
+                        <span class="fileupload-preview"></span>
+                        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none" ></a>
+                        <input type="submit" value="upload" name="upload-btn" id="upload-btn"/>
+                        <input value="" name="imgPath" id="imgPath"  hidden="hidden"/>
+                        <input value="" name="imagePath" id="imagePath" hidden="hidden"/>
+                    </div>
+                </form>
             </div>
             <textarea placeholder="" id="leftText"></textarea>
         </div>
-        <button id="leftSendBtn">send</button>
+        <input  type="button" id="leftSendBtn" value="send"/>
     </div>
 </div>
 <!--发起聊天-->
@@ -574,99 +613,28 @@
                 </div>
                 <div class="chooser">
                     <div class="contactList">
-                        <div class="contact_item">
-                            <div class="opt" >
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
-                        <div class="contact_item">
-                            <div class="opt" style="float: left;margin-right: 10px;height: 40px;line-height: 40px;">
-                                <input type="checkbox" class="isCheck_user">
-                            </div>
-                            <div class="avatar">
-                                <img class="img_lazy" src="assets/dist/images/3.jpg">
-                            </div>
-                            <div class="info" style="overflow: hidden; height: 20px">
-                                <h4 class="nickname">milo</h4>
-                            </div>
-                        </div>
+                        <?php if($friendInfo!=NULL){
+
+                            foreach ($friendInfo as $fri)
+                            {?>
+                                <div class="contact_item">
+                                    <div class="opt" >
+                                        <input type="checkbox" name="contact" value="<?=$fri['UserId']?>" class="isCheck_user">
+                                    </div>
+                                    <div class="avatar">
+                                        <img class="img_lazy" src="<?=$fri['profile']?>">
+                                    </div>
+                                    <div class="info" style="overflow: hidden; height: 20px">
+                                        <h4 class="nickname"><?=$fri['UserName']?></h4>
+                                    </div>
+                                </div>
+                            <?php }}?>
+
                     </div>
                 </div>
             </div>
             <div class="dialog_ft">
-                <a class="button_default" href=" ">Confirm</a >
+                <a class="button_default" href="admin/index/<?=$UserName?>/<?=$userId?>/#" id="createGroupChat">Confirm</a >
             </div>
             <div class="ngdialog-close">
                 <img src="assets/dist/images/close.png">
@@ -678,19 +646,26 @@
 <!--<script src="assets/dist/main.js"></script>-->
 <script type="text/javascript" src="assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
+<script src="assets/js/form-samples.js"></script>
+<script src="assets/js/jquery.form.js"></script>
+
 <!--<script type="text/javascript" src="js/my.js"></script>-->
 <script type ="text/javascript">
     $(document).ready(function(){
 
+
+
         //显示功能列表
         $("#functionOpt").click(function(){
-            $("#aaaaaa").toggleClass('closeFunction');
+            $("#functionList").toggleClass('closeFunction');
 
         });
 
         $('li').click(function(){
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
+            $('#m_text').removeClass('displayNone');
+
         });
 
 
@@ -713,30 +688,38 @@
         //关闭添加好友界面
 
             $(".searchBar_close").click(function(){
-                $('.searchBar').addClass('closeAddFr')
-            })
+                $('.searchBar').addClass('closeAddFr');
+            });
 
         //显示发起聊天界面
 
             $(".ngdialog-close").click(function(){
-                $('.ngdialog').addClass('ngdialog_close')
-            })
+                $('.ngdialog').addClass('ngdialog_close');
+            });
 
     });
+
+
     function changeChat()
     {
         document.getElementById("chatNow").src="assets/dist/images/chat2.png";
         document.getElementById("groupChat").src="assets/dist/images/groupchat1.png";
         document.getElementById("friend").src="assets/dist/images/businesscard1.png";
+
+        $('#leftText').removeClass('displayNone');
         $('#chatList').removeClass('displayNone');
         $('#groupList').addClass('displayNone');
         $('#friendList').addClass('displayNone');
+        $('#groupList ul li').removeClass('active');
+        $('#friendList ul li').removeClass('active');
     }
     function changeGroup()
     {
         document.getElementById("chatNow").src="assets/dist/images/chat1.png";
         document.getElementById("groupChat").src="assets/dist/images/groupchat2.png";
         document.getElementById("friend").src="assets/dist/images/businesscard1.png";
+        $('#chatList ul li').removeClass('active');
+        $('#friendList ul li').removeClass('active');
         $('#chatList').addClass('displayNone');
         $('#groupList').removeClass('displayNone');
         $('#friendList').addClass('displayNone');
@@ -746,6 +729,8 @@
         document.getElementById("chatNow").src="assets/dist/images/chat1.png";
         document.getElementById("groupChat").src="assets/dist/images/groupchat1.png";
         document.getElementById("friend").src="assets/dist/images/businesscard2.png";
+        $('#groupList ul li').removeClass('active');
+        $('#chatList ul li').removeClass('active');
         $('#chatList').addClass('displayNone');
         $('#groupList').addClass('displayNone');
         $('#friendList').removeClass('displayNone');
@@ -808,53 +793,67 @@
             }
         })
     }
-
     //GET CHATING MESSAGE
-    function getMessage(friendId)
+    function getMessage(chatId)
     {
+
+        var div = document.getElementById('m_message');
+        $('#m_message').scrollTop(div.scrollHeight);
+
+        $('#'+chatId+' .RedPoint').addClass('displayNone');
         var getMessageURL = "/gochat/admin/getMessage";
         var userId = <?=$userId?>;
-        var friendId = friendId;
-//            alert(friendId);
+//        alert(userId);
+        var UserName = "<?=$UserName?>";
 
+//        var friendId = friendId;
+//            alert(friendId);
         $.ajax({
             type: "post",
             url: getMessageURL,
             dataType: "json",
             data: {
                 userId : userId,
-                friendId : friendId
+//                friendId : friendId
+                UserName :UserName,
+                chatId :chatId
+
             },
             success: function (data) {
                 if(data.message){
 //                        alert(data.message);
                     var a=data.message;
                     var userId=data.userId;
-//                        b=15:00-16:00;
-//                        alert(b);
                     str="";
-                    for(var i=0;i < a.length;i++)
+                    for(var i=0;i<a.length;i++)
                     {
                         var time,content,from,type,profile;
 //                            alert(a[i]['time']);
-
-                        time = a[i]['time'];
+//                        var strtime,strtime1;
+                        time = a[i]['time'].substring(11, 16);
                         content = a[i]['content'];
                         from = a[i]['from'];
                         type = a[i]['type'];
                         profile = a[i]['profile']['profile'];
 
-
-
                         str = str+"<li>";
-                        if(i==0)
-                        {
+//                        if(i==0)
+//                        {
                             str = str+"<p class='time'><span>"+time+"</span></p>";
-                        }
-                        else if(i!=0 && time-5>a[i-1]['time'])
-                        {
-                            str = str+"<p class='time'><span>"+time+"</span></p>";
-                        }
+//                        }
+//                        else
+//                        {
+//
+//                                strtime=time.split(" ");
+//                                strtime1 = a[i-1]['time'].split("");
+//                                if(strtime[0]==strtiem1[0]) {
+//                                    str = str + "<p class='time'><span>" + a[i]['time'].substring(11, 16) + "</span></p>";
+//                                }
+//                                else{
+//                                    str = str+"<p class='time'><span>"+a[i]['time']+"</span></p>";
+//                                }
+//                        }
+
 
                         if(from==userId)
                         {
@@ -873,17 +872,17 @@
                             str = str+"<img class='avatar' width='100' height='100' src='"+content+"'></div></li>";
                         if(type==2 )
                         {
-
-                            content=content.split("/");
-                            content=content[content.length-1];
+                            var content1=content.split("/");
+                            content1=content1[content1.length-1];
                             str = str+"<div class='sendFile'><div class='displayInB'>";
                             str = str+"<img src='assets/dist/images/ufile1.png' height='60px'/></div>";
-                            str = str+"<div class='cont'><p class='ptitle'>"+content+"</p>";
-                            str = str+"<a href='uploads/test.docx' class='dherf'>Download</a></div></div></div></li>";
-
+                            str = str+"<div class='cont'><p class='ptitle'>"+content1+"</p>";
+                            str = str+"<a href='"+content+"' class='dherf'>Download</a></div></div></div></li>";
                         }
                     }
+
                     $("#leftContent").html(str);
+//                    $("#leftContent").scrollTo('100%');
                 }
                 else{
                     str="";
@@ -891,22 +890,29 @@
                 }
             }
         })
-
     }
+
 
     //GET GROUPCHAT MESSAGE
     function getGroupMessage(ChatId)
     {
+        var div = document.getElementById('m_message');
+        $('#m_message').scrollTop(div.scrollHeight);
+        $('#'+ChatId+' .RedPoint').addClass('displayNone');
         var getMessageURL = "/gochat/admin/getGroupMessage";
         var userId = <?=$userId?>;
-//            alert(friendId);
+//        alert(userId);
+        var UserName ="<?=$UserName?>";
+//        alert(UserName);
+
         $.ajax({
             type: "post",
             url: getMessageURL,
             dataType: "json",
             data: {
                 userId : userId,
-                ChatId : ChatId
+                ChatId : ChatId,
+                UserName: UserName
             },
             success: function (data) {
                 if(data.groupMessage){
@@ -919,8 +925,7 @@
                     for(var i=0;i < a.length;i++)
                     {
                         var time,content,from,type,profile;
-//                            alert(a[i]['time']);
-
+//
                         time = a[i]['time'];
                         content = a[i]['content'];
                         from = a[i]['from'];
@@ -955,12 +960,12 @@
                         if(type==2 )
                         {
 
-                            content=content.split("/");
-                            content=content[content.length-1];
+                            var content1=content.split("/");
+                            content1=content1[content1.length-1];
                             str = str+"<div class='sendFile'><div class='displayInB'>";
                             str = str+"<img src='assets/dist/images/ufile1.png' height='60px'/></div>";
-                            str = str+"<div class='cont'><p class='ptitle'>"+content+"</p>";
-                            str = str+"<a href='uploads/test.docx' class='dherf'>Download</a></div></div></div></li>";
+                            str = str+"<div class='cont'><p class='ptitle'>"+content1+"</p>";
+                            str = str+"<a href='"+content+"' class='dherf'>Download</a></div></div></div></li>";
 
                         }
                     }
