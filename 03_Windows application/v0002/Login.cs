@@ -153,6 +153,7 @@ namespace chat_list
                 loadingImg.Visible = true;
             }));
         }
+        
         private void init_connect()
         {
             if (socket.State == WebSocketState.Open)
@@ -239,6 +240,18 @@ namespace chat_list
                 }
             }, cts.Token, TaskCreationOptions.LongRunning,
                 TaskScheduler.Default);
+        }
+        List<string> tfileinfo;
+        internal void setImageInforToSend(string fileToUpload, string v, string url, string chatid)
+        {
+            tfileinfo = new List<string>();
+            tfileinfo.Add(fileToUpload);
+            tfileinfo.Add(v);
+            tfileinfo.Add(url);
+            tfileinfo.Add(chatid);
+            this.sendFile.RunWorkerAsync();
+
+
         }
 
         //-------------------------------------------------------------------------------------------------
@@ -395,36 +408,45 @@ namespace chat_list
             else if (rcvMsg.Contains("\"type\":\"umessage"))
             {
                 rMessageTable temp = JsonConvert.DeserializeObject<rMessageTable>(rcvMsg);
-                DB_MessageTable.Add(temp.data);
-                string sender = "";
-
-                // get sender
-                var sendtemp = from user in DB_UserTable where user.UserId == temp.data.@from select user;
-
-                foreach (user u in sendtemp)
+                bool already_added = false;
+                foreach (var tm in DB_MessageTable)
                 {
-                    sender = u.UserName;
+                    if (tm.Id == temp.data.Id)
+                        already_added = true;
                 }
+                if (!already_added)
+                {
+                    DB_MessageTable.Add(temp.data);
+                    string sender = "";
 
-                if (temp.data.ChatId == MainForm.chatbox1.chatID)
-                {
-                    if (temp.data.from == userinfo.UserId)
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content, sender, temp.data.time, temp.data.type);
-                    else if (temp.data.from != userinfo.UserId)
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content, sender, temp.data.time, temp.data.type);
-                }
-                else
-                {
-                    foreach(var item in MainForm.friend_list1.store_list)
+                    // get sender
+                    var sendtemp = from user in DB_UserTable where user.UserId == temp.data.@from select user;
+
+                    foreach (user u in sendtemp)
                     {
-                        if(temp.data.from == item.userID)
-                        {//------------------------change color when the message is coming
-                            item.BackColor = Color.AliceBlue;
-                        }
+                        sender = u.UserName;
                     }
-                    //MainForm.friend_list1.store_list
+
+                    if (temp.data.ChatId == MainForm.chatbox1.chatID)
+                    {
+                        if (temp.data.from == userinfo.UserId)
+                            this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content, sender, temp.data.time, temp.data.type);
+                        else if (temp.data.from != userinfo.UserId)
+                            this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content, sender, temp.data.time, temp.data.type);
+                    }
+                    else
+                    {
+                        foreach (var item in MainForm.friend_list1.store_list)
+                        {
+                            if (temp.data.from == item.userID)
+                            {//------------------------change color when the message is coming
+                                item.BackColor = Color.AliceBlue;
+                            }
+                        }
+                        //MainForm.friend_list1.store_list
+                    }
+                    Debug.WriteLine("message realtime deserialize complete");
                 }
-                Debug.WriteLine("message realtime deserialize complete");
             } else if (rcvMsg.Contains("\"type\":\"uchat"))
             {
                 if (rcvMsg.Contains("\"data\":\"Failed to create a new chat"))
@@ -1064,6 +1086,160 @@ namespace chat_list
             }
         }
 
+        private void sendFile_DoWork(Object sender, DoWorkEventArgs e)
+        {
+            List<string> data = tfileinfo;
+            string ctime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            string dtime = DateTime.Now.ToString("dd-MM-yyyy-HH:mm:ss", CultureInfo.InvariantCulture);
+
+            string filename = null;
+            if (data[0].Contains("/"))
+                filename = data[0].Substring(data[0].LastIndexOf("/") + 1);
+            else if (data[0].Contains("\\"))
+                filename = data[0].Substring(data[0].LastIndexOf("\\") + 1);
+
+            if (data[0] != "")
+            {
+                string uriForUser = data[2] + userinfo.UserName + @"/";
+                uploadFile(data[0], filename, uriForUser);
+                string message = "message$" + data[3] + "$" + ctime + "$" + "./uploads/" + userinfo.UserName + "/" + filename + "$" + userinfo.UserId + "$" + data[1];
+                send_data(message);
+            }
+            else
+            {
+                MessageBox.Show("cancle");
+            }
+        }
+
+        private void sendFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("sendong complete!");
+            
+        }
+        public bool searchFTPfile(string filename, string uri)
+        {
+            bool result = false;
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
+            request.Credentials = new NetworkCredential("user", "user");
+            request.Timeout = 10000;
+            request.Method = WebRequestMethods.Ftp.ListDirectory;
+            StreamReader reader = new StreamReader(request.GetRequestStream(),System.Text.Encoding.Default);
+            string rData;
+            rData = reader.ReadToEnd();
+            string[] filelist = rData.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach(var tname in filelist)
+            {
+                if (filename == tname)
+                    result = true;
+            }
+            
+
+
+            return true;
+        }
         
+
+        public static void uploadFile(string file, string filename, string url)
+        {
+            
+
+            try
+            {
+                Debug.WriteLine(url+filename);
+                //FtpWebRequest ftpWebRequest = WebRequest.Create(url + filename) as FtpWebRequest;
+                //
+
+                FtpWebRequest requestFileDelete = (FtpWebRequest)WebRequest.Create(url + filename);
+                requestFileDelete.Credentials = new NetworkCredential("user", "user");
+                requestFileDelete.Method = WebRequestMethods.Ftp.DeleteFile;
+
+                FtpWebResponse responseFileDelete = (FtpWebResponse)requestFileDelete.GetResponse();
+                responseFileDelete.Close();
+            }
+            catch(Exception e)
+            {
+                //
+
+                Debug.WriteLine("delete fail");
+            }
+
+            try
+            {
+
+                Uri targetFileUri = new Uri(url);
+                Debug.WriteLine(url + filename);
+
+                //FtpWebRequest ftpWebRequest = WebRequest.Create(targetFileUri) as FtpWebRequest;
+                FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create(url + filename);
+                ftpWebRequest.Credentials = new NetworkCredential("user", "user");
+                ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
+
+                //FileStream sourceFileStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read);
+                Stream targetStream = ftpWebRequest.GetRequestStream();
+
+                byte[] bufferByteArray = new byte[2048];
+
+                byte[] fileBytes = null;
+                FileStream fileStream = File.OpenRead(file);
+
+                fileBytes = new byte[fileStream.Length];
+                //fileStream.Read(fileBytes, 0, fileBytes.Length);
+
+
+
+                while (true)
+                {
+
+                    //int byteCount = sourceFileStream.Read(bufferByteArray, 0, bufferByteArray.Length);
+                    int byteCount = fileStream.Read(bufferByteArray, 0, bufferByteArray.Length);
+                    if (byteCount == 0)
+                    {
+                        break;
+                    }
+
+                    targetStream.Write(bufferByteArray, 0, byteCount);
+                }
+
+                targetStream.Close();
+
+                fileStream.Close();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("upload fail");
+            }
+            /*// Get the object used to communicate with the server.
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(url + filename);
+            
+
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+
+            // This example assumes the FTP site uses anonymous logon.
+            request.Credentials = new NetworkCredential("user", "user");
+
+            // Copy the entire contents of the file to the request stream.
+            StreamReader sourceStream = new StreamReader(file);
+            byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
+            //byte[] fileContents = File.ReadAllBytes(file);
+            sourceStream.Close();
+            request.ContentLength = fileContents.Length;
+
+
+            // Upload the file stream to the server.
+            Stream requestStream = request.GetRequestStream();
+            requestStream.Write(fileContents, 0, fileContents.Length);
+            requestStream.Close();
+
+            // Get the response from the FTP server.
+            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+
+            // Close the connection = Happy a FTP server.
+            response.Close();
+
+            // Return the status of the upload.
+            return response.StatusDescription;*/
+
+        }
     }
 }

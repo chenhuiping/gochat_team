@@ -141,3 +141,4 @@ C:\Users\anisaul\Documents\Visual Studio 2017\Projects\Chat_List (11032017)\v000
 \\Mac\Home\Downloads\v0004\obj\Debug\chat list.pdb
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.addGroup.resources
 \\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat list.csprojResolveAssemblyReference.cache
+\\Mac\Home\Desktop\gochat_team\gochat_team\03_Windows application\v0002\obj\Debug\chat_list.ViewPicture.resources

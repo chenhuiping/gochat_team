@@ -54,7 +54,7 @@
             this.Ibltime.AutoSize = true;
             this.Ibltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Ibltime.ForeColor = System.Drawing.Color.Black;
-            this.Ibltime.Location = new System.Drawing.Point(616, 19);
+            this.Ibltime.Location = new System.Drawing.Point(538, 19);
             this.Ibltime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Ibltime.Name = "Ibltime";
             this.Ibltime.Size = new System.Drawing.Size(76, 26);
@@ -64,15 +64,16 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(361, 4);
+            this.pictureBox1.Location = new System.Drawing.Point(159, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(128, 128);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.Size = new System.Drawing.Size(171, 168);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
             this.pictureBox1.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBox1_LoadCompleted);
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // lblUser
             // 
@@ -92,6 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(164)))), ((int)(((byte)(147)))));
             this.Controls.Add(this.lblUser);
             this.Controls.Add(this.pictureBox1);
@@ -99,7 +101,7 @@
             this.Controls.Add(this.Iblmessage);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "chatmesg";
-            this.Size = new System.Drawing.Size(832, 168);
+            this.Size = new System.Drawing.Size(702, 172);
             this.Load += new System.EventHandler(this.chatmesg_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

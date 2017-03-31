@@ -41,7 +41,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.loadingImg = new System.Windows.Forms.PictureBox();
-            this.connection = new System.ComponentModel.BackgroundWorker();
+            this.sendFile = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.loadingImg)).BeginInit();
@@ -53,7 +53,7 @@
             this.usernameTextBox.ForeColor = System.Drawing.Color.DarkGray;
             this.usernameTextBox.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.usernameTextBox.Location = new System.Drawing.Point(159, 591);
-            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(444, 53);
             this.usernameTextBox.TabIndex = 0;
@@ -67,7 +67,7 @@
             this.passwordTextBox.ForeColor = System.Drawing.Color.DarkGray;
             this.passwordTextBox.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.passwordTextBox.Location = new System.Drawing.Point(159, 682);
-            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(444, 53);
             this.passwordTextBox.TabIndex = 1;
@@ -80,7 +80,7 @@
             // 
             this.button1.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(159, 784);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(445, 66);
             this.button1.TabIndex = 2;
@@ -106,7 +106,7 @@
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Location = new System.Drawing.Point(159, 41);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(445, 418);
             this.pictureBox1.TabIndex = 4;
@@ -128,7 +128,7 @@
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(703, 15);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(47, 42);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -189,6 +189,11 @@
             this.loadingImg.TabStop = false;
             this.loadingImg.Visible = false;
             // 
+            // sendFile
+            // 
+            this.sendFile.DoWork += new System.ComponentModel.DoWorkEventHandler(this.sendFile_DoWork);
+            this.sendFile.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.sendFile_RunWorkerCompleted);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -208,7 +213,7 @@
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
@@ -238,6 +243,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox loadingImg;
-        private System.ComponentModel.BackgroundWorker connection;
+        private System.ComponentModel.BackgroundWorker sendFile;
     }
 }

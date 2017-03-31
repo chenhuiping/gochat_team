@@ -25,6 +25,8 @@ namespace chat_list
         public int chatID;
         private string Message;
         string check = "$";
+        private string url = "ftp://47.91.75.150:21//uploads//";
+
 
         //variable for passing receive message
         private string receiveMessage;
@@ -146,6 +148,8 @@ namespace chat_list
 
             bbl_old = bbl;// safe the last added object
 
+            
+
 
         }
 
@@ -153,18 +157,30 @@ namespace chat_list
         // display sent text message
         public void addOutMessage(string message, string username, string time, int type)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time, type);
-            bbl.Location = bubble1.Location;
-            bbl.Left += 20;
-            bbl.Size = bubble1.Size;
-            bbl.Anchor = bubble1.Anchor;
-           
+
+            if (type == 1)
+            {
+                addOutPicture(message, username, time, type);
+            }
+            else if (type == 2)
+            {
+
+            }
+            else
+            {
+                chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time, type);
+                bbl.Location = bubble1.Location;
+                bbl.Left += 20;
+                bbl.Size = bubble1.Size;
+                bbl.Anchor = bubble1.Anchor;
+
                 bbl.Top = bbl_old.Bottom + 10;
                 //curtop = bbl.Bottom + 10;
                 panel5.Controls.Add(bbl);
                 panel5.VerticalScroll.Value = panel5.VerticalScroll.Maximum;
                 bbl_old = bbl;
-            // safe the last added object
+                // safe the last added object
+            }
         }
         //------------------------------------------------------------------------------------------------------------------
         // button to send text message
@@ -198,16 +214,19 @@ namespace chat_list
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "JPG|*.jpg|GIF|*.gif|PNG|*.png|BMP|*.bmp";
             dlg.Title = "File Sharing Client";
-            dlg.ShowDialog();
             //txtFile.Text = dlg.FileName;
-            fileName = dlg.FileName;
-            //string shortFileName = Path.GetFileName(fileName);
-            //string ipAddress = txtIPAddress.Text;
-            //int port = int.Parse(txtHost.Text);
-            //string fileName = txtFile.Text;
-            string shortFileName = Path.GetFileName(fileName);
-            //Task.Factory.StartNew(() => SendFile(ipAddress, port, fileName, shortFileName));
-            MessageBox.Show("File Sent");
+            string fileToUpload;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+                fileToUpload = dlg.FileName;
+            else
+                fileToUpload = string.Empty;
+            this.loginForm.setImageInforToSend(fileToUpload, "1", url, chatID.ToString());
+
+
+
+            
+            //MessageBox.Show("File Sent");
             //loginForm.sendFile(fileName, shortFileName);
         }
 
@@ -217,6 +236,21 @@ namespace chat_list
             {
                 send_data();
             }
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            //dlg.Filter = "JPG|*.jpg|GIF|*.gif|PNG|*.png|BMP|*.bmp";
+            dlg.Title = "File Sharing Client";
+            //txtFile.Text = dlg.FileName;
+            string fileToUpload;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+                fileToUpload = dlg.FileName;
+            else
+                fileToUpload = string.Empty;
+            this.loginForm.setImageInforToSend(fileToUpload, "2", url, chatID.ToString());
         }
     }
 }
