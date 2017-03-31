@@ -300,6 +300,7 @@ class User extends CI_Controller {
 
         $uchat=  $this->input->post('uchat');
 
+        $data['uchat']=$uchat;
         $data['status'] = $this->user_model->insertUChat($UserName,$uchat);
 
         $json = json_encode($data);
@@ -335,7 +336,7 @@ class User extends CI_Controller {
         $data['status2']=$this->user_model->deleteUser($UserName);
         $data['status3']=$this->user_model->deleteChat($UserName);
         $data['status4']=$this->user_model->deleteMessage($UserName);
-        $data['status1']=$this->user_model->deleteUser($UserName);
+        $data['status1']=$this->user_model->deleteFriend($UserName);
 
         $json = json_encode($data);
         print_r($json);

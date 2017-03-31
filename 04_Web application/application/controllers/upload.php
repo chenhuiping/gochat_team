@@ -18,6 +18,7 @@ class Upload extends CI_Controller {
 
     public function do_upload($UserName)
     {
+        $UserName="admin";
         $filePath='./uploads/'.$UserName."/";
 
         if (!file_exists($filePath))
@@ -26,8 +27,9 @@ class Upload extends CI_Controller {
         }
 //        $fileName=date('YmdHis').rand(1000,9999).".jpg";
 
+        $fileName = $_FILES['userfile']['name'];
         $config['upload_path']      = $filePath;
-        $config['allowed_types']    = 'gif|jpg|png|docx';
+        $config['allowed_types']    = 'gif|jpg|png|docx|txt|';
         $config['max_size']     = 1000;
         $config['max_width']        = 1024;
         $config['max_height']       = 768;
@@ -40,18 +42,12 @@ class Upload extends CI_Controller {
         {
             $error = array('error' => $this->upload->display_errors());
 
-            $this->load->view('upload_form', $error);
+//            $this->load->view('upload_form', $error);
         }
-//        else
-//        {
-////            $data = array('upload_data' => $this->upload->data());
-//
-////            $this->load->view('index');
-//            redirect('/admin/index');
-//        }
-        redirect('/admin/index/admin/1');
 
-
+        $data['path']=$filePath;
+        $json=json_encode($data);
+        print_r($json);
     }
 
 
@@ -64,9 +60,9 @@ class Upload extends CI_Controller {
         {
             mkdir ($filePath);
         }
-//        $fileName=date('YmdHis').rand(1000,9999).".jpg";
-        $fileName = $_FILES['userfile']['name'];
 
+        $fileName = $_FILES['userfile']['name'];
+//        var_dump($fileName);die;
         $len = strlen($fileName);
 //        var_dump($len);
         $leng =$len-3;
@@ -78,33 +74,41 @@ class Upload extends CI_Controller {
         else{
             $data['type']=2;
         }
+//        var_dump($data);
         $config['upload_path']      = $filePath;
-        $config['allowed_types']    = 'gif|jpg|png|docx|';
-        $config['max_size']     = 1000;
+        $config['allowed_types']    = 'gif|jpg|png|docx|doc|txt|';
+        $config['max_size']     = 3000;
         $config['max_width']        = 1024;
         $config['max_height']       = 768;
         $config['overwrite']=true;
         $config['file_name']=$fileName;
 
         $this->load->library('upload', $config);
-            $data['path']=$filePath.$fileName;
-            $json=json_encode($data);
-            print_r($json);
-//        }
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+            $error = array('error' => $this->upload->display_errors());
+
+//            $this->load->view('upload_form', $error);
+        }
+        $data['path']=$filePath.$fileName;
+        $json=json_encode($data);
+        print_r($json);
+
     }
 
 
-    /* UPLOAD PROFILE*/
+//    /* UPLOAD PROFILE*/
     public function uploadProfile()
     {
-        $filePath='./uploads/PROFILE/';
+        $filePath='./uploads/profile/';
 
         if (!file_exists($filePath))
         {
             mkdir ($filePath);
         }
-        $fileName = $_FILES['userpfile']['name'];
-        var_dump($fileName);
+
+        $fileName = $_FILES['userfile']['name'];
+//        var_dump($fileName);die;
         $config['upload_path']      = $filePath;
         $config['allowed_types']    = 'gif|jpg|png|';
         $config['max_size']     = 1000;
@@ -114,10 +118,16 @@ class Upload extends CI_Controller {
         $config['file_name']=$fileName;
 
         $this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+            $error = array('error' => $this->upload->display_errors());
 
+//            $this->load->view('upload_form', $error);
+        }
         $data['path']=$filePath.$fileName;
         $json=json_encode($data);
         print_r($json);
+
     }
 }
 ?>

@@ -224,8 +224,9 @@ class Admin extends CI_Controller {
         $userId=  $this->input->post('userId');
         $chatId = $this->input->post('ChatId');
         $UserName =$this->input->post('UserName');
-//        $userId=1;
-//        $chatId=3;
+//        $userId=2;
+//        $chatId=10;
+//        $UserName="viki";
 //        var_dump($UserName);
         $data['userId'] = $userId;
 
@@ -235,9 +236,14 @@ class Admin extends CI_Controller {
         foreach($data['groupMessage'] as $message)
         {
             $data['groupMessage'][$i]['profile']=$this->admin_model->getProfile($UserName,$message['from']);
-//            var_dump($message['profile']);
+            if($data['groupMessage'][$i]['profile']==NULL)
+            {
+                $data['groupMessage'][$i]['profile']['profile']="uploads/profile/profile.png";
+            }
+//            var_dump($data['groupMessage'][$i]['profile']);
             $i++;
         }
+
 //        var_dump($data['groupMessage']);die;
 
         $json = json_encode($data);
