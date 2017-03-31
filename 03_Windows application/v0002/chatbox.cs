@@ -11,6 +11,7 @@ using TCP_handle;
 using System.Net.NetworkInformation;
 using System.IO;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace chat_list
 {
@@ -24,6 +25,8 @@ namespace chat_list
         public int chatID;
         private string Message;
         string check = "$";
+        private string url = "ftp://47.91.75.150:21//uploads//";
+
 
         //variable for passing receive message
         private string receiveMessage;
@@ -35,6 +38,8 @@ namespace chat_list
             set { receiveMessage = value; }
             
         }
+
+        public object Enviroment { get; private set; }
 
         public void chatbox_visible(bool enable)
         {
@@ -69,9 +74,9 @@ namespace chat_list
 
         //------------------------------------------------------------------------------------------------------------------
         // display received picture/file
-        public void addInPicture(string message)
+        public void addInPicture(string message, string username, string time, int type)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In);
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In, username, time, type);
             //message = "https://www.w3schools.com/css/img_fjords.jpg";
             bbl.setimage(message);
             //while (bbl.p)
@@ -90,14 +95,24 @@ namespace chat_list
         }
         //------------------------------------------------------------------------------------------------------------------
         // display received text message
-        public void addInMessage(string message)
+        public void addInMessage(string message, string username, string time, int type)
         {
             //if (message.Contains(" says : "))
-            
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.In);
-            //message = "https://www.w3schools.com/css/img_fjords.jpg";
-            //bbl.setimage(message);
-            bbl.Location = bubble1.Location;
+
+            if (type == 1)
+            {
+                addInPicture(message, username, time, type);
+            }
+            else if (type == 2)
+            {
+
+            }
+            else
+            {
+                chatmesg bbl = new chat_list.chatmesg(message, msgtype.In, username, time, type);
+                //message = "https://www.w3schools.com/css/img_fjords.jpg";
+                //bbl.setimage(message);
+                bbl.Location = bubble1.Location;
                 bbl.Size = bubble1.Size;
                 bbl.Anchor = bubble1.Anchor;
                 //if (bbl.Location != bubble1.Location)
@@ -107,14 +122,16 @@ namespace chat_list
                 panel5.Controls.Add(bbl);
                 panel5.VerticalScroll.Value = panel5.VerticalScroll.Maximum;
 
-                bbl_old = bbl;// safe the last added object                 
+                bbl_old = bbl;// safe the last added object     
+            }
                       
         }
         //------------------------------------------------------------------------------------------------------------------
         // display sent picture/file
-        public void addOutPicture(string message)
+        public void addOutPicture(string message, string username, string time, int type)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out);
+
+            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time, type);
             //message = "https://www.w3schools.com/css/img_fjords.jpg";
             bbl.setimage(message);
             //while (bbl.p)
@@ -130,24 +147,40 @@ namespace chat_list
             panel5.VerticalScroll.Value = panel5.VerticalScroll.Maximum;
 
             bbl_old = bbl;// safe the last added object
+
+            
+
+
         }
 
         //------------------------------------------------------------------------------------------------------------------
         // display sent text message
-        public void addOutMessage(string message)
+        public void addOutMessage(string message, string username, string time, int type)
         {
-            chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out);
-            bbl.Location = bubble1.Location;
-            bbl.Left += 20;
-            bbl.Size = bubble1.Size;
-            bbl.Anchor = bubble1.Anchor;
-           
+
+            if (type == 1)
+            {
+                addOutPicture(message, username, time, type);
+            }
+            else if (type == 2)
+            {
+
+            }
+            else
+            {
+                chatmesg bbl = new chat_list.chatmesg(message, msgtype.Out, username, time, type);
+                bbl.Location = bubble1.Location;
+                bbl.Left += 20;
+                bbl.Size = bubble1.Size;
+                bbl.Anchor = bubble1.Anchor;
+
                 bbl.Top = bbl_old.Bottom + 10;
                 //curtop = bbl.Bottom + 10;
                 panel5.Controls.Add(bbl);
                 panel5.VerticalScroll.Value = panel5.VerticalScroll.Maximum;
                 bbl_old = bbl;
-            // safe the last added object
+                // safe the last added object
+            }
         }
         //------------------------------------------------------------------------------------------------------------------
         // button to send text message
@@ -157,10 +190,14 @@ namespace chat_list
         }
         private void send_data()
         {
+            string tTex = textBox1.Text;
+            tTex = tTex.Replace(System.Environment.NewLine, "");
 
-            if (textBox1.Text != null)
+            
+            if (tTex != null)
             {
-                this.loginForm.send_data("message" + check + this.chatID + check + DateTime.Now.ToShortTimeString() + check + textBox1.Text + check + loginForm.DB_UserTable[0].UserId + check + "0");
+                
+                this.loginForm.send_data("message" + check + this.chatID + check + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) + check + tTex + check + loginForm.userinfo.UserId + check + "0");
             }
             textBox1.Text = "";
 
@@ -177,16 +214,19 @@ namespace chat_list
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "JPG|*.jpg|GIF|*.gif|PNG|*.png|BMP|*.bmp";
             dlg.Title = "File Sharing Client";
-            dlg.ShowDialog();
             //txtFile.Text = dlg.FileName;
-            fileName = dlg.FileName;
-            //string shortFileName = Path.GetFileName(fileName);
-            //string ipAddress = txtIPAddress.Text;
-            //int port = int.Parse(txtHost.Text);
-            //string fileName = txtFile.Text;
-            string shortFileName = Path.GetFileName(fileName);
-            //Task.Factory.StartNew(() => SendFile(ipAddress, port, fileName, shortFileName));
-            MessageBox.Show("File Sent");
+            string fileToUpload;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+                fileToUpload = dlg.FileName;
+            else
+                fileToUpload = string.Empty;
+            this.loginForm.setImageInforToSend(fileToUpload, "1", url, chatID.ToString());
+
+
+
+            
+            //MessageBox.Show("File Sent");
             //loginForm.sendFile(fileName, shortFileName);
         }
 
@@ -196,6 +236,21 @@ namespace chat_list
             {
                 send_data();
             }
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            //dlg.Filter = "JPG|*.jpg|GIF|*.gif|PNG|*.png|BMP|*.bmp";
+            dlg.Title = "File Sharing Client";
+            //txtFile.Text = dlg.FileName;
+            string fileToUpload;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+                fileToUpload = dlg.FileName;
+            else
+                fileToUpload = string.Empty;
+            this.loginForm.setImageInforToSend(fileToUpload, "2", url, chatID.ToString());
         }
     }
 }

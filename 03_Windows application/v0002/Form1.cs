@@ -96,6 +96,15 @@ namespace chat_list
             this.chatbox1.TabIndex = 0;
 
             //--------------------------------------------------------------------------------------------------------------
+
+            
+
+            ToolTip tt1 = new ToolTip();
+            tt1.SetToolTip(addGroupButton, "Add Group");
+            ToolTip tt2 = new ToolTip();
+            tt2.SetToolTip(pictureBox2, "Sign Out");
+            ToolTip tt3 = new ToolTip();
+            tt3.SetToolTip(addFriendButton, "Add Friend");
         }
 
         internal void searchUser(string str)
@@ -103,6 +112,19 @@ namespace chat_list
             loginForm.searchFriend(str);
         }
 
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            base.OnPaintBackground(e);
+            Rectangle lasttabrect = tabControl1.GetTabRect(tabControl1.TabPages.Count - 1);
+            RectangleF emptyspacerect = new RectangleF(
+                    lasttabrect.X + lasttabrect.Width + tabControl1.Left,
+                    tabControl1.Top + lasttabrect.Y,
+                    tabControl1.Width - (lasttabrect.X + lasttabrect.Width),
+                    lasttabrect.Height);
+
+            Brush b = Brushes.BlueViolet; // the color you want
+            e.Graphics.FillRectangle(b, emptyspacerect);
+        }
 
 
 
@@ -149,9 +171,12 @@ namespace chat_list
             this.chatbox1.Name = "chatbox1";
             this.chatbox1.Size = new System.Drawing.Size(717, 600);
             this.chatbox1.TabIndex = 0;
+
             this.chatbox1.chatbox_visible(false);
             this.Width = 257;
+
             this.Invoke(new set_chathistory(loginForm.DisplayChatHistory), ID);
+
             this.chatbox1.chatbox_visible(true);
             this.Width = 728;
 
@@ -233,15 +258,61 @@ namespace chat_list
 
         //-------------------------------------------------------------------------------------------------------------------
         // add group button
+        public addGroup NewGroup;
+
         public delegate void set_addGroup(string member);
         private void addGroupButton_Click(object sender, EventArgs e)
         {
             add_grouplist = true;
+
             strfriendList = new List<string>();
 
-            //string member = "";
-            //this.Invoke(new set_addGroup(loginForm.addGroup), member);
+            // display addGroup form
+            NewGroup = new addGroup(this);
+            NewGroup.Show();
+
+            // go to tabpageChat
+            this.tabControl1.SelectedTab = tabPageChat;
+                        
         }
+        
+
+        // display member
+        public delegate void set_member(string str, int ID, string path);
+        public void displayMember(string str, int ID, string path)
+        {
+            this.Invoke(new set_member(loginForm.ReviewGroupMember), str, ID, path);
+        }
+
+        // send data to login form
+        public delegate void set_memberId(string memberID);
+        public void passMemberID()
+        {
+            //string memberID = loginForm.userinfo.UserId.ToString();
+            string temp = loginForm.userinfo.UserId.ToString();
+
+            foreach (string s in strfriendList)
+            {
+               temp += "," + s;                
+            }
+
+            var temp1 = temp.Split(',').ToList();
+            var temp2 = temp1.Distinct().ToList();
+            var sortemp2 = temp2.OrderBy(x => x).ToList();
+            string memberID = String.Join(",", sortemp2);
+            
+            this.Invoke(new set_memberId(loginForm.addGroup), memberID);
+                        
+        }
+                
+        // display chat history for the new group
+        public void view_newGroup(int ID)
+        {
+            this.tabControl1.SelectedTab = tabPageGroup;
+            ChatHistory(ID);
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        
         //-------------------------------------------------------------------------------------------------------------------
 
         public void add_list_from_friendlist(string str)
@@ -254,9 +325,20 @@ namespace chat_list
 
         // variable for passing receive data --> trial!
         //private string receiveMessage;
-        public void add_strfriendList(string str)
+        
+        public bool add_strfriendList(string str)
         {
-            strfriendList.Add(str);
+            bool already_added = true;
+            foreach (var temp in strfriendList)
+            {
+                if (str == temp)
+                    already_added = false;
+            }
+            if(already_added)
+                strfriendList.Add(str);
+
+            return already_added;
+                        
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -283,6 +365,7 @@ namespace chat_list
         {
             
         }
+        
 
         // trial button
         private void button2_Click(object sender, EventArgs e)
@@ -296,6 +379,30 @@ namespace chat_list
             //send data of the friend list
             friend_list1.set_default_color();
             strfriendList = null;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (SFriend != null)
+                SFriend.Close();
+            if (NewGroup != null)
+                NewGroup.Close();
+            
+            loginForm.send_data("logout");
+            loginForm.signOut();
+            
+            this.Dispose();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (SFriend != null)
+                SFriend.Close();
+            if (NewGroup != null)
+                NewGroup.Close();
+
+            //loginForm.send_data("logout");
+            //loginForm.signOut();
         }
     }
 }

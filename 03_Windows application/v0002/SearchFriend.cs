@@ -16,7 +16,7 @@ namespace chat_list
         public Form1 MainForm;
 
         // define user details
-        //public UserDetails userDetailsForm;
+        public UserDetail userDetail2;
 
         public SearchFriend(Form1 MainForm)
         {
@@ -26,38 +26,39 @@ namespace chat_list
             // 
             // userDetail2
             // 
+            this.userDetail2 = new chat_list.UserDetail(this.MainForm);
             this.userDetail2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(164)))), ((int)(((byte)(147)))));
-            this.userDetail2.Location = new System.Drawing.Point(-1, -1);
+            this.userDetail2.Location = new System.Drawing.Point(0, 0);
             this.userDetail2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.userDetail2.Name = "userDetail2";
-            this.userDetail2.Size = new System.Drawing.Size(493, 618);
+            this.userDetail2.Size = new System.Drawing.Size(493, 617);
             this.userDetail2.TabIndex = 0;
+            this.userDetail2.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            userDetail2.BackColor = Color.FromArgb(46, 50, 56);
+
+            this.panel1.Controls.Add(this.userDetail2);
         }
 
-        // close button
-        private void pictureBox3_Click(object sender, EventArgs e)
+        //--------------------------------------------------------------------------------------------
+        internal void userdetail_fromLogin(Login.user temp)
+        {
+            userDetail2.setUserData(temp);
+            //userDetail2.set_image("ws://47.91.75.150:1337/" + temp.profile);
+            //userDetail2.set_userID(temp.UserName);
+
+        }
+        //------------------------------------------------------------------------------------------
+        // close the window
+        private void pictureBox3_Click_1(object sender, EventArgs e)
         {
             this.Close();
         }
-        //-----------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------
         // search button
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void pictureBox1_Click_1(object sender, EventArgs e)
         {
-            // search function here! -> not finished
             MainForm.searchUser(textBox1.Text);
-            
-            // display the result
-            //userDetailsForm = new UserDetails(this.MainForm);
-            //userDetailsForm.Show();
-            //userDetailsForm.label1.Text = textBox1.Text;
-            //this.Close();
-        }
-
-        //----------------------------------------------------------------------------------------------------------------
-        // add button
-        private void userDetail1_Load(object sender, EventArgs e)
-        {
-            //MainForm.addFriend();
         }
         //---------------------------------------------------------------------------------------------------------------- 
         //make the windows move
@@ -84,12 +85,24 @@ namespace chat_list
             mouseDown = false;
         }
 
-        internal void userdetail_fromLogin(Login.user temp)
+        private void panel2_MouseMove(object sender, MouseEventArgs e)
         {
-            userDetail2.setUserData(temp);
-            //userDetail2.set_image("ws://47.91.75.150:1337/" + temp.profile);
-            //userDetail2.set_userID(temp.UserName);
-            
+            if (mouseDown)
+            {
+                this.Location = new Point((this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
+                this.Update();
+            }
+        }
+
+        private void panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            lastLocation = e.Location;
         }
     }
 }

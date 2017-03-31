@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace chat_list
 {
     public partial class friend_list : UserControl
     {
         private friend_item bbl_old;
+        public List<friend_item> store_list;
 
         //defining loginForm
         public Login loginForm;
@@ -36,12 +38,13 @@ namespace chat_list
 
             this.mainForm = mainForm;
             InitializeComponent();
+            store_list = new List<friend_item>();
             this.fItem = new chat_list.friend_item(mainForm);
             bbl_old = new friend_item(mainForm);
             bbl_old.Top = 0 - bbl_old.Height + 10;
 
             //addInMessage("user 1", "00:00", 0);
-
+            this.BackColor = Color.FromArgb(46, 50, 56);
             //make sure the scroll works
             panel1.VerticalScroll.Value = panel1.VerticalScroll.Maximum;
 
@@ -60,22 +63,50 @@ namespace chat_list
 
         public void addInMessage(string message, string time, int userID, int itemType, string path)
         {
+            //Debug.WriteLine(message+ userID+ path);
             friend_item bbl = new chat_list.friend_item(mainForm, message, time,  msgtype1.In, userID, itemType, path);
-            bbl.Location = fItem.Location;
-            bbl.Size = fItem.Size;
-            bbl.Anchor = fItem.Anchor;
-            //if (bbl.Location != bubble1.Location)
+            if(message.Contains(","))
+            {
+                if(bbl.count != 0 && bbl.count != 1)
+                {
+                    bbl.Location = fItem.Location;
+                    bbl.Size = fItem.Size;
+                    bbl.Anchor = fItem.Anchor;
+                    bbl.BackColor = Color.FromArgb(46, 50, 56);
 
-            bbl.Top = bbl_old.Bottom + 1;
-            //curtop = bbl.Bottom + 10;
-            panel1.Controls.Add(bbl);
-            panel1.VerticalScroll.Value = panel1.VerticalScroll.Maximum;
+                    //if (bbl.Location != bubble1.Location)
 
-            bbl_old = bbl;// save the last added object
+                    bbl.Top = bbl_old.Bottom + 1;
+                    //curtop = bbl.Bottom + 10;
+                    panel1.Controls.Add(bbl);
+                    panel1.VerticalScroll.Value = panel1.VerticalScroll.Maximum;
+
+                    bbl_old = bbl;// save the last added object
+                    store_list.Add(bbl);
+                }
+            }
+            else
+            {
+                bbl.Location = fItem.Location;
+                bbl.Size = fItem.Size;
+                bbl.Anchor = fItem.Anchor;
+                bbl.BackColor = Color.FromArgb(46, 50, 56);
+
+                //if (bbl.Location != bubble1.Location)
+
+                bbl.Top = bbl_old.Bottom + 1;
+                //curtop = bbl.Bottom + 10;
+                panel1.Controls.Add(bbl);
+                panel1.VerticalScroll.Value = panel1.VerticalScroll.Maximum;
+
+                bbl_old = bbl;// save the last added object
+                store_list.Add(bbl);
+            }
+            
 
         }
 
-       
+        
 
         
     }

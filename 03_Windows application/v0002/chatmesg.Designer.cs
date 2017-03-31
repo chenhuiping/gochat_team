@@ -32,6 +32,7 @@
             this.Iblmessage = new System.Windows.Forms.Label();
             this.Ibltime = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblUser = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -40,45 +41,67 @@
             this.Iblmessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Iblmessage.AutoSize = true;
-            this.Iblmessage.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.Iblmessage.Location = new System.Drawing.Point(42, 28);
+            this.Iblmessage.ForeColor = System.Drawing.Color.Black;
+            this.Iblmessage.Location = new System.Drawing.Point(27, 65);
+            this.Iblmessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Iblmessage.Name = "Iblmessage";
-            this.Iblmessage.Size = new System.Drawing.Size(51, 20);
+            this.Iblmessage.Size = new System.Drawing.Size(70, 25);
             this.Iblmessage.TabIndex = 0;
             this.Iblmessage.Text = "label1";
             // 
             // Ibltime
             // 
             this.Ibltime.AutoSize = true;
-            this.Ibltime.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.Ibltime.Location = new System.Drawing.Point(168, 81);
+            this.Ibltime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Ibltime.ForeColor = System.Drawing.Color.Black;
+            this.Ibltime.Location = new System.Drawing.Point(538, 19);
+            this.Ibltime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Ibltime.Name = "Ibltime";
-            this.Ibltime.Size = new System.Drawing.Size(51, 20);
+            this.Ibltime.Size = new System.Drawing.Size(76, 26);
             this.Ibltime.TabIndex = 1;
             this.Ibltime.Text = "label1";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(57, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(159, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(128, 128);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.Size = new System.Drawing.Size(171, 168);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
             this.pictureBox1.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBox1_LoadCompleted);
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // lblUser
+            // 
+            this.lblUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUser.AutoSize = true;
+            this.lblUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUser.ForeColor = System.Drawing.Color.Black;
+            this.lblUser.Location = new System.Drawing.Point(24, 19);
+            this.lblUser.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblUser.Name = "lblUser";
+            this.lblUser.Size = new System.Drawing.Size(85, 29);
+            this.lblUser.TabIndex = 3;
+            this.lblUser.Text = "label1";
             // 
             // chatmesg
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(164)))), ((int)(((byte)(147)))));
+            this.Controls.Add(this.lblUser);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.Ibltime);
             this.Controls.Add(this.Iblmessage);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "chatmesg";
-            this.Size = new System.Drawing.Size(624, 134);
+            this.Size = new System.Drawing.Size(702, 172);
             this.Load += new System.EventHandler(this.chatmesg_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -91,5 +114,6 @@
         private System.Windows.Forms.Label Iblmessage;
         private System.Windows.Forms.Label Ibltime;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblUser;
     }
 }

@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using TCP_handle;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace chat_list
 {
@@ -29,6 +30,9 @@ namespace chat_list
         private chatbox newChat;
         // for calling sign up page
         private sign_up SignUpForm;
+
+        private bool loginCheck;
+
         public Login()
         {
             InitializeComponent();
@@ -44,7 +48,10 @@ namespace chat_list
 
         internal void add_usertable_from_addFriend(user userData)
         {
+            this.Invoke(new set_grouplist(MainForm.friend_list1.addInMessage), userData.UserName, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture), userData.UserId, 0, userData.profile);
             DB_UserTable.Add(userData);
+            userData = null;
+            
         }
 
         public class addUserTable
@@ -87,6 +94,14 @@ namespace chat_list
             public int type { get; set; }
         }
 
+        public class rChatTable
+        {
+            public string type { get; set; }
+            public chat data { get; set; }
+            //public List<chat> data { get; set; }
+
+        }
+
         public class MessageTable
         {
             public string type { get; set; }
@@ -117,6 +132,7 @@ namespace chat_list
         private List<chat> DB_ChatTable;
         //private List<friend> DB_FrientTable;
         private List<message> DB_MessageTable;
+        private user newFriend;
 
  
         // for Websocket connection
@@ -127,6 +143,8 @@ namespace chat_list
         public bool ws_flag = false;
         ClientWebSocket socket;
         CancellationTokenSource cts;
+
+        private string initMessage;
         private void set_loading()
         {
             this.Invoke(new MethodInvoker(delegate
@@ -135,14 +153,15 @@ namespace chat_list
                 loadingImg.Visible = true;
             }));
         }
+        
         private void init_connect()
         {
             if (socket.State == WebSocketState.Open)
             { 
                 // send username and password to server for verification
-                string username = usernameTextBox.Text;
-                string password = passwordTextBox.Text;
-                send_data(username + "," + password);
+                //string username = usernameTextBox.Text;
+                //string password = passwordTextBox.Text;
+                send_data(initMessage);
                 ws_socket_flag = false;
             }
         }
@@ -155,12 +174,13 @@ namespace chat_list
             Rcheck_user = false;
             Rcheck_message = false;
             R_check_history = false;
+            loginCheck = false;
         }
         private void call_mainform()
         {
             if (!R_check_history)
             {
-                if (Rcheck_chat && Rcheck_chat && Rcheck_message)
+                if (Rcheck_chat && Rcheck_user && Rcheck_message && loginCheck)
                 {
                     Rcheck_chat = false;
                     Rcheck_user = false;
@@ -181,6 +201,7 @@ namespace chat_list
             socket = new ClientWebSocket();
 
             string wsUri = "ws://47.91.75.150:1337";
+            //string wsUri = "ws://localhost:1337";
             initTable();
             try
             {
@@ -201,15 +222,36 @@ namespace chat_list
                 var rcvBuffer = new ArraySegment<byte>(rcvBytes);
                 while (true)
                 {
-                    WebSocketReceiveResult rcvResult =
+                    try
+                    {
+                        WebSocketReceiveResult rcvResult =
                     await socket.ReceiveAsync(rcvBuffer, cts.Token);
-                    byte[] msgBytes = rcvBuffer.Skip(rcvBuffer.Offset).Take(rcvResult.Count).ToArray();
-                    //-----------------------------
-                    OnReceive(msgBytes);
-                    call_mainform();
+                        byte[] msgBytes = rcvBuffer.Skip(rcvBuffer.Offset).Take(rcvResult.Count).ToArray();
+                        //-----------------------------
+                        OnReceive(msgBytes);
+                        call_mainform();
+                    }
+                    catch(Exception e)
+                    {
+                        cts.Cancel();
+                        Debug.WriteLine("connection dead!");
+                        ResetConnection();
+                    }
                 }
             }, cts.Token, TaskCreationOptions.LongRunning,
                 TaskScheduler.Default);
+        }
+        List<string> tfileinfo;
+        internal void setImageInforToSend(string fileToUpload, string v, string url, string chatid)
+        {
+            tfileinfo = new List<string>();
+            tfileinfo.Add(fileToUpload);
+            tfileinfo.Add(v);
+            tfileinfo.Add(url);
+            tfileinfo.Add(chatid);
+            this.sendFile.RunWorkerAsync();
+
+
         }
 
         //-------------------------------------------------------------------------------------------------
@@ -220,7 +262,7 @@ namespace chat_list
         public void OnReceive(byte[] msgBytes)
         {
             string rcvMsg = Encoding.UTF8.GetString(msgBytes);
-
+            
             if(buffer == "")
             {
                 buffer = rcvMsg;
@@ -231,26 +273,32 @@ namespace chat_list
             }
             int r_count = 0;
             int l_count = 0;
-            foreach (byte temp in buffer)
+            foreach (var temp in buffer)
             {
                 if (temp == '{')
                     l_count++;
                 if (temp == '}')
                     r_count++;
             }
-
-            if (l_count - r_count == 0)
+            Debug.WriteLine(l_count.ToString());
+            Debug.WriteLine(r_count.ToString());
+            if ((l_count - r_count) == 0)
             {
-                Debug.WriteLine(buffer);
+                Debug.WriteLine(l_count.ToString());
+                Debug.WriteLine(r_count.ToString());
+                //Debug.WriteLine(buffer);
                 deserializeData(buffer);
                 buffer = "";
             }
-            
+            Debug.WriteLine(buffer);
+
+
         }
         //---------------------------------------------------------------------------------------------------------------
         // deserialize data
         public delegate void sendUserinfo(user temp);
 
+        public delegate void set_newGroupID(int ID);
         public void deserializeData(string rcvMsg)
         {
             if (rcvMsg.Contains("type\":\"user"))
@@ -259,37 +307,60 @@ namespace chat_list
                 int count = 0;
                 foreach (user tempH in temp.data)
                 {
+                    if (count == 0)
+                    {
+                        count++;
+                        userinfo = tempH;
+                    }
+                    else
+                    {
+                        DB_UserTable.Add(tempH);
 
-                    DB_UserTable.Add(tempH);
+                    }
                 }
-                Debug.WriteLine("user");
-                Debug.WriteLine(DB_UserTable[0].UserName);
+                Debug.WriteLine("user desiralize complite");
+                Debug.WriteLine(userinfo.UserName);
                 Rcheck_user = true;
             }
-            else if(rcvMsg.Contains("type\":\"searchFriend"))
+            else if (rcvMsg.Contains("type\":\"searchFriend"))
             {
-                if(rcvMsg.ToString().Contains("This user is already your friend"))
+                if (rcvMsg.ToString().Contains("This user is already your friend"))
                 {
-                    MainForm.SFriend.Close();
+                    //MainForm.SFriend.Close();
                     Debug.WriteLine("This user is already your friend");
+                    MessageBox.Show("This user is already your friend");
+                } else if (rcvMsg.ToString().Contains("wrong : no user"))
+                {
+                    Debug.WriteLine("wrong : no user");
+                    MessageBox.Show("wrong : no user");
                 }
                 else
                 {
                     addUserTable temp = JsonConvert.DeserializeObject<addUserTable>(rcvMsg);
                     this.Invoke(new sendUserinfo(MainForm.sendUserInfo), temp.data);
+                    newFriend = temp.data;
                 }
-                
+
                 //DB_UserTable.Add(temp);
             }
             else if (rcvMsg.Contains("type\":\"chat"))
-            {   
-                ChatTable temp = JsonConvert.DeserializeObject<ChatTable>(rcvMsg);
-                foreach (chat tempH in temp.data)
+            {
+                if (rcvMsg.Contains("data\":\"No chat list in the database"))
                 {
-                    DB_ChatTable.Add(tempH);
+                    Debug.WriteLine("No chat list in the database");
+                    Rcheck_chat = true;
                 }
-                Debug.WriteLine("chat deserialize complete");
-                Rcheck_chat = true;
+                else
+                {
+                    ChatTable temp = JsonConvert.DeserializeObject<ChatTable>(rcvMsg);
+                    foreach (chat tempH in temp.data)
+                    {
+                        DB_ChatTable.Add(tempH);
+                    }
+                    Debug.WriteLine("chat deserialize complete");
+                    Rcheck_chat = true;
+                }
+
             }/*
             else if (rcvMsg.Contains("type\":\"friend"))
             {
@@ -303,53 +374,152 @@ namespace chat_list
             }*/
             else if (rcvMsg.Contains("type\":\"message"))// || rcvMsg.Contains("type\":\"umessage"))
             {
-                try
+                if (rcvMsg.Contains("data\":\"No message list in the database"))
                 {
-                    if(rcvMsg.Contains("[") && rcvMsg.IndexOf("[") == 25)
+                    Debug.WriteLine("No message list in the database");
+                    Rcheck_message = true;
+                }
+                else
+                {
+                    try
                     {
-                        MessageTable temp = JsonConvert.DeserializeObject<MessageTable>(rcvMsg);
-                        foreach (message tempH in temp.data)
-                        {
-                            DB_MessageTable.Add(tempH);
-                        }
-                        Debug.WriteLine("message history deserialize complete");
-                        Rcheck_message = true;
+                        //if (rcvMsg.Contains("[") && rcvMsg.IndexOf("[") == 25)
+                        //{
+                            MessageTable temp = JsonConvert.DeserializeObject<MessageTable>(rcvMsg);
+                            foreach (message tempH in temp.data)
+                            {
+                                DB_MessageTable.Add(tempH);
+                            }
+                            Debug.WriteLine("message history deserialize complete");
+                            Rcheck_message = true;
+                        //}
+                        //else
+                        //{
+
+                        //}
                     }
-                    else
+                    catch (Exception e)
                     {
-                        
+                        Debug.WriteLine("loading message fail" + e);
                     }
                 }
-                catch(Exception e)
-                {
-                    Debug.WriteLine("loading message fail"+e);
-                }
+
             }
             else if (rcvMsg.Contains("\"type\":\"umessage"))
             {
                 rMessageTable temp = JsonConvert.DeserializeObject<rMessageTable>(rcvMsg);
-                DB_MessageTable.Add(temp.data);
-                /*if(DB_UserTable[0].UserId == temp.data.from)
+                bool already_added = false;
+                foreach (var tm in DB_MessageTable)
                 {
-                    //this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content);
-                    this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content);
-
-
+                    if (tm.Id == temp.data.Id)
+                        already_added = true;
                 }
-                else*/ if (temp.data.ChatId == MainForm.chatbox1.chatID)
+                if (!already_added)
                 {
-                    if (temp.data.ChatId == DB_UserTable[0].UserId)
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content);
-                    else if (temp.data.ChatId != DB_UserTable[0].UserId)
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content);
+                    DB_MessageTable.Add(temp.data);
+                    string sender = "";
+
+                    // get sender
+                    var sendtemp = from user in DB_UserTable where user.UserId == temp.data.@from select user;
+
+                    foreach (user u in sendtemp)
+                    {
+                        sender = u.UserName;
+                    }
+
+                    if (temp.data.ChatId == MainForm.chatbox1.chatID)
+                    {
+                        if (temp.data.from == userinfo.UserId)
+                            this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), temp.data.content, sender, temp.data.time, temp.data.type);
+                        else if (temp.data.from != userinfo.UserId)
+                            this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), temp.data.content, sender, temp.data.time, temp.data.type);
+                    }
+                    else
+                    {
+                        foreach (var item in MainForm.friend_list1.store_list)
+                        {
+                            if (temp.data.from == item.userID)
+                            {//------------------------change color when the message is coming
+                                item.BackColor = Color.AliceBlue;
+                            }
+                        }
+                        //MainForm.friend_list1.store_list
+                    }
+                    Debug.WriteLine("message realtime deserialize complete");
                 }
-                Debug.WriteLine("message realtime deserialize complete");
+            } else if (rcvMsg.Contains("\"type\":\"uchat"))
+            {
+                if (rcvMsg.Contains("\"data\":\"Failed to create a new chat"))
+                {
+                    Debug.WriteLine("Failed to create a new chat");
+                }
+                else
+                {
+                    rChatTable temp = JsonConvert.DeserializeObject<rChatTable>(rcvMsg);
+                    DB_ChatTable.Add(temp.data);
+
+                    if (temp.data.type == 1)
+                    {
+                        this.Invoke(new set_grouplist(MainForm.group_list.addInMessage), temp.data.member, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture), temp.data.ChatId, 2, "");
+                        this.Invoke(new set_newGroupID(MainForm.view_newGroup), temp.data.ChatId);
+                    }
+                    else
+                    {
+                        this.Invoke(new set_existChat(MainForm.ChatHistory), temp.data.ChatId);
+                    }
+                }
+                
+                
+            }else if (rcvMsg.Contains("\"type\":\"ufriend"))
+            {
+                FriendTable temp = JsonConvert.DeserializeObject<FriendTable>(rcvMsg);
+
+                if (temp.data.UserId == userinfo.UserId && temp.data.FriendId == newFriend.UserId.ToString())
+                {
+                    // add temp.friendId to friend list
+                    add_usertable_from_addFriend(newFriend);
+                }
+            }else if (rcvMsg.Contains("\"type\":\"register"))
+            {
+                if (rcvMsg.ToString().Contains("please change another username"))
+                {
+                    // if username already exist
+                    Debug.WriteLine("please change another username");
+                    MessageBox.Show("please change another username");
+                    this.Invoke(new createSignUpForm(createSignUp));
+                }
+                else if (rcvMsg.ToString().Contains("succeed"))
+                {
+                    Debug.WriteLine("You are now register!");
+                    MessageBox.Show("You are now register!");
+                    initMessage = "";
+                    ResetConnection();
+                    // close sign up form and open login form
+                }
+                
+            }
+            else if (rcvMsg.ToString().Contains("\"type\":\"logincheck"))
+            {
+                if (rcvMsg.ToString().Contains("\"data\":\"true"))
+                {
+                    loginCheck = true;
+                    Debug.WriteLine("Login success!");
+                }
+                else if (rcvMsg.ToString().Contains("wrong password") | rcvMsg.ToString().Contains("wrong username"))
+                {
+                    loginCheck = false;
+                    ResetConnection();
+                    MessageBox.Show("Wrong Uername or Password!");
+                
+                }
             }
         }
         //------------------------------------------------------------------------------------------------------------------
         // convert text message into bytes before sending it to server
         public void send_data(string str)
         {
+            if (str == "logout")
+                str += "$" + userinfo.UserName;
             Debug.WriteLine("senddata" + str);
             byte[] sendBytes = Encoding.UTF8.GetBytes(str);
             SendAsync(sendBytes);     
@@ -391,6 +561,20 @@ namespace chat_list
 
         }
         //-------------------------------------------------------------------------------------------------------------------
+        // create new connection
+        public void newConnectWs()
+        {
+            if (socket == null)
+            {
+
+            }
+            else
+            {
+                ResetConnection();
+            }
+            connectWS();
+        }
+        //--------------------------------------------------------------------------------------------------------------------
         // check whether the connection is open or not
         public void connectWS()
         {
@@ -409,11 +593,15 @@ namespace chat_list
        //use sign out
         public void signOut()
         {
-            MainForm.Close();
+            this.loginCheck = false;
+            if(MainForm != null)
+               MainForm.Close();
             ResetConnection();
             this.Show();
 
         }
+        //--------------------------------------------------------------------------------------------------------------------
+        // to reset connection
         public void ResetConnection()
         {
             try
@@ -450,7 +638,7 @@ namespace chat_list
         {
             MainForm = new Form1(this);
             MainForm.Show();
-            MainForm.usernameLabel.Text = this.username;
+            //MainForm.usernameLabel.Text = this.username;
             this.Hide();
 
             newChat = new chatbox(this, 0);
@@ -461,15 +649,8 @@ namespace chat_list
         {
             if (usernameTextBox.Text != "" && passwordTextBox.Text != "")
             {
-                if (socket == null)
-                {
-
-                }
-                else
-                {
-                    ResetConnection();
-                }
-                connectWS();
+                initMessage = usernameTextBox.Text + "," + passwordTextBox.Text;
+                newConnectWs();
             }
             else
             {
@@ -481,12 +662,13 @@ namespace chat_list
         //---------------------------------------------------------------------------------------------------------------
         // function to display friend list
 
-        public delegate void set_friendlist(string message, string date, int friendID, int itemType, string path);
+        public delegate void set_friendlist(string message, string date, int groupID, int itemType, string path);
         public void DisplayFriendList(List<user> uTable)
         {
             foreach (user temp in uTable)
             {
-                this.Invoke(new set_grouplist(MainForm.friend_list1.addInMessage) ,temp.UserName, DateTime.Now.ToShortTimeString(), temp.UserId, 0, temp.profile);
+                //this.Invoke(new set_grouplist(MainForm.friend_list1.addInMessage) ,temp.UserName, DateTime.Now.ToShortTimeString(), temp.UserId, 0, temp.profile);
+                this.Invoke(new set_friendlist(MainForm.friend_list1.addInMessage), temp.UserName, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture), temp.UserId, 1, temp.profile);
             }
         }
 
@@ -497,7 +679,7 @@ namespace chat_list
 
         private void DisplayFriendWithchat(List<user> uTable, List<chat> cTable)
         {
-            string userID = DB_UserTable[0].UserId.ToString();
+            string userID = userinfo.UserId.ToString();
             string friendID = "";
 
             // filter friend who has chat history
@@ -525,7 +707,7 @@ namespace chat_list
                 {
                     string friendName = friendH.UserName;
                     string picpath = friendH.profile;
-                    this.Invoke(new set_friendwithchat(MainForm.friend_list1.addInMessage), friendName, DateTime.Now.ToShortTimeString(), chatId, 0, friendH.profile);
+                    this.Invoke(new set_friendwithchat(MainForm.friend_list1.addInMessage), friendName, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture), chatId, 0, friendH.profile);
                 }
             }
         }
@@ -539,18 +721,18 @@ namespace chat_list
         {
             foreach(chat temp in cTable)
             {
-                this.Invoke(new set_grouplist(MainForm.group_list.addInMessage), temp.member, DateTime.Now.ToShortTimeString(), temp.ChatId, 0, "");
+                this.Invoke(new set_grouplist(MainForm.group_list.addInMessage), temp.member, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture), temp.ChatId, 2, "");
             }
         }
 
         //--------------------------------------------------------------------------------------------------------------
         // function to display chat history
 
-        public delegate void set_chatbox(string message);
+        public delegate void set_chatbox(string message, string username, string time, int type);
 
         public void DisplayChatHistory(int ID)
         {
-            int userID = DB_UserTable[0].UserId;
+            int userID = userinfo.UserId;
             
             var messages = from message in DB_MessageTable where message.ChatId == ID select message;
 
@@ -561,19 +743,27 @@ namespace chat_list
                 string content = messageH.content;
                 int sender = messageH.from;
                 int type = messageH.type;
+                string senderName = "";
 
+                // get sender
+                var sendtemp = from user in DB_UserTable where user.UserId == sender select user;
+
+                foreach (user u in sendtemp)
+                {
+                    senderName = u.UserName;
+                }
 
                 if (sender == userID)
                 {
                     if(type == 0)
                     {
                         // display text message
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), content);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutMessage), content, senderName, time, type);
                     }
                     else
                     {
                         // display file/image
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutPicture), content);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addOutPicture), content, senderName, time, type);
                     }
                     
                 }
@@ -582,12 +772,12 @@ namespace chat_list
                     if (type == 0)
                     {
                         // display text message
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), content);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInMessage), content, senderName, time, type);
                     }
                     else
                     {
                         // display file/image
-                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInPicture), content);
+                        this.Invoke(new set_chatbox(MainForm.chatbox1.addInPicture), content, senderName, time, type);
                     }
                 }
             }
@@ -666,9 +856,10 @@ namespace chat_list
         //----------------------------------------------------------------------------------------------------------------
         // function to create new chat history
         public delegate void set_createChatH(int friendID);
+        public delegate void set_existChat(int chatID);
         public void createChatHistory(int friendID)
         {
-            int userID = DB_UserTable[0].UserId;
+            int userID = userinfo.UserId;
 
             var temp1 = from chatH in DB_ChatTable where chatH.member == (userID.ToString() + "," + friendID.ToString()) select chatH;
             var temp2 = from chatH in DB_ChatTable where chatH.member == (friendID.ToString() + "," + userID.ToString()) select chatH;
@@ -680,18 +871,43 @@ namespace chat_list
             {
                 // if there is no chat with this friend, make a new chat
 
-                string message = "chat:" + userID.ToString() + "," + friendID.ToString() + ":0";
-                MessageBox.Show(message);
+                string message = "chat" + check + userID.ToString() + "," + friendID.ToString() + check + "0";
+                //MessageBox.Show(message);
 
                 send_data(message);
 
                 // don't forget to save the new chat to NewChatTable
+                /*
+                
+
+                if (NewChatTable.data.Count() > chatN)
+                {
+                    int indexC = NewChatTable.data.Count() - 1;
+                    this.Invoke(new set_existChat(MainForm.viewExistChat), NewChatTable.data[indexC].ChatId);
+                }
+                 */
             }
             else
             {
                 // if there is a chat with this friend, display chat history
-                MessageBox.Show("chat already exist");
-                
+
+                //MessageBox.Show("chat already exist");
+
+                if (temp1n != 0)
+                {
+                    foreach (chat h in temp1)
+                    {
+                        this.Invoke(new set_existChat(MainForm.ChatHistory), h.ChatId);
+                    }
+                }
+                else if (temp2n != 0)
+                {
+                    foreach (chat h in temp2)
+                    {
+                        this.Invoke(new set_existChat(MainForm.ChatHistory), h.ChatId);
+                    }
+                }
+
             }
             
             
@@ -711,6 +927,7 @@ namespace chat_list
         private Point lastLocation;
         private bool check_init_message;
         private bool Rcheck_message;
+        public user userinfo;
 
         private void Login_MouseDown(object sender, MouseEventArgs e)
         {
@@ -778,14 +995,19 @@ namespace chat_list
         public delegate void createAccount(string username, string password, string profile);
         public void createNewAccount(string username, string password, string profile)
         {
-            string message = "user" + check + username + check + password + check + profile;
-            MessageBox.Show(message);
-            //send_data(message);
-            
+            string message = "register" + check + username + check + password + check + profile;
+            //MessageBox.Show(message);
+            /*if (socket.State == WebSocketState.Open)
+            {
+                send_data(message);
+            }*/
+
+            initMessage = message;
         }
+        //---------------------------------------------------------------------------------------------------------------
         public void searchFriend(string str)
         {
-            string message = "search" + check + DB_UserTable[0].UserId + check + str;
+            string message = "search" + check + userinfo.UserId + check + str;
             send_data(message);
 
         }
@@ -794,34 +1016,35 @@ namespace chat_list
         public delegate void addNewFriend(int ID);
         public void addFriend(int friendID)
         {
-            int userID = DB_UserTable[0].UserId;
-            //string message1 = "friend"+ check + userID.ToString() + check + userID.ToString() + "," + friendID.ToString();
-            //string message2 = "friend"+ check + friendID.ToString() + check + userID.ToString() + "," + friendID.ToString();
+            int userID = userinfo.UserId;
+            
             string message = "friend" + check + userID.ToString() + check + friendID.ToString();
             send_data(message);
             message = "friend" + check + friendID.ToString() + check + userID.ToString();
             send_data(message);
-            //MessageBox.Show(message1 + message2);
-
-            //send_data(message1);
-            //send_data(message2);
-
-            // don't forget to save into newFriendTable
+            
         }
         //----------------------------------------------------------------------------- -----------------------------------
         // add new group
+        //send the request to server
         public void addGroup(string member)
         {
-            int userID = DB_UserTable[0].UserId;
-            string message = "chat:" + userID.ToString() + "," + member + ":1";
-
-            MessageBox.Show(message);
-
-            //send_data(message);
+            //int userID = userinfo.UserId;
+            string message = "chat" + check + member + check + "1";
+            
+            send_data(message);
 
             // don't forget to save into newChatTable
         }
 
+        //review the group member before send it
+        public delegate void set_groupmember(string message, string date, int friendID, int itemType, string path);
+        public void ReviewGroupMember(string username, int userID, string profile)
+        {
+
+            this.Invoke(new set_groupmember(MainForm.NewGroup.member_list.addInMessage), username, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture), userID, 0, profile);
+        }
+        //--------------------------------------------------------------------------------------------------------------------
         private void Login_KeyDown(object sender, KeyEventArgs e)
         {
             enterKey(e);
@@ -863,6 +1086,160 @@ namespace chat_list
             }
         }
 
+        private void sendFile_DoWork(Object sender, DoWorkEventArgs e)
+        {
+            List<string> data = tfileinfo;
+            string ctime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            string dtime = DateTime.Now.ToString("dd-MM-yyyy-HH:mm:ss", CultureInfo.InvariantCulture);
+
+            string filename = null;
+            if (data[0].Contains("/"))
+                filename = data[0].Substring(data[0].LastIndexOf("/") + 1);
+            else if (data[0].Contains("\\"))
+                filename = data[0].Substring(data[0].LastIndexOf("\\") + 1);
+
+            if (data[0] != "")
+            {
+                string uriForUser = data[2] + userinfo.UserName + @"/";
+                uploadFile(data[0], filename, uriForUser);
+                string message = "message$" + data[3] + "$" + ctime + "$" + "./uploads/" + userinfo.UserName + "/" + filename + "$" + userinfo.UserId + "$" + data[1];
+                send_data(message);
+            }
+            else
+            {
+                MessageBox.Show("cancle");
+            }
+        }
+
+        private void sendFile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("sendong complete!");
+            
+        }
+        public bool searchFTPfile(string filename, string uri)
+        {
+            bool result = false;
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
+            request.Credentials = new NetworkCredential("user", "user");
+            request.Timeout = 10000;
+            request.Method = WebRequestMethods.Ftp.ListDirectory;
+            StreamReader reader = new StreamReader(request.GetRequestStream(),System.Text.Encoding.Default);
+            string rData;
+            rData = reader.ReadToEnd();
+            string[] filelist = rData.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach(var tname in filelist)
+            {
+                if (filename == tname)
+                    result = true;
+            }
+            
+
+
+            return true;
+        }
         
+
+        public static void uploadFile(string file, string filename, string url)
+        {
+            
+
+            try
+            {
+                Debug.WriteLine(url+filename);
+                //FtpWebRequest ftpWebRequest = WebRequest.Create(url + filename) as FtpWebRequest;
+                //
+
+                FtpWebRequest requestFileDelete = (FtpWebRequest)WebRequest.Create(url + filename);
+                requestFileDelete.Credentials = new NetworkCredential("user", "user");
+                requestFileDelete.Method = WebRequestMethods.Ftp.DeleteFile;
+
+                FtpWebResponse responseFileDelete = (FtpWebResponse)requestFileDelete.GetResponse();
+                responseFileDelete.Close();
+            }
+            catch(Exception e)
+            {
+                //
+
+                Debug.WriteLine("delete fail");
+            }
+
+            try
+            {
+
+                Uri targetFileUri = new Uri(url);
+                Debug.WriteLine(url + filename);
+
+                //FtpWebRequest ftpWebRequest = WebRequest.Create(targetFileUri) as FtpWebRequest;
+                FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create(url + filename);
+                ftpWebRequest.Credentials = new NetworkCredential("user", "user");
+                ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
+
+                //FileStream sourceFileStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read);
+                Stream targetStream = ftpWebRequest.GetRequestStream();
+
+                byte[] bufferByteArray = new byte[2048];
+
+                byte[] fileBytes = null;
+                FileStream fileStream = File.OpenRead(file);
+
+                fileBytes = new byte[fileStream.Length];
+                //fileStream.Read(fileBytes, 0, fileBytes.Length);
+
+
+
+                while (true)
+                {
+
+                    //int byteCount = sourceFileStream.Read(bufferByteArray, 0, bufferByteArray.Length);
+                    int byteCount = fileStream.Read(bufferByteArray, 0, bufferByteArray.Length);
+                    if (byteCount == 0)
+                    {
+                        break;
+                    }
+
+                    targetStream.Write(bufferByteArray, 0, byteCount);
+                }
+
+                targetStream.Close();
+
+                fileStream.Close();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("upload fail");
+            }
+            /*// Get the object used to communicate with the server.
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(url + filename);
+            
+
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+
+            // This example assumes the FTP site uses anonymous logon.
+            request.Credentials = new NetworkCredential("user", "user");
+
+            // Copy the entire contents of the file to the request stream.
+            StreamReader sourceStream = new StreamReader(file);
+            byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
+            //byte[] fileContents = File.ReadAllBytes(file);
+            sourceStream.Close();
+            request.ContentLength = fileContents.Length;
+
+
+            // Upload the file stream to the server.
+            Stream requestStream = request.GetRequestStream();
+            requestStream.Write(fileContents, 0, fileContents.Length);
+            requestStream.Close();
+
+            // Get the response from the FTP server.
+            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+
+            // Close the connection = Happy a FTP server.
+            response.Close();
+
+            // Return the status of the upload.
+            return response.StatusDescription;*/
+
+        }
     }
 }

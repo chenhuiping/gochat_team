@@ -139,7 +139,7 @@
             // 
             // panel4
             // 
-            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(164)))), ((int)(((byte)(147)))));
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(50)))), ((int)(((byte)(56)))));
             this.panel4.Controls.Add(this.pictureBox3);
             this.panel4.Controls.Add(this.pictureBox1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
@@ -159,6 +159,7 @@
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 1;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // pictureBox1
             // 
@@ -178,7 +179,7 @@
             this.bubble1.Location = new System.Drawing.Point(33, 36);
             this.bubble1.Margin = new System.Windows.Forms.Padding(5);
             this.bubble1.Name = "bubble1";
-            this.bubble1.Size = new System.Drawing.Size(832, 95);
+            this.bubble1.Size = new System.Drawing.Size(832, 88);
             this.bubble1.TabIndex = 0;
             this.bubble1.Visible = false;
             // 

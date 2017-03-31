@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.header1 = new System.Windows.Forms.Panel();
-            this.usernameLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -48,9 +46,8 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.addFriendButton = new System.Windows.Forms.PictureBox();
-            this.addGroupButton = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.addGroupButton = new System.Windows.Forms.PictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.header1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -63,22 +60,19 @@
             this.tabPageGroup.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.addFriendButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addGroupButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addGroupButton)).BeginInit();
             this.SuspendLayout();
             // 
             // header1
             // 
-            this.header1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(140)))), ((int)(((byte)(127)))));
-            this.header1.Controls.Add(this.usernameLabel);
-            this.header1.Controls.Add(this.label1);
+            this.header1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(50)))), ((int)(((byte)(56)))));
             this.header1.Controls.Add(this.pictureBox3);
             this.header1.Controls.Add(this.label2);
             this.header1.Controls.Add(this.pictureBox1);
             this.header1.Dock = System.Windows.Forms.DockStyle.Top;
             this.header1.Location = new System.Drawing.Point(0, 0);
-            this.header1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.header1.Margin = new System.Windows.Forms.Padding(4);
             this.header1.Name = "header1";
             this.header1.Size = new System.Drawing.Size(1471, 84);
             this.header1.TabIndex = 0;
@@ -86,40 +80,11 @@
             this.header1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.header1_MouseMove);
             this.header1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.header1_MouseUp);
             // 
-            // usernameLabel
-            // 
-            this.usernameLabel.AutoSize = true;
-            this.usernameLabel.BackColor = System.Drawing.Color.White;
-            this.usernameLabel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.usernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.usernameLabel.ForeColor = System.Drawing.Color.DimGray;
-            this.usernameLabel.Location = new System.Drawing.Point(928, 25);
-            this.usernameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.usernameLabel.Name = "usernameLabel";
-            this.usernameLabel.Size = new System.Drawing.Size(147, 31);
-            this.usernameLabel.TabIndex = 4;
-            this.usernameLabel.Text = "Username";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(362, 24);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(127, 31);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Sign Out";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(1394, 16);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(47, 42);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -144,7 +109,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(16, 16);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(67, 59);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -157,7 +122,7 @@
             this.container.Controls.Add(this.panel3);
             this.container.Dock = System.Windows.Forms.DockStyle.Fill;
             this.container.Location = new System.Drawing.Point(0, 84);
-            this.container.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.container.Margin = new System.Windows.Forms.Padding(4);
             this.container.Name = "container";
             this.container.Size = new System.Drawing.Size(1471, 956);
             this.container.TabIndex = 3;
@@ -165,9 +130,10 @@
             // 
             // chat
             // 
+            this.chat.BackColor = System.Drawing.Color.Transparent;
             this.chat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chat.Location = new System.Drawing.Point(515, 0);
-            this.chat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chat.Margin = new System.Windows.Forms.Padding(4);
             this.chat.Name = "chat";
             this.chat.Size = new System.Drawing.Size(956, 956);
             this.chat.TabIndex = 3;
@@ -179,7 +145,7 @@
             this.panel3.Controls.Add(this.panel1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(515, 956);
             this.panel3.TabIndex = 2;
@@ -189,7 +155,7 @@
             this.panel6.Controls.Add(this.tabControl1);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 84);
-            this.panel6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel6.Margin = new System.Windows.Forms.Padding(4);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(515, 872);
             this.panel6.TabIndex = 1;
@@ -201,7 +167,7 @@
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImageList = this.imageList1;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(515, 872);
@@ -210,20 +176,20 @@
             // tabPageChat
             // 
             this.tabPageChat.AutoScroll = true;
+            this.tabPageChat.BackColor = System.Drawing.Color.White;
             this.tabPageChat.Controls.Add(this.panel4);
             this.tabPageChat.ImageIndex = 1;
             this.tabPageChat.Location = new System.Drawing.Point(8, 46);
-            this.tabPageChat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageChat.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageChat.Name = "tabPageChat";
-            this.tabPageChat.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageChat.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageChat.Size = new System.Drawing.Size(499, 818);
             this.tabPageChat.TabIndex = 0;
-            this.tabPageChat.UseVisualStyleBackColor = true;
             // 
             // panel4
             // 
             this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(267, 125);
             this.panel4.TabIndex = 0;
@@ -234,9 +200,9 @@
             this.tabPageGroup.Controls.Add(this.panel7);
             this.tabPageGroup.ImageIndex = 0;
             this.tabPageGroup.Location = new System.Drawing.Point(8, 46);
-            this.tabPageGroup.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageGroup.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageGroup.Name = "tabPageGroup";
-            this.tabPageGroup.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageGroup.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageGroup.Size = new System.Drawing.Size(499, 818);
             this.tabPageGroup.TabIndex = 1;
             this.tabPageGroup.UseVisualStyleBackColor = true;
@@ -245,7 +211,7 @@
             // 
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(4, 4);
-            this.panel7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel7.Margin = new System.Windows.Forms.Padding(4);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(491, 810);
             this.panel7.TabIndex = 0;
@@ -260,23 +226,23 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(172)))), ((int)(((byte)(157)))));
+            this.panel1.BackColor = System.Drawing.Color.Silver;
             this.panel1.Controls.Add(this.addFriendButton);
-            this.panel1.Controls.Add(this.addGroupButton);
             this.panel1.Controls.Add(this.pictureBox2);
-            this.panel1.Controls.Add(this.pictureBox5);
+            this.panel1.Controls.Add(this.addGroupButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(515, 84);
             this.panel1.TabIndex = 0;
             // 
             // addFriendButton
             // 
+            this.addFriendButton.BackColor = System.Drawing.Color.Transparent;
             this.addFriendButton.Image = ((System.Drawing.Image)(resources.GetObject("addFriendButton.Image")));
             this.addFriendButton.Location = new System.Drawing.Point(68, 4);
-            this.addFriendButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addFriendButton.Margin = new System.Windows.Forms.Padding(4);
             this.addFriendButton.Name = "addFriendButton";
             this.addFriendButton.Size = new System.Drawing.Size(59, 66);
             this.addFriendButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -284,40 +250,29 @@
             this.addFriendButton.TabStop = false;
             this.addFriendButton.Click += new System.EventHandler(this.addFriendButton_Click);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(368, 4);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(61, 66);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 4;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
             // addGroupButton
             // 
             this.addGroupButton.Image = ((System.Drawing.Image)(resources.GetObject("addGroupButton.Image")));
-            this.addGroupButton.Location = new System.Drawing.Point(180, 4);
-            this.addGroupButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addGroupButton.Location = new System.Drawing.Point(216, 4);
+            this.addGroupButton.Margin = new System.Windows.Forms.Padding(4);
             this.addGroupButton.Name = "addGroupButton";
             this.addGroupButton.Size = new System.Drawing.Size(59, 66);
             this.addGroupButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.addGroupButton.TabIndex = 5;
             this.addGroupButton.TabStop = false;
             this.addGroupButton.Click += new System.EventHandler(this.addGroupButton_Click);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(296, 4);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(61, 66);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(413, 4);
-            this.pictureBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(64, 66);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 3;
-            this.pictureBox5.TabStop = false;
-            this.pictureBox5.Click += new System.EventHandler(this.pictureBox5_Click_1);
             // 
             // panel5
             // 
@@ -336,10 +291,11 @@
             this.Controls.Add(this.header1);
             this.ForeColor = System.Drawing.Color.Maroon;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
@@ -355,9 +311,8 @@
             this.tabPageGroup.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.addFriendButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addGroupButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addGroupButton)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -376,8 +331,6 @@
         private System.Windows.Forms.TabPage tabPageGroup;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Panel chat;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel6;
@@ -388,7 +341,6 @@
         public friend_list friend_list2;
         private System.Windows.Forms.PictureBox addGroupButton;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox addFriendButton;
     }
 }
