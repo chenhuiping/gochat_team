@@ -359,13 +359,13 @@ Chatting program has to be attractive. It is not only for sending plaintext mess
 
 \subsubsection{Project Structure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width = 1 \textwidth ]{time.jpg}
+\includegraphics[width = 1 \textwidth ]{SequenceDiagram.jpg}
 \caption{\label{fig:UML}Sequence Diagram}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width = 0.8 \textwidth ]{program_structure.jpeg}
 \caption{\label{fig:UML}Program Structure}
@@ -488,43 +488,43 @@ There are five forms constituting the Gochat windows desktop application, login 
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{login_form.jpg}
+\includegraphics[width = 0.3 \textwidth ]{login_form.jpg}
 \caption{\label{fig:UML}Login Form Chat}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{SignUpForm.PNG}
+\includegraphics[width = 0.3 \textwidth ]{SignUp.jpg}
 \caption{\label{fig:UML}Sign Up Form }
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{addFriendForm.jpg}
+\includegraphics[width = 0.3 \textwidth ]{addFriendForm.jpg}
 \caption{\label{fig:UML}Add Friends Form}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{addGroupForm.jpg}
+\includegraphics[width = 0.3 \textwidth ]{addGroupForm.jpg}
 \caption{\label{fig:UML}Create New Group Form}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{create_group_2.jpg}
+\includegraphics[width = 0.3 \textwidth ]{create_group_2.jpg}
 \caption{\label{fig:UML}Create New Group Form 2}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{create_group3.jpg}
+\includegraphics[width = 0.3 \textwidth ]{create_group3.jpg}
 \caption{\label{fig:UML}Create New Group Form 3}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{message.jpg}
+\includegraphics[width = 1 \textwidth ]{message.jpg}
 \caption{\label{fig:UML}Chat Form}
 \end{figure}
 
@@ -537,6 +537,8 @@ In the list form, users can see friend list, group list and chat list by click d
 \subsubsection{Connecting to Server}
 
 As we mentioned before that we used WebSocket to connect server and clients. We used library provided by Microsoft Visual Studio to use WebSocket services. Basically we created a socket to communicate with server by providing its IP address and PORT. A cancellation token cts\_timer is defined and used in await function to end the setting up connection thread. The other one, cts, is defined and also used in await function to end the receive data thread.
+
+
 \begin{lstlisting}[language=C]
 public async Task StartAsync()
 {
@@ -1104,18 +1106,15 @@ After we finished the local database part, we found another problem. If one user
 
 \begin{figure}[!h]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{previous_vision.jpeg}
+\includegraphics[width = 0.3 \textwidth ]{previous_vision.jpeg}
 \caption{\label{fig:UML}Previous Vision}
 \end{figure}
 \begin{figure}[!h]
 \centering
-\includegraphics[width = 0.5 \textwidth ]{current_vision.jpeg}
+\includegraphics[width = 0.3 \textwidth ]{current_vision.jpeg}
 \caption{\label{fig:UML}Current Vision}
 \end{figure}
-\subsection{Advantage}
-Due to the limitation of time, the function that users could delete their chatting history and customize their chatting history expire time to prevent data theft has not been done. 
 
-In communication security part, Elliptic curve Diffie-Helmen key exchange and AES key encryption is used because of time limitation. 
 
 
 \subsection{Time management}
@@ -1130,6 +1129,7 @@ During the week that we submit our initial report and presentation, we began to 
 \definecolor{level1}{RGB}{205,205,180}
 \definecolor{level2}{RGB}{205,205,180}
 \definecolor{level3}{RGB}{205,205,180}
+\definecolor{Red}{RGB}{255,0,0}
 \definecolor{debug}{RGB}{205,205,180}
 \definecolor{documentation}{RGB}{205,205,180}
 \definecolor{final}{RGB}{205,205,180}
@@ -1145,7 +1145,7 @@ No. & Task name & 01 & 02 & 03 & 04 & 05 & 06 & 07 & 08 & 09 & 10 \\ \hline \hli
 2 & Database design & \cellcolor{Data} & \cellcolor{Data} &  &  &  &  &  &  &  &  \\ \hline
 3 & Intermediate report \& presentation &  & \cellcolor{intermediate} & \cellcolor{intermediate} &  &  &  &  &  &  &  \\ \hline
 4 & Developing environment setting &  &  & \cellcolor{environ} & \cellcolor{environ} &  &  &  &  &  &  \\ \hline
-5 & Level 1: basic chatting program &  &  & \cellcolor{level1} & \cellcolor{level1} & \cellcolor{level1} &  &  &  &  &  \\ \hline
+5 & Level 1: basic chatting program &  &  & \cellcolor{level2} & \cellcolor{level2} & \cellcolor{level2} &  &  &   &  &  \\ \hline
 6 & Level 2: security &  &  &  &  & \cellcolor{level2} & \cellcolor{level2} & \cellcolor{level2} &  &  &  \\ \hline
 7 & Level 3: Other additional function &  &  &  &  &  &  & \cellcolor{level3} & \cellcolor{level3} & \cellcolor{level3} &  \\ \hline
 8 & Debug &  &  &  &  & \cellcolor{debug} & \cellcolor{debug} & \cellcolor{debug} & \cellcolor{debug} & \cellcolor{debug} & \cellcolor{debug} \\ \hline
